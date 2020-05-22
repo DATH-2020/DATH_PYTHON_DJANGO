@@ -1,0 +1,24 @@
+{% extends "pages/base.html" %}
+
+{% block title %} Đăng kí học {% endblock title %}
+
+{% block content %}
+    <center>
+        <form action="." method="POST">
+            {% csrf_token %}
+            <div class="container-fluid" style="background: white;">
+                <div style="align-self: center;"><h2>Đăng kí thông tin</h2></div>
+                <div class="row">
+                    <p style="align-self: center;">Tên học viên: </p><p>{{ form.name }}</p>
+                </div>
+                <div class="row">
+                    <p>Số điện thoại liên lạc: </p><p>{{ form.phone_number_1 }}</p>
+                </div>
+                <div class="row">
+                    <p>Khu vực: </p><p>{{ form.learning_area }}</p>
+                </div>
+            </div>      
+            <input type="submit" value="Đăng kí"/>
+        </form>
+    </center>
+{% endblock content %}

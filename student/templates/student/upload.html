@@ -1,0 +1,15 @@
+{% extends "pages/base.html" %}
+
+{% block title %} Upload student file {% endblock title %}
+
+{% block content %}
+    <center>
+        <form enctype="multipart/form-data" method="post" action=".">
+            {% csrf_token %}
+            <div class="container-fluid" style="background: white;">
+                {{form.as_p}}
+            </div>      
+            <input type="submit" value="Đăng kí"/>
+        </form>
+    </center>
+{% endblock content %}

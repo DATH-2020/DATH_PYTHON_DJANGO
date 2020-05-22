@@ -1,0 +1,33 @@
+{% extends "pages/base.html" %}
+
+{% block title %} Infomation {% endblock title %}
+
+{% block content %}
+    <div>
+        <h5><label>Họ và tên: {{student.name}}</label></h5>
+        <h5><label>Ngày sinh: {{student.birtdate}}</label></h5>
+        <h5><label>Địa chỉ: {{student.address}}</label></h5>
+        <h5><label>SĐT 1: {{student.phone_number_1}}</label></h5>
+    </div>
+{% if student.phone_number_2 %}
+    <h5><label>SĐT 2: {{student.phone_number_2}}</label></h5>
+{% else %}
+    <h5><label>SĐT 2: Không tồn tại</label></h5>
+{% endif %}
+
+    <div><label>Khu vực: {{student.learning_area}}</label></div>
+{% if student.identityCard == 0 %}
+    <h5><label>CMND: {{student.identityCard}}</label></h5>
+{% else %}
+    <h5><label>CMND: Không tồn tại</label></h5>
+{% endif %}
+{% if student.status == True %}
+    <h5><label>Tình trạng : Còn học</label></h5>
+{% else %}  
+    <h5><label>Tình trạng : Khác</label></h5>
+{% endif %}
+    <h5><label>Chú thích: {{student.note}}</label></h5>
+    <form>
+    {{form.classid}}
+    </form>
+{% endblock content %}

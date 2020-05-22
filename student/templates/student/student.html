@@ -1,0 +1,19 @@
+{% extends "pages/base.html" %}
+
+{% block title %} Student {% endblock title %}
+
+{% block content %}
+    {% load staticfiles %}
+    <a href="{% url 'create' %}" class="btn btn-success btn-lg active" role="button" aria-pressed="true"><img src="{% static 'images/right.png' %}" style="max-height:40px"/> Đăng kí học viên mới</a>
+    <br>
+    <br>
+    <DIV>
+        <input type="text" placeholder="Nhập tên học sinh">
+        <input type="button"class="btn btn-info" value="Tìm">
+    </DIV>
+{% for student in Students %}
+    <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5>
+{% endfor %}
+<br/>
+
+{% endblock content %}

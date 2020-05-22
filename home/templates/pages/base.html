@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type ="text/css"> 
+    <title style="align-self: center;">{% block title %} {% endblock %}</title>
+    <style>
+        html, body{
+            height: 100%;
+            background: #f6f6f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" style="min-height: 95%;">
+        <div class="row">
+            <div class="col-sm-2">
+                <center><img src="{% static 'images/1.jfif' %}" class="img-fluid" alt="Responsive image"></center>
+            </div>
+            <div class="col-sm-8" style="border-style: dotted; background-color: orangered; align-self: center;">
+                <center><h1>Hệ thống quản lí học viên </h1></center>
+            </div>
+            <div class="col-sm-2">
+            {% if user.username %}
+            <p>Xin chào {{user.username}}</p>
+            <p><a href="{% url 'logout' %}">Đăng xuất</a></p>
+            {% else %}
+            <p><a href="{% url 'register' %}">Đăng kí</a> | <a href="{% url 'login' %}">Đăng nhập</a></p>
+            {% endif %}
+            </div>
+            <br>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="bs-sliderbar" style="background-color : #fff">
+                    <nav class="nav flex-cloumn">
+                        <a class="nav-link" href="{% url 'blog' %}">Bài viết</a>
+                        <a class="nav-link" href="{% url 'contact' %}">Liên hệ</a>
+                        <a class="nav-link" href="{% url 'liststudent' %}">Học sinh</a>
+                        <a class="nav-link" href="/admin">Admin</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-sm-10">
+                <div class="container-fluid">						
+                    {% block content %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container-fluid">
+            <a href="#">Facebook</a> |<a href="#">Twitter</a>|
+        </div>
+	</footer>
+</body>
+</html>  
