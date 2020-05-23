@@ -59,4 +59,4 @@ def upload_file(request):
     return render(request, 'student/upload.html', {'form': form})
 
 def test(request):
-    return render(request,'pages/base2.html', {'form': form})
+    return render(request,'pages/base2.html')
