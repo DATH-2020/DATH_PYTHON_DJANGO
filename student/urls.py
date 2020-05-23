@@ -8,5 +8,6 @@ urlpatterns = [
     path('create/',views.CreateStudent,name='create'),
     path('upload/',views.upload_file,name='upload'),
     path('base2/',views.test, name='test'),
+    path('class/',views.ListClass.as_view(),name='listclass')
 
 ]

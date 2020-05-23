@@ -50,6 +50,7 @@ def upload_file(request):
                 row_data = list()
                 for cell in row:
                     row_data.append(str(cell.value))
+                excel_data.append(row_data)
                 Student.objects.create(name=row_data[0],phone_number_1=row_data[1],learning_area=user.area)
             return render(request, 'pages/Success.html',{"excel_data":excel_data})
         else:
@@ -58,5 +59,10 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'student/upload.html', {'form': form})
 
+class ListClass(ListView):
+    queryset = Classes.objects.all()
+    template_name = 'class.html'
+    context_object_name = 'Class'
+
 def test(request):
-    return render(request,'pages/base2.html')
+    return render(request, 'pages/base2.html') 

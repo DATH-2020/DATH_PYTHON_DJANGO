@@ -1,0 +1,12 @@
+{% extends "pages/base.html" %}
+
+{% block title %} Danh sách lớp học {% endblock title %}
+
+{% block content %}
+    {% load staticfiles %}
+{% for class in Class %}
+    <h5><a href="/class/{{class.id}}">{{class.name}}</a></h5>
+{% endfor %}
+<br/>
+
+{% endblock content %}

@@ -83,12 +83,12 @@ class CambridgeLevel(models.Model):
 
 class Teacher(models.Model):
     name = models.CharField(max_length=100, verbose_name="Tên giáo viên")
-    is_male = models.BooleanField(default=False, verbose_name="Giới tính") # False = nữ , True =nam
+    is_male = models.BooleanField(default=False, verbose_name="Giới tính (Nam)") # False = nữ , True =nam
     area = models.ForeignKey(Area,on_delete=models.DO_NOTHING,related_name='area')
-    birthdate = models.DateField(null=False, verbose_name="Giới tính")
+    birthdate = models.DateField(null=False, verbose_name="Ngày sinh")
     address= models.TextField(max_length=100,default='',blank=True, verbose_name="Địa chỉ")
     phone_number = models.CharField(default='',max_length=12, verbose_name="Số điện thoại")
-    email = models.EmailField(verbose_name="email")
+    email = models.EmailField(verbose_name="Email")
     identity_number = models.CharField(max_length=10,default='', verbose_name="CMND / CMT")
     note = models.TextField(max_length=100,default='',blank=True, verbose_name="Chú thích")
     
