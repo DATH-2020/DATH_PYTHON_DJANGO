@@ -3,14 +3,128 @@
 {% block title %} Student {% endblock title %}
 
 {% block content %}
-    {% load staticfiles %}
-    <a href="{% url 'create' %}" class="btn btn-success btn-lg active" role="button" aria-pressed="true"><img src="{% static 'images/right.png' %}" style="max-height:40px"/> Đăng kí học viên mới</a>
+    {% load static %}
+    <div class="card-header">
+        <h2 class="text-center font-weight-light">Tạo thông tin học viên</h2>
+        <h4>
+            <p>Layout này xuất hiện khi bấm vào nút button ở trang danh sách học viên thôi</p>
+            <p>Tất cả dữ liệu này chỉỉ là giả</p>
+            <p>Ông kết nối với data để POST đống dữ liệu này xuống data nha</p>
+            <p>có một số textbox phải lấy từ dưới lên (GET) một cách tự động, tui có chú thích comment trong file student.hmtl</p>
+        </h4>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-row">
+                <!-- đây là listBox lấy dữ liệu từ dưới cơ sở dữ liệu bảng UNIT -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputFirstName">Khóa học</label>
+                        <select class="form-control" required>
+                            <option value="1">AEngTu</option>
+                            <option value="2">BEngTu</option>
+                            <option value="3">CEngTu</option>
+                            <option value="4">DEngTu</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputID">ID</label>
+                        <input class="form-control" required id="inputID" type="text" value="D000001" disabled/></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputName">Họ và tên</label>
+                        <input class="form-control" required id="inputName" type="text" placeholder="Nhập họ và tên" />
+                    </div>
+                </div>
+                <!-- ông thử link cách GET value của selectbox trong video này thử -->
+                <!-- https://www.youtube.com/watch?v=Iiat5mc1Yz8 -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputGender">Giới tính</label>
+                        <select class="form-control" required id="inputGender">
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
+                        <input class="form-control" required id="inputBirthDay" type="date" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputIdentityCard">CMND</label>
+                        <input class="form-control" required id="inputIdentityCard" type="text" placeholder="Nhập CMND học viên" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputClass">Lớp</label>
+                        <select class="form-control" required>
+                            <option value="1">A123</option>
+                            <option value="2">B123</option>
+                            <option value="3">C123</option>
+                            <option value="4">D123</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputTeacherName">Giảng viên</label>
+                        <input class="form-control" required id="inputTeacherName" type="text" placeholder="Chưa có giảng viên được xếp vào lớp này"  disabled/></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputAddress">Địa chỉ</label>
+                        <input class="form-control" required id="inputAddress" type="text" placeholder="Nhập địa chỉ của học viên " />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputPhone">Số điện thoại</label>
+                        <input class="form-control" required id="inputPhone" type="text" placeholder="Nhập số điện thoại của học viên" /></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputFee">Số tiền nộp</label>
+                        <input class="form-control" required id="inputFee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" />
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="small mb-1" for="inputNote">Chi chú</label>
+                        <input class="form-control" required id="inputNote" type="text" placeholder="Ghi chú" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                <!-- <a class="btn btn-primary btn-block" href="login.html">Tạo tài khoản mới</a> -->
+                <input type="submit" value="Thêm học viên" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+            </div>
+        </form>
+    </div>
+
+
+    <!-- <a href="{% url 'create' %}" class="btn btn-success btn-lg active" role="button" aria-pressed="true"><img src="{% static 'images/right.png' %}" style="max-height:40px"/> Đăng kí học viên mới</a>
     <br>
     <br>
     <DIV>
         <input type="text" placeholder="Nhập tên học sinh">
         <input type="button"class="btn btn-info" value="Tìm">
-    </DIV>
+    </DIV> -->
 {% for student in Students %}
     <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5>
 {% endfor %}
