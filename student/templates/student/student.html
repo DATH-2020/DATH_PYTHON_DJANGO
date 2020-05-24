@@ -25,16 +25,19 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>D000001</td>
-                    <td>Nguyễn Văn A</td>
+                {% for student in Students %}
+                    <!-- <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5> -->
+                    <td>{{ student.pk }}</td>
+                    <td>{{ student.name }}</td>
                     <td>D123</td>
-                    <td>0123456789</td>
-                    <td>Địa chỉ</td>
+                    <td>{{ student.phone_number_1 }}</td>
+                    <td>{{ student.address }}</td>
                     <td>2020/1/2</td>
                     <td>DEngTu</td>
                     <td>...</td>
                     <td></td>
                     <td><i style="color: green;" class="fas fa-check-circle"></i></td>
+                {% endfor %}
                 </tr>
                 <tr>
                     <td>D000002</td>

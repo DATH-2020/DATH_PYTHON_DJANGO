@@ -1,6 +1,6 @@
 from django import forms
 import re
-from .models import Student,StudentInClass
+from .models import Student,StudentInClass,Classes
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()
@@ -17,7 +17,12 @@ class CreationForm(forms.ModelForm):
         model = Student
         Student.is_learning=False
         fields = ["name","phone_number_1","learning_area"]
-    
+
+class ListClassForm(forms.ModelForm):
+    class Meta:
+        model = Classes
+        fields = ["name","teacher"]
+
 class TimeStudentForm(forms.ModelForm):
     class Meta:
         model = StudentInClass

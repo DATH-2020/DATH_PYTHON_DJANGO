@@ -14,8 +14,8 @@ class StudentListView(ListView):
    # model = Student
    # template_name = 'student/detailStudent.html'
 def DetailStudent(request,pk):
-    student = get_object_or_404(Student,pk=pk) # chỉ định tham số pk 
-    
+    #student = get_object_or_404(Student,pk=pk) # chỉ định tham số pk 
+    student = Student.objects.all()
     #form = TimeStudentForm()
     return render(request, 'student/detailStudent.html', {'student':student,} )
 
@@ -63,6 +63,7 @@ class ListClass(ListView):
     queryset = Classes.objects.all()
     template_name = 'class.html'
     context_object_name = 'Class'
+    paginate_by = 10 # phân trang
 
 def test(request):
     return render(request, 'pages/base2.html') 
