@@ -23,12 +23,12 @@ class MyUser(models.Model):
     #     return self.area
 
 class Student(models.Model):
-    objects = models.Manager()
     name = models.CharField(max_length=100,verbose_name="Tên học sinh") #1
+    gender = models.CharField(max_length=20, verbose_name="Giới tính")
     birtdate = models.DateField(blank=True,null=True,verbose_name="Ngày sinh")  #2   # '2019-09-08' or (2018 , M, D) chua thu
     address = models.TextField(max_length=200,null=True,blank=True,verbose_name="Địa chỉ")  #3
-    phone_number_1 = models.CharField(max_length=12,verbose_name="Số điện thoại")  #4
-    phone_number_2 = models.CharField(default='',max_length=12,null=True,blank=True,verbose_name="Số điện thoại 2")
+    phone_number_1 = models.CharField(max_length=12,verbose_name="Số điện thoại phụ huynh")  #4
+    phone_number_2 = models.CharField(default='',max_length=12,null=True,blank=True,verbose_name="Số điện thoại")
     email = models.EmailField(verbose_name="email",blank=True)
     identity_number = models.CharField(max_length=10,default='',null=True,blank=True, verbose_name="CMND / CMT")
     learning_area = models.ForeignKey(Area,on_delete=models.DO_NOTHING,related_name='learning_area')
