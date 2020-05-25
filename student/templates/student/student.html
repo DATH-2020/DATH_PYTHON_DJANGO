@@ -11,46 +11,42 @@
         <table id="example" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Họ và tên</th>
-                    <th>Lớp</th>
-                    <th>Số điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Thời gian đăng ký</th>
-                    <th>Khóa học</th>
-                    <th>Ghi chú</th>
-                    <th>Active</th>
-                    <th>Học phí</th>
+                    <th style="width: 5%;">ID</th>
+                    <th style="width: 10%;">Họ và tên</th>
+                    <th style="width: 5%;">Lớp</th>
+                    <th style="width: 7%;">Số điện thoại</th>
+                    <th style="width: 7%;">SDT phụ huynh</th>
+                    <th style="width: 25%;">Địa chỉ</th>
+                    <th style="width: 15%;">Thời gian đăng ký</th>
+                    <th style="width: 5%;">Khóa học</th>
+                    <th style="width: 10%;">Ghi chú</th>
+                    <th style="width: 5%;">Active</th>
+                    <th style="width: 6%;">Học phí</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
                 {% for student in Students %}
+                <tr>
                     <!-- <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5> -->
                     <td>{{ student.pk }}</td>
                     <td>{{ student.name }}</td>
-                    <td>D123</td>
+                    <td><!-- {{ student.pk }} --></td>
                     <td>{{ student.phone_number_1 }}</td>
+                    <td>{{ student.phone_number_2 }}</td>
                     <td>{{ student.address }}</td>
+                    <td>{{ student.joined_date }}</td>
+                    <td>{{ student.note }}</td>
+                    <td><!-- {{ student.pk }} --></td>
+                    <td>{{ student.is_learning }}</td>
+                    <td><!-- {{ student.pk }} --></td>
+                    <!-- <td>D123</td>
                     <td>2020/1/2</td>
                     <td>DEngTu</td>
                     <td>...</td>
-                    <td></td>
-                    <td><i style="color: green;" class="fas fa-check-circle"></i></td>
+                    <td></td> -->
+                    <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
+                </tr>
                 {% endfor %}
-                </tr>
-                <tr>
-                    <td>D000002</td>
-                    <td>Nguyễn Văn A</td>
-                    <td>D123</td>
-                    <td>0123456789</td>
-                    <td>Địa chỉ</td>
-                    <td>2020/1/2</td>
-                    <td>DEngTu</td>
-                    <td>...</td>
-                    <td><i style="color: green;" class="fas fa-check-circle"></i></td>
-                    <td></td>
-                </tr>
             </tbody>
             <tfoot>
                 <tr>
@@ -58,6 +54,7 @@
                     <th>Họ và tên</th>
                     <th>Lớp</th>
                     <th>Số điện thoại</th>
+                    <th>SDT phụ huynh</th>
                     <th>Địa chỉ</th>
                     <th>Thời gian đăng ký</th>
                     <th>Khóa học</th>

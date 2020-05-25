@@ -23,17 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>D123</td>
-                    <td>23</td>
-                    <td>2020/1/31</td>
-                    <td>8</td>
-                    <td>Ca 5</td>
-                    <td>John Carter</td>
-                    <td>DEngTu</td>
-                    <td>...</td>
-                    <td></td>
-                </tr>
+                {% for class in Class %}
                 <tr>
                     <td>A123</td>
                     <td>26</td>
@@ -43,8 +33,10 @@
                     <td>Maria Carter</td>
                     <td>AEngTu</td>
                     <td>...</td>
-                    <td><i style="color: green;" class="fas fa-check-circle"></i></td>
+                    <td>...</td>
+                    <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
                 </tr>
+                {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
