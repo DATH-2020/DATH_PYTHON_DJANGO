@@ -32,7 +32,13 @@
                         <i class="fas fa-user fa-fw"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="login.html">Đăng xuất</a>
+                        {% if user.username %}
+                            <label class="dropdown-item" style="color:MediumSeaGreen;"> Welcome {{user.username}}</label>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'login' %}">Đăng nhập</a>
+                        {% endif %}
+                        
                     </div>
                 </li>
             </ul>
