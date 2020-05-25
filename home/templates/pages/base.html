@@ -14,8 +14,8 @@
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
-            <a class="navbar-brand" href="">HITECH EDUCATION</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#" style="margin-left: 10px;"><i class="fas fa-bars"></i></button>
+            <a class="navbar-brand" href="{% url 'liststudent' %}">HITECH EDUCATION</a>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -32,11 +32,6 @@
                         <i class="fas fa-user fa-fw"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <!-- <a class="dropdown-item" href="#">Cài đặt</a> -->
-                        <!-- <div class="dropdown-divider"></div> -->
-
-
-                        <!-- làm nghiệp vụ chổ này cho nó đăng xuát ra nhen -->
                         <a class="dropdown-item" href="login.html">Đăng xuất</a>
                     </div>
                 </li>
@@ -47,32 +42,120 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <a class="nav-link" href="{% url 'liststudent' %}">
-                                <!-- liststudent.html -->
+                            <!-- Học viên  -->
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudent" aria-expanded="false" aria-controls="collapseStudent">
                                 <div class="sb-nav-link-icon" style="width: 2em;">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
                                 Học viên
+                                <div class="sb-sidenav-collapse-arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
                             </a>
+                            <div class="collapse" id="collapseStudent" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'liststudent' %}">
+                                        Danh sách
+                                    </a>
+                                    <a class="nav-link" href="{% url 'create' %}">
+                                        Thêm học viên mới
+                                    </a>
+                                </nav>
+                            </div>
                             <!-- <div class="sb-sidenav-menu-heading">Giao diện</div> -->
-                            <a class="nav-link" href="{% url 'listclass' %}">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClass" aria-expanded="false" aria-controls="collapseClass">
                                 <div class="sb-nav-link-icon" style="width: 2em;">
                                     <i class="fas fa-chalkboard"></i>
                                 </div>
                                 Lớp học
+                                <div class="sb-sidenav-collapse-arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
                             </a>
-                            <a class="nav-link" href="">
+                            <div class="collapse" id="collapseClass" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{% url 'listclass' %}">
+                                        Danh sách
+                                    </a>
+                                    <a class="nav-link" href="#">
+                                        Mở lớp mới
+                                    </a>
+                                </nav>
+                            </div>
+                            <!-- Giảng viên  -->
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTeacher" aria-expanded="false" aria-controls="collapseTeacher">
                                 <div class="sb-nav-link-icon" style="width: 2em;">
                                     <i class="fas fa-chalkboard-teacher"></i>
                                 </div>
                                 Giảng viên
+                                <div class="sb-sidenav-collapse-arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
                             </a>
-                            <a class="nav-link" href="">
+                            <div class="collapse" id="collapseTeacher" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="#">
+                                        Danh sách
+                                    </a>
+                                    <a class="nav-link" href="#">
+                                        Giảng viên mới
+                                    </a>
+                                </nav>
+                            </div>
+                            <!-- Lịch học  -->
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule" aria-expanded="false" aria-controls="collapseSchedule">
                                 <div class="sb-nav-link-icon" style="width: 2em;">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 Lịch học
+                                <div class="sb-sidenav-collapse-arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
                             </a>
+                            <!-- Manager -->
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManager" aria-expanded="false" aria-controls="collapseManager">
+                                <div class="sb-nav-link-icon" style="width: 2em;">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                Manager
+                                <div class="sb-sidenav-collapse-arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                            </a>
+                            <div class="collapse" id="collapseManager" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesStaf" aria-expanded="false" aria-controls="pagesStaf">
+                                        Nhân sự
+                                        <div class="sb-sidenav-collapse-arrow">
+                                            <i class="fas fa-angle-down"></i>
+                                        </div>
+                                    </a>
+                                    <div class="collapse" id="pagesStaf" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="#">
+                                                Danh sách
+                                            </a>
+                                            <a class="nav-link" href="#">
+                                                Đăng ký tài khoản mới
+                                            </a>
+                                            <a class="nav-link" href="#">
+                                                Phân quyền
+                                            </a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+
+                            <div class="collapse" id="collapseSchedule" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="#">
+                                        Danh sách
+                                    </a>
+                                    <a class="nav-link" href="#">
+                                        Tạo lịch học mới
+                                    </a>
+                                </nav>
+                            </div>
                             
                             <a class="nav-link" href="">
                                 <!-- contact.html -->
@@ -130,14 +213,14 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="{% static 'assets/demo/datatables-demo.js' %}"></script>
-        
+<!--         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
    
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"></script>
+        <script src="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"></script> -->
         <script>
             $(document).ready(function() {
              
