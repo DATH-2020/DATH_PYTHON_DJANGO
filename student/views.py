@@ -61,7 +61,7 @@ def upload_file(request):
 
 class ListClass(ListView):
     queryset = Classes.objects.all()
-    template_name = 'class.html'
+    template_name = 'class/class.html'
     context_object_name = 'Class'
     paginate_by = 10 # phân trang
 
