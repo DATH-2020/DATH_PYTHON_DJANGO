@@ -5,17 +5,17 @@ from .forms import CreationForm,TimeStudentForm,UploadFileForm
 from django.views.generic import ListView, DetailView
 import openpyxl
 # Create your views here.
-class StudentListView(ListView): 
-    queryset = Student.objects.all()
-    template_name = 'student/student.html'
-    context_object_name = 'Students' # đặt tên truyền vào Temp
-    paginate_by = 10  #phân trang
+def StudentListView(request): 
+    student = Student.objects.all()
+    siclass = StudentInClass.objects.all()
+    return render(request, 'student/student.html', {'student':student,'siclass':siclass})
 #class StudentDetailView(DetailView): # Trang info student
    # model = Student
    # template_name = 'student/detailStudent.html'
 def DetailStudent(request,pk):
     #student = get_object_or_404(Student,pk=pk) # chỉ định tham số pk 
     student = Student.objects.all()
+    #classes = StudentInClass.objects.all()
     #form = TimeStudentForm()
     return render(request, 'student/detailStudent.html', {'student':student,} )
 

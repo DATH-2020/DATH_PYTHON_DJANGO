@@ -25,12 +25,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for student in Students %}
+                {% for student in student %}
                 <tr>
                     <!-- <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5> -->
                     <td>{{ student.pk }}</td>
                     <td>{{ student.name }}</td>
-                    <td><!-- {{ student.pk }} --></td>
+                    <td>
+                    {% for siclass in siclass %}
+                        {% if siclass.student == student %}
+                            {{ siclass.class_id}}
+                        {% endif %}
+
+                     {% endfor %}
+                    </td>
                     <td>{{ student.phone_number_1 }}</td>
                     <td>{{ student.phone_number_2 }}</td>
                     <td>{{ student.address }}</td>
