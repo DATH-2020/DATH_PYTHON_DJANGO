@@ -27,12 +27,12 @@ class Student(models.Model):
     gender = models.CharField(max_length=20, verbose_name="Giới tính")
     birtdate = models.DateField(blank=True,null=True,verbose_name="Ngày sinh")  #2   # '2019-09-08' or (2018 , M, D) chua thu
     address = models.TextField(max_length=200,null=True,blank=True,verbose_name="Địa chỉ")  #3
-    phone_number_1 = models.CharField(max_length=12,verbose_name="Số điện thoại phụ huynh")  #4
-    phone_number_2 = models.CharField(default='',max_length=12,null=True,blank=True,verbose_name="Số điện thoại")
+    phone_number_1 = models.CharField(max_length=12,verbose_name="Số điện thoại")  #4
+    phone_number_2 = models.CharField(default='',max_length=12,null=True,blank=True,verbose_name="Số điện thoại phụ huynh")
     email = models.EmailField(verbose_name="email",blank=True)
     identity_number = models.CharField(max_length=10,default='',null=True,blank=True, verbose_name="CMND / CMT")
-    fee = models.IntegerField(blank=True, verbose_name='Học phí khóa học', default = 0)
-    fee_remain = models.IntegerField(blank=True, verbose_name='Học phí đã đóng', default = 0)
+    fee = models.IntegerField(blank=True, verbose_name='Học phí đã đóng', default = 0)
+    fee_remain = models.IntegerField(blank=True, verbose_name='Học phí còn lại', default = 0)
     learning_area = models.ForeignKey(Area,on_delete=models.DO_NOTHING,related_name='learning_area')
     is_learning = models.BooleanField(default=True, verbose_name="Còn học ?")  #True = đang học, False=Khác
     joined_date = models.DateField(auto_now_add=True,verbose_name="Ngày vào học")

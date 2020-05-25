@@ -14,45 +14,39 @@
                     <th style="width: 5%;">ID</th>
                     <th style="width: 10%;">Họ và tên</th>
                     <th style="width: 5%;">Lớp</th>
-                    <th style="width: 7%;">Số điện thoại</th>
-                    <th style="width: 7%;">SDT phụ huynh</th>
-                    <th style="width: 25%;">Địa chỉ</th>
-                    <th style="width: 15%;">Thời gian đăng ký</th>
-                    <th style="width: 5%;">Khóa học</th>
+                    <th style="width: 11%;">Số điện thoại</th>
+                    <th style="width: 11%;">SDT phụ huynh</th>
+                    <th style="width: 23%;">Địa chỉ</th>
+                    <th style="width: 12%;">Thời gian đăng ký</th>
                     <th style="width: 10%;">Ghi chú</th>
                     <th style="width: 5%;">Active</th>
-                    <th style="width: 6%;">Học phí</th>
+                    <th style="width: 8%;">Học phí còn thiếu</th>
                 </tr>
             </thead>
             <tbody>
                 {% for student in student %}
-                <tr>
-                    <!-- <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5> -->
-                    <td>{{ student.pk }}</td>
-                    <td>{{ student.name }}</td>
-                    <td>
-                    {% for siclass in siclass %}
-                        {% if siclass.student == student %}
-                            {{ siclass.class_id}}
-                        {% endif %}
-
-                     {% endfor %}
-                    </td>
-                    <td>{{ student.phone_number_1 }}</td>
-                    <td>{{ student.phone_number_2 }}</td>
-                    <td>{{ student.address }}</td>
-                    <td>{{ student.joined_date }}</td>
-                    <td>{{ student.note }}</td>
-                    <td>{{ syslevel.name }}</td> 
-                    <td>{{ student.is_learning }}</td>
-                    <td>{{ syslevel.fee }}</td>
-                    <!-- <td>D123</td>
-                    <td>2020/1/2</td>
-                    <td>DEngTu</td>
-                    <td>...</td>
-                    <td></td> -->
-                    <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
-                </tr>
+                    <tr>
+                        <td>{{ student.pk }}</td>
+                        <td><a href="">{{ student.name }}</a></td>
+                        <td>
+                        {% for siclass in siclass %}
+                            {% if siclass.student == student %}
+                                {{ siclass.class_id}}
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                        <td>{{ student.phone_number_1 }}</td>
+                        <td>{{ student.phone_number_2 }}</td>
+                        <td>{{ student.address }}</td>
+                        <td>{{ student.joined_date }}</td>
+                        <td>{{ student.note }}</td>
+                        <td style="text-align: center;">
+                            {% if student.is_learning %}
+                                <i style="color: green; " class="fas fa-check-circle"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ student.fee_remain }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
@@ -64,7 +58,6 @@
                     <th>SDT phụ huynh</th>
                     <th>Địa chỉ</th>
                     <th>Thời gian đăng ký</th>
-                    <th>Khóa học</th>
                     <th>Ghi chú</th>
                     <th>Active</th>
                     <th>Học phí</th>
