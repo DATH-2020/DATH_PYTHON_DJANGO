@@ -1,14 +1,19 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponseRedirect,HttpResponse
-from student.models import Student,Classes,StudentInClass,MyUser
+from student.models import Student,Classes,StudentInClass,MyUser,SystemLevel
 from .forms import CreationForm,TimeStudentForm,UploadFileForm
 from django.views.generic import ListView, DetailView
+from django.core.mail import send_mail  
 import openpyxl
 # Create your views here.
 def StudentListView(request): 
-    student = Student.objects.all()
-    siclass = StudentInClass.objects.all()
-    return render(request, 'student/student.html', {'student':student,'siclass':siclass})
+    if request.user.is_staff:
+        user = MyUser.objects.get(user = request.user)
+        student = Student.objects.filter(learning_area = user.area)
+        siclass = StudentInClass.objects.filter(student__learning_area = user.area)
+        syslevel = SystemLevel.objects.filter(area = user.area)
+        return render(request, 'student/student.html', {'student':student,'siclass':siclass, 'syslevel':syslevel })
+    return render(request,'student/student.html')
 #class StudentDetailView(DetailView): # Trang info student
    # model = Student
    # template_name = 'student/detailStudent.html'
@@ -18,13 +23,20 @@ def DetailStudent(request,pk):
     #classes = StudentInClass.objects.all()
     #form = TimeStudentForm()
     return render(request, 'student/detailStudent.html', {'student':student,} )
-
 def CreateStudent(request):
     form = CreationForm()
     if request.method == 'POST':
         form = CreationForm(request.POST)
         if form.is_valid():
             form.save()
+            send_mail(
+                subject = 'Mail testing from Dinh', # title mail
+                message = 'Mail content by D :V Gửi đạt :V', # nội dung mail
+                from_email= 'hlminhdinh@gmail.com', # tài khoản
+                auth_password= 'Minhdinh123456', # mk
+                recipient_list = ['ducdat147@gmail.com','dinhhuynh21@gmail.com'],# mail người nhận
+                fail_silently = False,
+            )
             return HttpResponseRedirect("/student")
         return HttpResponse("Dữ liệu không hợp lệ")
     return render(request, 'student/createStudent.html', {'form':form})

@@ -43,9 +43,15 @@
                     <td>{{ student.address }}</td>
                     <td>{{ student.joined_date }}</td>
                     <td>{{ student.note }}</td>
-                    <td><!-- {{ student.pk }} --></td>
+                    <td>{{ syslevel.name }}</td>
+                    {% for level in syslevel %}
+                        {% if  %}
+                        
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}    
                     <td>{{ student.is_learning }}</td>
-                    <td><!-- {{ student.pk }} --></td>
+                    <td>{{ syslevel.fee }}</td>
                     <!-- <td>D123</td>
                     <td>2020/1/2</td>
                     <td>DEngTu</td>

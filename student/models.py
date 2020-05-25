@@ -31,6 +31,8 @@ class Student(models.Model):
     phone_number_2 = models.CharField(default='',max_length=12,null=True,blank=True,verbose_name="Số điện thoại")
     email = models.EmailField(verbose_name="email",blank=True)
     identity_number = models.CharField(max_length=10,default='',null=True,blank=True, verbose_name="CMND / CMT")
+    fee = models.IntegerField(blank=True, verbose_name='Học phí khóa học', default = 0)
+    fee_remain = models.IntegerField(blank=True, verbose_name='Học phí đã đóng', default = 0)
     learning_area = models.ForeignKey(Area,on_delete=models.DO_NOTHING,related_name='learning_area')
     is_learning = models.BooleanField(default=True, verbose_name="Còn học ?")  #True = đang học, False=Khác
     joined_date = models.DateField(auto_now_add=True,verbose_name="Ngày vào học")
@@ -123,7 +125,7 @@ class Classes(models.Model):
     end_date = models.DateField(verbose_name="Ngày kết thúc")
     note = models.TextField(max_length=200,default='',blank=True, verbose_name="Chú thích")
     def __str__(self):
-        return '%s %s'%(self.area,self.name)
+        return self.name
         #return "%s %s" % (self.shift, self.start_date)
     # def _level_name(self):
     #     return self.level
@@ -139,7 +141,7 @@ class Classes(models.Model):
         verbose_name_plural = "Lớp"
 
 class Fee(models.Model):
-    student = models.ForeignKey(Student,on_delete=models.CASCADE)
+    student = models.ForeignKey(Student,on_delete=models.CASCADE, related_name='Stu_fee')
     class_id = models.ForeignKey(Classes,on_delete=models.CASCADE,related_name='classer')
     level = models.CharField(max_length=50,blank=True) 
     course_date = models.CharField(max_length=50,blank=True)
