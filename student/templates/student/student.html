@@ -1,73 +1,63 @@
-{% extends "pages/base.html" %}
-
-{% block title %} Student {% endblock title %}
-
-{% block content %}
-    {% load static %}
-    <div class="card-header">
-        <h2 class="text-center font-weight-light">Danh sách học viên</h2>
-    </div>
-    <div class="card-body">
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th style="width: 5%;">ID</th>
-                    <th style="width: 10%;">Họ và tên</th>
-                    <th style="width: 5%;">Lớp</th>
-                    <th style="width: 11%;">Số điện thoại</th>
-                    <th style="width: 11%;">SDT phụ huynh</th>
-                    <th style="width: 23%;">Địa chỉ</th>
-                    <th style="width: 12%;">Thời gian đăng ký</th>
-                    <th style="width: 10%;">Ghi chú</th>
-                    <th style="width: 5%;">Active</th>
-                    <th style="width: 8%;">Học phí còn thiếu</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in student %}
-                    <tr>
-                        <td>{{ student.pk }}</td>
-                        <td><a href="/student/{{ student.pk }}">{{ student.name }}</a></td>
-                        <td>
-                        {% for siclass in siclass %}
-                            {% if siclass.student == student %}
-                                {{ siclass.class_id}}
-                            {% endif %}
-                        {% endfor %}
-                        </td>
-                        <td>{{ student.phone_number_1 }}</td>
-                        <td>{{ student.phone_number_2 }}</td>
-                        <td>{{ student.address }}</td>
-                        <td>{{ student.joined_date }}</td>
-                        <td>{{ student.note }}</td>
-                        <td style="text-align: center;">
-                            {% if student.is_learning %}
-                                <i style="color: green; " class="fas fa-check-circle"></i>
-                            {% endif %}
-                        </td>
-                        <td>{{ student.fee_remain }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>ID</th>
-                    <th>Họ và tên</th>
-                    <th>Lớp</th>
-                    <th>Số điện thoại</th>
-                    <th>SDT phụ huynh</th>
-                    <th>Địa chỉ</th>
-                    <th>Thời gian đăng ký</th>
-                    <th>Ghi chú</th>
-                    <th>Active</th>
-                    <th>Học phí</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+{% extends "pages/base.html" %} {% block title %} Student {% endblock title %} {% block content %} {% load static %}
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Danh sách học viên</h2>
+</div>
+<div class="card-body">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="width: 5%;">ID</th>
+                <th style="width: 10%;">Họ và tên</th>
+                <th style="width: 5%;">Lớp</th>
+                <th style="width: 11%;">Số điện thoại</th>
+                <th style="width: 11%;">SDT phụ huynh</th>
+                <th style="width: 23%;">Địa chỉ</th>
+                <th style="width: 12%;">Thời gian đăng ký</th>
+                <th style="width: 8%;">Ghi chú</th>
+                <th style="width: 5%;">Active</th>
+                <th style="width: 10%;">Học phí thiếu</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in student %}
+            <tr>
+                <td>{{ student.pk }}</td>
+                <td><a href="/student/{{ student.pk }}">{{ student.name }}</a></td>
+                <td>
+                    {% for siclass in siclass %} {% if siclass.student == student %} {{ siclass.class_id}} {% endif %} {% endfor %}
+                </td>
+                <td>{{ student.phone_number_1 }}</td>
+                <td>{{ student.phone_number_2 }}</td>
+                <td>{{ student.address }}</td>
+                <td>{{ student.joined_date }}</td>
+                <td>{{ student.note }}</td>
+                <td style="text-align: center;">
+                    {% if student.is_learning %}
+                    <i style="color: green; " class="fas fa-check-circle"></i> {% endif %}
+                </td>
+                <td>{{ student.fee_remain }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Họ và tên</th>
+                <th>Lớp</th>
+                <th>Số điện thoại</th>
+                <th>SDT phụ huynh</th>
+                <th>Địa chỉ</th>
+                <th>Thời gian đăng ký</th>
+                <th>Ghi chú</th>
+                <th>Active</th>
+                <th>Học phí</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
 
-    <!-- <a href="{% url 'create' %}" class="btn btn-success btn-lg active" role="button" aria-pressed="true"><img src="{% static 'images/right.png' %}" style="max-height:40px"/> Đăng kí học viên mới</a>
+<!-- <a href="{% url 'create' %}" class="btn btn-success btn-lg active" role="button" aria-pressed="true"><img src="{% static 'images/right.png' %}" style="max-height:40px"/> Đăng kí học viên mới</a>
     <br>
     <br>
     <DIV>
@@ -75,7 +65,5 @@
         <input type="button"class="btn btn-info" value="Tìm">
     </DIV> -->
 {% for student in Students %}
-    <!-- <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5> -->
-{% endfor %}
-
-{% endblock content %}
+<!-- <h5><a href="/student/{{student.id}}">{{student.name}}</a></h5> -->
+{% endfor %} {% endblock content %}
