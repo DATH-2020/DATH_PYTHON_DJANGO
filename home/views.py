@@ -6,24 +6,40 @@ from student.forms import CreationForm
 from django.http import HttpResponseRedirect,HttpResponse
 from blog.models import Post
 from student.models import Area
+from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 # Create your views here.
-def index(request):
-    area=Area.objects.all()
-    form = CreationForm()
-    #post= Post.objects.all().order_by("-date")
-    #paginator = Paginator(post,4)
-    #page = request.GET.get('page')
-    #contacts = paginator.get_page(page)
-
+# Login
+# Dat
+def loginPage(request):
     if request.method == 'POST':
-        form = CreationForm(request.POST)
-        alert=False
-        if form.is_valid():
-            form.save()
-            alert=True
-            return render(request, 'pages/home.html',{'area':area,'alert':alert})#,'post':contacts})
-        return HttpResponse("Dữ liệu không hợp lệ")
-    return render(request, 'pages/home.html', {'area':area,'form':form})#, 'post':contacts})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('student')
+    context = {}
+    return render(request, 'pages/login.html')
+# def index(request):
+#     area=Area.objects.all()
+#     form = CreationForm()
+#     #post= Post.objects.all().order_by("-date")
+#     #paginator = Paginator(post,4)
+#     #page = request.GET.get('page')
+#     #contacts = paginator.get_page(page)
+
+#     if request.method == 'POST':
+#         form = CreationForm(request.POST)
+#         alert=False
+#         if form.is_valid():
+#             form.save()
+#             alert=True
+#             return render(request, 'pages/home.html',{'area':area,'alert':alert})#,'post':contacts})
+#         return HttpResponse("Dữ liệu không hợp lệ")
+#     return render(request, 'pages/home.html', {'area':area,'form':form})#, 'post':contacts})
 def contact(request):
     return render(request, 'pages/contact.html')
 def error(request):

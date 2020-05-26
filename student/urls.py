@@ -31,4 +31,5 @@ urlpatterns = [
     path('listteacher/',views.ListTeacher,name='listteacher'),
     path('detailteacher/',views.DetailTeacher,name='detailteacher'),
     
+    path('login', views.loginPage, name='login'),
 ]

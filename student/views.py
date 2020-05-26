@@ -1,10 +1,20 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponseRedirect,HttpResponse
+from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+# from .models import *
+# from .forms import OrderForm, CreationUserForm
+# from .fillters import OrderFillter
+
 from student.models import Student,Classes,StudentInClass,MyUser,SystemLevel
 from .forms import CreationForm,TimeStudentForm,UploadFileForm
 from django.views.generic import ListView, DetailView
 from django.core.mail import send_mail  
 import openpyxl
+
+
 # Create your views here.
 # def StudentListView(request): 
 #     if request.user.is_staff:
@@ -186,3 +196,18 @@ def ListTeacher(request):
 # Dat
 def DetailTeacher(request):
     return render(request, 'teacher/detailTeacher.html')
+   
+# =========================================================================================
+ 
+# Login
+# Dat
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('student')
+    context = {}
+    return render(request, 'pages/login.html')
