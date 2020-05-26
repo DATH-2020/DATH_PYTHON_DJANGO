@@ -6,40 +6,40 @@ from django.views.generic import ListView, DetailView
 from django.core.mail import send_mail  
 import openpyxl
 # Create your views here.
-def StudentListView(request): 
-    if request.user.is_staff:
-        user = MyUser.objects.get(user = request.user)
-        student = Student.objects.filter(learning_area = user.area)
-        siclass = StudentInClass.objects.filter(student__learning_area = user.area)
-        syslevel = SystemLevel.objects.filter(area = user.area)
-        return render(request, 'student/student.html', {'student':student,'siclass':siclass, 'syslevel':syslevel })
-    return render(request,'student/student.html')
-#class StudentDetailView(DetailView): # Trang info student
-   # model = Student
-   # template_name = 'student/detailStudent.html'
-def DetailStudent(request,pk):
-    #student = get_object_or_404(Student,pk=pk) # chỉ định tham số pk 
-    student = Student.objects.all()
-    #classes = StudentInClass.objects.all()
-    #form = TimeStudentForm()
-    return render(request, 'student/detailStudent.html', {'student':student,} )
-def CreateStudent(request):
-    form = CreationForm()
-    if request.method == 'POST':
-        form = CreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            send_mail(
-                subject = 'Mail testing from Dinh', # title mail
-                message = 'Mail content by D :V Gửi đạt :V', # nội dung mail
-                from_email= 'hlminhdinh@gmail.com', # tài khoản
-                auth_password= 'Minhdinh123456', # mk
-                recipient_list = ['ducdat147@gmail.com','dinhhuynh21@gmail.com'],# mail người nhận
-                fail_silently = False,
-            )
-            return HttpResponseRedirect("/student")
-        return HttpResponse("Dữ liệu không hợp lệ")
-    return render(request, 'student/createStudent.html', {'form':form})
+# def StudentListView(request): 
+#     if request.user.is_staff:
+#         user = MyUser.objects.get(user = request.user)
+#         student = Student.objects.filter(learning_area = user.area)
+#         siclass = StudentInClass.objects.filter(student__learning_area = user.area)
+#         syslevel = SystemLevel.objects.filter(area = user.area)
+#         return render(request, 'student/student.html', {'student':student,'siclass':siclass, 'syslevel':syslevel })
+#     return render(request,'student/student.html')
+# #class StudentDetailView(DetailView): # Trang info student
+#    # model = Student
+#    # template_name = 'student/detailStudent.html'
+# def DetailStudent(request,pk):
+#     #student = get_object_or_404(Student,pk=pk) # chỉ định tham số pk 
+#     student = Student.objects.all()
+#     #classes = StudentInClass.objects.all()
+#     #form = TimeStudentForm()
+#     return render(request, 'student/detailStudent.html', {'student':student,} )
+# def CreateStudent(request):
+#     form = CreationForm()
+#     if request.method == 'POST':
+#         form = CreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             send_mail(
+#                 subject = 'Mail testing from Dinh', # title mail
+#                 message = 'Mail content by D :V Gửi đạt :V', # nội dung mail
+#                 from_email= 'hlminhdinh@gmail.com', # tài khoản
+#                 auth_password= 'Minhdinh123456', # mk
+#                 recipient_list = ['ducdat147@gmail.com','dinhhuynh21@gmail.com'],# mail người nhận
+#                 fail_silently = False,
+#             )
+#             return HttpResponseRedirect("/student")
+#         return HttpResponse("Dữ liệu không hợp lệ")
+#     return render(request, 'student/createStudent.html', {'form':form})
               
 def upload_file(request):
     if request.method == 'POST' and request.user.is_staff == True and request.user.is_superuser == False:
@@ -71,11 +71,118 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'student/upload.html', {'form': form})
 
-class ListClass(ListView):
-    queryset = Classes.objects.all()
-    template_name = 'class/class.html'
-    context_object_name = 'Class'
-    paginate_by = 10 # phân trang
+# class ListClass(ListView):
+#     queryset = Classes.objects.all()
+#     template_name = 'class/listClass.html'
+#     context_object_name = 'Class'
+#     paginate_by = 10 # phân trang
 
 def test(request):
-    return render(request, 'pages/base2.html') 
+    return render(request, 'pages/base2.html', {'form': form}) 
+
+# =========================================================================================
+
+# Class 
+# Dat
+def CreateClass(request):
+    return render(request, 'class/createClass.html')
+
+# Dat
+def ListClass(request):
+    return render(request, 'class/listClass.html')
+ 
+# Dat
+def DetailClass(request):
+    return render(request, 'class/detailClass.html')
+
+# =========================================================================================
+
+# Contact 
+# Dat
+def Contact(request):
+    return render(request, 'contact/contact.html')
+
+# =========================================================================================
+
+# Manager 
+# Dat
+def CreateStafAccount(request):
+    return render(request, 'manager/createStafAccount.html')
+
+# Dat
+def ListStaf(request):
+    return render(request, 'manager/staf.html')
+ 
+# Dat
+def RoleAcount(request):
+    return render(request, 'manager/roleAcount.html')
+
+# =========================================================================================
+
+# Schedule 
+# Dat
+def CreateSchedule(request):
+    return render(request, 'schedule/createSchedule.html')
+
+# Dat
+def ListSchedule(request):
+    return render(request, 'schedule/schedule.html')
+ 
+# Dat
+def DetailSchedule(request):
+    return render(request, 'schedule/detailSchedule.html')
+
+# =========================================================================================
+
+# Student 
+# Dat
+def CreateStudent(request):
+    form = CreationForm()
+    if request.method == 'POST':
+        form = CreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            send_mail(
+                subject = 'Mail testing from Dinh', # title mail
+                message = 'Mail content by D :V Gửi đạt :V', # nội dung mail
+                from_email= 'hlminhdinh@gmail.com', # tài khoản
+                auth_password= 'Minhdinh123456', # mk
+                recipient_list = ['ducdat147@gmail.com','dinhhuynh21@gmail.com'],# mail người nhận
+                fail_silently = False,
+            )
+            return HttpResponseRedirect("/student")
+        return HttpResponse("Dữ liệu không hợp lệ")
+    return render(request, 'student/createStudent.html', {'form':form})
+
+# Dat
+def ListStudent(request): 
+    if request.user.is_staff:
+        user = MyUser.objects.get(user = request.user)
+        student = Student.objects.filter(learning_area = user.area)
+        siclass = StudentInClass.objects.filter(student__learning_area = user.area)
+        syslevel = SystemLevel.objects.filter(area = user.area)
+        return render(request, 'student/student.html', {'student':student,'siclass':siclass, 'syslevel':syslevel })
+    return render(request,'student/student.html')
+ 
+# Dat
+def DetailStudent(request,pk):
+    #student = get_object_or_404(Student,pk=pk) # chỉ định tham số pk 
+    student = Student.objects.all()
+    #classes = StudentInClass.objects.all()
+    #form = TimeStudentForm()
+    return render(request, 'student/detailStudent.html', {'student':student,} )
+
+# =========================================================================================
+
+# Teacher 
+# Dat
+def CreateTeacher(request):
+    return render(request, 'teacher/createTeacher.html')
+
+# Dat
+def ListTeacher(request):
+    return render(request, 'teacher/teacher.html')
+ 
+# Dat
+def DetailTeacher(request):
+    return render(request, 'teacher/detailTeacher.html')

@@ -27,7 +27,7 @@
                 {% for student in student %}
                     <tr>
                         <td>{{ student.pk }}</td>
-                        <td><a href="">{{ student.name }}</a></td>
+                        <td><a href="/student/{{ student.pk }}">{{ student.name }}</a></td>
                         <td>
                         {% for siclass in siclass %}
                             {% if siclass.student == student %}
