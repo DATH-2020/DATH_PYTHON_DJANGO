@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>HITECH EDUCATION</title>
+    <!-- <link rel="stylesheet" href="/staticfiles/css/styles.css"> -->
+    <link href="{% static '/css/styles.css' %}" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#" style="margin-left: 10px;"><i class="fas fa-bars"></i></button>
+        <a class="navbar-brand" href="{% url 'home' %}">HITECH EDUCATION</a>
+        <!-- Navbar Search-->
+        <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <!-- <div class="input-group">
+                <input class="form-control" type="text" placeholder="Tìm kiếm" aria-label="Search" aria-describedby="basic-addon2" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div> -->
+            <label class="navbar-brand" style="justify-content: flex-end;">{{user.username}}</label>
+
+        </div>
+        <!-- Navbar-->
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <!-- Học viên  -->
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudent" aria-expanded="false" aria-controls="collapseStudent">
+                            <div class="sb-nav-link-icon" style="width: 2em;">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            Học viên
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseStudent" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">
+                                        Danh sách
+                                    </a>
+                                <a class="nav-link" href="#">
+                                        Thêm học viên mới
+                                    </a>
+                                <a class="nav-link" href="#">
+                                        Điểm danh
+                                    </a>
+                            </nav>
+                        </div>
+                        <!-- <div class="sb-sidenav-menu-heading">Giao diện</div> -->
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClass" aria-expanded="false" aria-controls="collapseClass">
+                            <div class="sb-nav-link-icon" style="width: 2em;">
+                                <i class="fas fa-chalkboard"></i>
+                            </div>
+                            Lớp học
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseClass" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">
+                                        Danh sách
+                                    </a>
+                                <a class="nav-link" href="{% url 'createclass' %}">
+                                        Mở lớp mới
+                                    </a>
+                            </nav>
+                        </div>
+                        <!-- Giảng viên  -->
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTeacher" aria-expanded="false" aria-controls="collapseTeacher">
+                            <div class="sb-nav-link-icon" style="width: 2em;">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            Giảng viên
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseTeacher" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">
+                                        Danh sách
+                                    </a>
+                                <a class="nav-link" href="#">
+                                        Giảng viên mới
+                                    </a>
+                            </nav>
+                        </div>
+                        <!-- Lịch học  -->
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule" aria-expanded="false" aria-controls="collapseSchedule">
+                            <div class="sb-nav-link-icon" style="width: 2em;">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            Lịch học
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseSchedule" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">
+                                        Danh sách
+                                    </a>
+                                <a class="nav-link" href="#">
+                                        Tạo lịch học mới
+                                    </a>
+                            </nav>
+                        </div>
+                        <!-- Manager -->
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManager" aria-expanded="false" aria-controls="collapseManager">
+                            <div class="sb-nav-link-icon" style="width: 2em;">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            Manager
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseManager" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesStaf" aria-expanded="false" aria-controls="pagesStaf">
+                                        Nhân sự
+                                        <div class="sb-sidenav-collapse-arrow">
+                                            <i class="fas fa-angle-down"></i>
+                                        </div>
+                                    </a>
+                                <div class="collapse" id="pagesStaf" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="#">
+                                                Danh sách
+                                            </a>
+                                        <a class="nav-link" href="#">
+                                                Đăng ký tài khoản mới
+                                            </a>
+                                        <a class="nav-link" href="#">
+                                                Phân quyền
+                                            </a>
+                                    </nav>
+                                </div>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link" href="#">
+                            <!-- contact.html -->
+                            <div class="sb-nav-link-icon" style="width: 2em;">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            Liên hệ
+                        </a>
+
+                        <!-- đây là tag nghiệp vụ chỉnh sửa thông tin nhân viên của Role Manager -->
+
+                        <!-- <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-book-reader"></i>
+                                </div>
+                                Nhân viên
+                            </a> -->
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Build by:</div>
+                    <div>Huynh Le Minh Dinh</div>
+                    <div>Truong Duc Dat</div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content" style="background-color: lavender;">
+            <!-- Nội dung trong layout  -->
+            <main>
+                <div class="container-fluid">
+                    <div style="margin: 1em; background-color: white;">
+                        <!-- đây là chổ để hiển thị layout nghiệp vụ -->
+                        {% block content %}
+                        <!-- Content  -->
+                        {% endblock %}
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center justify-content-between small">
+
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static '/js/scripts.js' %}"></script>
+    <script src="{% static '/js/moment-with-locales.js' %}"></script>
+    <script src="{% static '/js/moment.js' %}"></script>
+    <script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="{% static '/assets/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static '/assets/demo/chart-bar-demo.js' %}"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+    <script src="{% static '/staticfiles/assets/demo/datatables-demo.js' %}"></script>
+    <!--         
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"></script> -->
+    <script>
+        $(document).ready(function() {
+            // Cấu hình các nhãn phân trang
+            $('#example').dataTable({
+                "language": {
+                    "sProcessing": "Đang xử lý...",
+                    "sLengthMenu": "Xem _MENU_ mục",
+                    "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+                    "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                    "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+                    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Tìm:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Đầu",
+                        "sPrevious": "Trước",
+                        "sNext": "Tiếp",
+                        "sLast": "Cuối"
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

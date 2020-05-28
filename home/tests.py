@@ -1,7 +1,3 @@
-from django.test import TestCase,SimpleTestCase
+from django.test import TestCase
 
 # Create your tests here.
-# class SimpleTests(SimpleTestCase):
-#     def test_home_page_status(self):
-#         response=self.client.get('/student/')
-#         self.assertEquals(response.status_code, 200)

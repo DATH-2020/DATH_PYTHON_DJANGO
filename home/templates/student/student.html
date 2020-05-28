@@ -1,0 +1,62 @@
+{% extends "pages/base.html" %} {% block title %} Student {% endblock title %} {% block content %} {% load static %}
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Danh sách học viên</h2>
+</div>
+<div class="card-body">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="width: 5%;">ID</th>
+                <th style="width: 10%;">Họ và tên</th>
+                <th style="width: 5%;">Lớp</th>
+                <th style="width: 11%;">Số điện thoại</th>
+                <th style="width: 11%;">SDT phụ huynh</th>
+                <th style="width: 23%;">Địa chỉ</th>
+                <th style="width: 12%;">Thời gian đăng ký</th>
+                <th style="width: 8%;">Ghi chú</th>
+                <th style="width: 5%;">Active</th>
+                <th style="width: 10%;">Học phí thiếu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: center;">
+                    <i style="color: green; " class="fas fa-check-circle"></i>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Họ và tên</th>
+                <th>Lớp</th>
+                <th>Số điện thoại</th>
+                <th>SDT phụ huynh</th>
+                <th>Địa chỉ</th>
+                <th>Thời gian đăng ký</th>
+                <th>Ghi chú</th>
+                <th>Active</th>
+                <th>Học phí</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+<!-- <a href="{% url 'create' %}" class="btn btn-success btn-lg active" role="button" aria-pressed="true"><img src="{% static 'images/right.png' %}" style="max-height:40px"/> Đăng kí học viên mới</a>
+    <br>
+    <br>
+    <DIV>
+        <input type="text" placeholder="Nhập tên học sinh">
+        <input type="button"class="btn btn-info" value="Tìm">
+    </DIV> -->
+{% endblock content %}
