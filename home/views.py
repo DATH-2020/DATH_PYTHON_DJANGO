@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import send_mail
 
 from .models import *
 from .forms import CreateUserForm, CreateStudentForm
@@ -84,6 +85,14 @@ def createStudent(request):
         form = CreateStudentForm(request.POST)
         if form.is_valid():
             form.save()
+            send_mail(
+                subject = 'Xác nhận đăng kí học viên', # title mail
+                message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+                from_email= None, # tài khoản
+                auth_password= None, # mk
+                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+                fail_silently = False,
+            )
             return redirect('liststudent')
     context = {'form':form, 'gender':gender, 'unit':unit, 'classname':classname}
     return render(request, 'student/createStudent.html', context)
