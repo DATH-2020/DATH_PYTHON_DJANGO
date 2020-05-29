@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .models import *
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CreateStudentForm
 # Create your views here.
 def loginPage(request):
     if request.user.is_authenticated:
@@ -56,6 +56,43 @@ def home(request):
 # Class 
 # Dat
 @login_required(login_url='login')
-def CreateClass(request):
-    return render(request, 'class/createClass.html')
+def listClass(request):
+    listclass = Classname.objects.all()
+    context = {'listclass': listclass}
+    return render(request, 'class/listclass.html', context)
 
+@login_required(login_url='login')
+def createClass(request):
+    context = {}
+    return render(request, 'class/createClass.html', context)
+
+# Student 
+# Dat
+@login_required(login_url='login')
+def listStudent(request):
+    liststudent = Student.objects.all()
+    context = {'liststudent': liststudent}
+    return render(request, 'student/student.html', context)
+    
+@login_required(login_url='login')
+def createStudent(request):
+    form = CreateStudentForm()
+    gender = Gender.objects.all()
+    unit = Unit.objects.all()
+    classname = Classname.objects.all()
+    if request.method == 'POST':
+        form = CreateStudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('liststudent')
+    context = {'form':form, 'gender':gender, 'unit':unit, 'classname':classname}
+    return render(request, 'student/createStudent.html', context)
+
+# Teacher 
+# Dat
+@login_required(login_url='login')
+def listTeacher(request):
+    listteacher = Teacher.objects.all()
+    context = {'listteacher': listteacher}
+    return render(request, 'teacher/teacher.html', context)
+ 

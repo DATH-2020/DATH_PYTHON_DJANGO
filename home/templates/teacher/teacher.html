@@ -1,2 +1,63 @@
-{% extends "pages/base.html" %} {% block title %}
-<!-- Student -->{% endblock title %} {% block content %} {% load static %} {% endblock content %}
+{% extends "pages/base.html" %}
+<!-- break code -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break code -->
+{% block content %}
+<!-- break code -->
+{% load static %}
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Danh sách giảng viên</h2>
+</div>
+<div class="card-body">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="width: 15%;">Tên giảng viên</th>
+                <th style="width: 10%;">Ngày sinh</th>
+                <th style="width: 12%;">Số lớp đang dạy</th>
+                <th style="width: 10%;">Số điện thoại</th>
+                <th style="width: 15%;">Email</th>
+                <th style="width: 20%;">Địa chỉ</th>
+                <th style="width: 13%;">Ghi chú</th>
+                <th style="width: 5%;">Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in listteacher %}
+            <tr>
+                <td>{{ i.fullname}}</td>
+                <td>{{ i.birthday}}</td>
+                <td style="text-align: center;"></td>
+                <td>{{ i.phonenumber}}</td>
+                <td>{{ i.email}}</td>
+                <td>{{ i.adress}}</td>
+                <td>{{ i.note}}</td>
+                <td style="text-align: center;">
+                    {% if i.active %}
+                    <i style="color: green; " class="fas fa-check-circle"></i>
+                    <!-- break code -->
+                    {%endif%}
+                </td>
+                <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Tên giảng viên</th>
+                <th>Ngày sinh</th>
+                <th>Số lớp đang dạy</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Địa chỉ</th>
+                <th>Ghi chú</th>
+                <th>Active</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<!-- break code -->
+{% endblock content %}

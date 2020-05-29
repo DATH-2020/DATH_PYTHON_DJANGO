@@ -9,7 +9,8 @@ urlpatterns = [
     path('', views.home, name="home"),
 
     # # Class 
-    path('createclass/',views.CreateClass, name='createclass'),
+    path('listclass/', views.listClass, name='listclass'),
+    path('createclass/', views.createClass, name='createclass'),
     # path('listclass/',views.ListClass,name='listclass'),
     # path('detailclass/',views.DetailClass,name='detailclass'),
     # # Contact 
@@ -22,12 +23,12 @@ urlpatterns = [
     # path('createschedule/',views.CreateSchedule,name='createschedule'),
     # path('listschedule/',views.ListSchedule,name='listschedule'),
     # path('detailschedule/',views.DetailSchedule,name='detailschedule'),
-    # # Student 
-    # path('createstudent/',views.CreateStudent,name='createstudent'),
-    # path('liststudent/',views.ListStudent,name='liststudent'),
+    # Student 
+    path('liststudent/', views.listStudent, name='liststudent'),
+    path('createstudent', views.createStudent, name='createstudent'),
     # path('<int:pk>/',views.DetailStudent,name='detailstudent'),
     # # Teacher 
     # path('createteacher/',views.CreateTeacher,name='createteacher'),
-    # path('listteacher/',views.ListTeacher,name='listteacher'),
+    path('listteacher/',views.listTeacher,name='listteacher'),
     # path('detailteacher/',views.DetailTeacher,name='detailteacher'),
 ]

@@ -1,4 +1,17 @@
-{% extends "pages/base.html" %} {% block title %} Student {% endblock title %} {% block content %} {% load static %}
+{% extends "pages/base.html" %}
+<!-- break line -->
+{% block title %}
+<!-- break code -->
+Student
+<!-- break code -->
+{% endblock title %}
+<!-- break line -->
+{% block content %}
+<!-- break line -->
+{% load static %}
+
+<!-- break line -->
+
 <div class="card-header">
     <h2 class="text-center font-weight-light">Danh sách học viên</h2>
 </div>
@@ -19,20 +32,23 @@
             </tr>
         </thead>
         <tbody>
+            {% for i in liststudent %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ i.pk }}</td>
+                <td>{{ i.fullname }}</td>
+                <td>{{ i.classname }}</td>
+                <td>{{ i.phonenumber }}</td>
+                <td>{{ i.phonenumber_family }}</td>
+                <td>{{ i.adress }}</td>
+                <td>{{ i.create_date }}</td>
+                <td>{{ i.note }}</td>
                 <td style="text-align: center;">
-                    <i style="color: green; " class="fas fa-check-circle"></i>
+                    {% if i.active %}
+                    <i style="color: green; " class="fas fa-check-circle"></i> {%endif%}
                 </td>
-                <td></td>
+                <td>{{ i.fee_remain }}</td>
             </tr>
+            {% endfor %}
         </tbody>
         <tfoot>
             <tr>
@@ -50,13 +66,5 @@
         </tfoot>
     </table>
 </div>
-
-
-<!-- <a href="{% url 'create' %}" class="btn btn-success btn-lg active" role="button" aria-pressed="true"><img src="{% static 'images/right.png' %}" style="max-height:40px"/> Đăng kí học viên mới</a>
-    <br>
-    <br>
-    <DIV>
-        <input type="text" placeholder="Nhập tên học sinh">
-        <input type="button"class="btn btn-info" value="Tìm">
-    </DIV> -->
+<!-- break line -->
 {% endblock content %}
