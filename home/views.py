@@ -25,8 +25,8 @@ def loginPage(request):
                 login(request, user )
                 return redirect('home')
             else:
-                messages.into(request, 'Tên đăng nhập hoặc mật khẩu không đúng')
-                return render(request, 'pages/login.html', context)
+                messages.info(request, 'Tên đăng nhập hoặc mật khẩu không đúng')
+                return render(request, 'pages/login.html')
         context={}
         return render(request, 'pages/login.html', context)
 
@@ -40,11 +40,15 @@ def registerPage(request):
             if form.is_valid():
                 form.save()  
                 user = form.cleaned_data.get('username')
-                messages.into(request, 'Tài khoản ' + user + ' đã tồn tại')
-                return redirect()
-
-        context = {'form':form}
-        return render(request, 'pages/register.html', context)
+                messages.success(request, 'Tài khoản ' + user + ' tạo thành công')
+                return redirect('login')
+            else:
+                messages.error(request, "Lỗi đăng ký")
+                return render(request, 'pages/register.html')
+        context = {}
+        return render(request, 'pages/register.html')
+        # context = {'form':form}
+        # return render(request, 'pages/register.html', context)
 
 def logoutUser(request):
     logout(request)

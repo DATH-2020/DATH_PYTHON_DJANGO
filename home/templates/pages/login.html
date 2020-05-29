@@ -35,6 +35,29 @@
                                             <label class="small mb-1" for="inputPassword">Mật khẩu</label>
                                             <input class="form-control py-4" required id="inputPassword" name="password" type="password" placeholder="Nhập mật khẩu" />
                                         </div>
+                                        {% if messages %}
+                                        <div>
+                                            {% for mess in messages %}
+                                            <!-- <script>
+                                                //Swal.fire({
+                                                //   icon: 'error',
+                                                //   title: 'Oops...',
+                                                //   text: '{{mess}}',
+                                                //});
+                                                //Swal.Fire({''});
+                                            </script> -->
+                                            {% if mess.tags == 'success' %}
+                                                <div class="alert alert-success" role="alert">
+                                                    {{mess}}
+                                                </div>
+                                            {% elif mess.tags == 'error' %}    
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{mess}}
+                                                </div>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
                                         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                             <input class="btn btn-primary btn-block" type="submit" name="loginuser" id="loginuser" value="Đăng nhập">
                                         </div>
@@ -58,7 +81,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="{% static '/js/scripts.js' %}"></script>
+    <script src="{% static '/js/sweetalert2.js' %}"></script>
 </body>
 
 </html>
