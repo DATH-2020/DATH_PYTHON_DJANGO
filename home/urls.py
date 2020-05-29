@@ -13,11 +13,10 @@ urlpatterns = [
     path('createclass/', views.createClass, name='createclass'),
     # path('listclass/',views.ListClass,name='listclass'),
     # path('detailclass/',views.DetailClass,name='detailclass'),
-    # # Contact 
-    # path('contact/',views.Contact,name='contacts'),
+
     # # Manager 
     # path('createstafaccount/',views.CreateStafAccount,name='createstafaccount'),
-    # path('liststaf/',views.ListStaf,name='liststaf'),
+    path('liststaf/',views.listStaf,name='liststaf'),
     # path('roleacount/',views.RoleAcount,name='roleacount'),
     # # Schedule 
     # path('createschedule/',views.CreateSchedule,name='createschedule'),
@@ -26,9 +25,11 @@ urlpatterns = [
     # Student 
     path('liststudent/', views.listStudent, name='liststudent'),
     path('createstudent', views.createStudent, name='createstudent'),
-    # path('<int:pk>/',views.DetailStudent,name='detailstudent'),
+    path('student/<int:pk>/',views.detailStudent,name='detailstudent'),
     # # Teacher 
     # path('createteacher/',views.CreateTeacher,name='createteacher'),
     path('listteacher/',views.listTeacher,name='listteacher'),
     # path('detailteacher/',views.DetailTeacher,name='detailteacher'),
+
+    path('contact/',views.contact, name='contact'),
 ]

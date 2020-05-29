@@ -97,6 +97,10 @@ def createStudent(request):
     context = {'form':form, 'gender':gender, 'unit':unit, 'classname':classname}
     return render(request, 'student/createStudent.html', context)
 
+def detailStudent(request,pk):
+    student = Student.objects.get(pk=pk)
+    context = {'student':student}
+    return render(request,'student\detailStudent.html',context)
 # Teacher 
 # Dat
 @login_required(login_url='login')
@@ -104,4 +108,11 @@ def listTeacher(request):
     listteacher = Teacher.objects.all()
     context = {'listteacher': listteacher}
     return render(request, 'teacher/teacher.html', context)
+
+def listStaf(request):
+    context={}
+    return render(request,'manager/staf.html',context)
+
+def contact(request):
+    return render(request,'contact/contact.html')
  

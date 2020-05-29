@@ -35,7 +35,7 @@ Student
             {% for i in liststudent %}
             <tr>
                 <td>{{ i.pk }}</td>
-                <td>{{ i.fullname }}</td>
+                <td><a href="/student/{{ i.pk }}">{{ i.fullname }}</a></td>
                 <td>{{ i.classname }}</td>
                 <td>{{ i.phonenumber }}</td>
                 <td>{{ i.phonenumber_family }}</td>

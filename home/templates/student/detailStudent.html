@@ -3,12 +3,12 @@
     <h2 class="text-center font-weight-light">Thay đổi thông tin học viên</h2>
 </div>
 <div class="card-body">
-    <form>
+    <form method='POST'>
         <div class="form-row">
             <div class="col-md-4">
                 <label class="small mb-1" for="inputName">Họ và tên</label>
                 <div class="form-group">
-                    <input class="form-control" disabled required id="inputName" type="text" placeholder="Nhập họ và tên" />
+                    <input class="form-control" disabled required id="inputName" type="text" placeholder="Nhập họ và tên" value="{{ student.fullname }}"/>
                 </div>
             </div>
             <!-- ông thử link cách GET value của selectbox trong video này thử -->
@@ -16,7 +16,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputGender">Giới tính</label>
                 <div class="form-group">
-                    <select class="form-control" disabled required id="inputGender">
+                    <select class="form-control" disabled required id="inputGender" value="{{ student.gender }}">
                             <option value="female">Nữ</option>
                             <option value="male">Nam</option>
                         </select>
@@ -25,7 +25,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputBirthDay" type="date" />
+                    <input class="form-control" required id="inputBirthDay" type="date" value="{{ student.birthday }}"/>
                 </div>
             </div>
         </div>
@@ -33,19 +33,19 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputID">ID</label>
                 <div class="form-group">
-                    <input class="form-control" disabled required id="inputID" type="text" disabled/>
+                    <input class="form-control" disabled required id="inputID" type="text" disabled value="{{ student.pk }}"/>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputEmail">Email</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputEmail" type="email" />
+                    <input class="form-control" required id="inputEmail" type="email" value = "{{ student.email }}"/>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputIdentityCard">CMND/Thẻ căn cước</label>
                 <div class="form-group">
-                    <input class="form-control" disabled required id="inputIdentityCard" type="text" placeholder="Nhập CMND học viên" />
+                    <input class="form-control" disabled required id="inputIdentityCard" type="text" placeholder="Nhập CMND học viên" value="{{ student.identity_card }}"/>
                 </div>
             </div>
         </div>
@@ -53,13 +53,13 @@
             <div class="col-md-8">
                 <label class="small mb-1" for="inputAddress">Địa chỉ</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputAddress" type="text" placeholder="Nhập địa chỉ của học viên " />
+                    <input class="form-control" required id="inputAddress" type="text" placeholder="Nhập địa chỉ của học viên " value="{{ student.adress }}"/>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputPhone">Số điện thoại</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputPhone" type="text" placeholder="Nhập số điện thoại của học viên" /></div>
+                    <input class="form-control" required id="inputPhone" type="text" placeholder="Nhập số điện thoại của học viên" value="{{ student.phonenumber }}"/></div>
             </div>
         </div>
         <div class="form-row">
@@ -96,7 +96,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền nộp</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" required id="inputFee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" />
+                    <input class="form-control" required id="inputFee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" value="{{ student.fee }}"/>
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -105,7 +105,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền còn thiếu</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" disabled required id="inputFee" type="text" />
+                    <input class="form-control" disabled required id="inputFee" type="text" value="{{ student.fee_remain }}"/>
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -114,14 +114,18 @@
             <div class="col-md-5">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputNote" type="text" placeholder="Ghi chú" />
+                    <input class="form-control" required id="inputNote" type="text" placeholder="Ghi chú" value="{{ student.note }}"/>
                 </div>
             </div>
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái học</label>
                 <div class="form-group">
                     <!-- <input class="form-control" required id="inputNote" type="checkbox" placeholder="Ghi chú" /> -->
-                    <input type="checkbox" checked data-toggle="toggle" data-on="Học" data-off="Nghỉ">
+                    {% if student.active %}
+                        <input type="checkbox" checked data-toggle="toggle" data-on="Học" data-off="Nghỉ">
+                    {% else %}
+                        <input type="checkbox" checked data-toggle="toggle" data-on="Học" data-off="Nghỉ">
+                    {% endif %}
                 </div>
             </div>
         </div>
