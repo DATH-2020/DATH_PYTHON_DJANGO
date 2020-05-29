@@ -3,63 +3,61 @@
     <h2 class="text-center font-weight-light">Thay đổi thông tin học viên</h2>
 </div>
 <div class="card-body">
-    <form method='POST'>
+    <form method='POST' action="">
+        {% csrf_token %}
+        <!-- {{form}} -->
         <div class="form-row">
             <div class="col-md-4">
                 <label class="small mb-1" for="inputName">Họ và tên</label>
                 <div class="form-group">
-                    <input class="form-control" disabled required id="inputName" type="text" placeholder="Nhập họ và tên" value="{{ student.fullname }}"/>
+                    <input class="form-control" disabled id="inputName" type="text" placeholder="Nhập họ và tên" value="{{ student.fullname }}"/>
                 </div>
-            </div>
+          </div>
             <!-- ông thử link cách GET value của selectbox trong video này thử -->
             <!-- https://www.youtube.com/watch?v=Iiat5mc1Yz8 -->
             <div class="col-md-4">
                 <label class="small mb-1" for="inputGender">Giới tính</label>
                 <div class="form-group">
-                    <select class="form-control" disabled required id="inputGender" value="{{ student.gender }}">
-                            <option value="female">Nữ</option>
-                            <option value="male">Nam</option>
-                        </select>
+                    <input class="form-control" disabled id="inputGender" type="text" value="{{ student.gender }}"/>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputBirthDay" type="date" value="{{ student.birthday }}"/>
+                    <input class="form-control" disabled id="inputBirthDay" type="text" value="{{ student.birthday }}"/>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-4">
-                <label class="small mb-1" for="inputID">ID</label>
-                <div class="form-group">
-                    <input class="form-control" disabled required id="inputID" type="text" disabled value="{{ student.pk }}"/>
-                </div>
-            </div>
-            <div class="col-md-4">
                 <label class="small mb-1" for="inputEmail">Email</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputEmail" type="email" value = "{{ student.email }}"/>
+                    <input class="form-control" name="email" required id="inputEmail" type="email" value = "{{ student.email }}"/>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputIdentityCard">CMND/Thẻ căn cước</label>
                 <div class="form-group">
-                    <input class="form-control" disabled required id="inputIdentityCard" type="text" placeholder="Nhập CMND học viên" value="{{ student.identity_card }}"/>
+                    <input class="form-control" disabled id="inputIdentityCard" type="text" placeholder="Nhập CMND học viên" value="{{ student.identity_card }}"/>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <label class="small mb-1" for="inputPhone">Số điện thoại</label>
+                <div class="form-group">
+                    <input class="form-control" name="phonenumber" required id="inputPhone" type="text" placeholder="Nhập số điện thoại của học viên" value="{{ student.phonenumber }}"/></div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-8">
                 <label class="small mb-1" for="inputAddress">Địa chỉ</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputAddress" type="text" placeholder="Nhập địa chỉ của học viên " value="{{ student.adress }}"/>
+                    <input class="form-control" name="adress" required id="inputAddress" type="text" placeholder="Nhập địa chỉ của học viên " value="{{ student.adress }}"/>
                 </div>
             </div>
             <div class="col-md-4">
-                <label class="small mb-1" for="inputPhone">Số điện thoại</label>
+                <label class="small mb-1" for="inputPhone">Số điện thoại phụ huynh</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputPhone" type="text" placeholder="Nhập số điện thoại của học viên" value="{{ student.phonenumber }}"/></div>
+                    <input class="form-control" name="phonenumber_family" required id="inputphonefamily" type="text" placeholder="Nhập số điện thoại phụ huynh"  value="{{ student.phonenumber_family }}" /></div>
             </div>
         </div>
         <div class="form-row">
@@ -67,36 +65,68 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputFirstName">Khóa học</label>
                 <div class="form-group">
-                    <select class="form-control" required>
-                            <option value="1">AEngTu</option>
-                            <option value="2">BEngTu</option>
-                            <option value="3">CEngTu</option>
-                            <option value="4">DEngTu</option>
+                    <select class="form-control" id="unitname" disabled >
+                            {% for i in classname %}
+                            {% if i.pk == student.classname_id%}
+                            <option value="{{i.pk}}" hidden>{{i.unit}}</option>
+                            {% endif %}
+                            {% endfor %}
+                            {% for i in classname %}
+                            {% if i.active == 0%}
+                            <option value="{{i.pk}}">{{i.unit}}</option>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- <option value="1">AEngTu</option> -->
                         </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputClass">Lớp</label>
                 <div class="form-group">
-                    <select class="form-control" required>
-                            <option value="1">A123</option>
-                            <option value="2">B123</option>
-                            <option value="3">C123</option>
-                            <option value="4">D123</option>
+                    <select onchange="changeclassname()" class="form-control" id="classname" name="classname">
+                            <option value="{{ student.classname_id }}" hidden>{{ student.classname }}</option>
+                            {% for i in classname %}
+                            {% if i.active == 0 %}
+                            <option value="{{i.pk}}">{{i.fullname}}</option>
+                            {% endif %}
+                            {% endfor %}
                         </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputTeacherName">Giảng viên</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputTeacherName" type="text" placeholder="Chưa có giảng viên được xếp vào lớp này" disabled/></div>
+                    <select disabled class="form-control" id="teacher" required>
+                        {% for i in classname %}
+                        {% if i.pk == student.classname_id%}
+                        <option value="{{i.pk}}" hidden>{{i.teacher}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% for i in classname %}
+                        {% if i.active == 0 %}
+                        <option value="{{i.pk}}" hidden>{{i.teacher}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
+            <script>
+                function changeclassname() {
+                    var x = document.getElementById("classname").value;
+                    //swal('Good job!', 'You clicked the button!', 'success' );
+                    //alert(x);
+                    document.getElementById("teacher").value = x;
+                    document.getElementById("unitname").value = x;
+                    //alert(y+2);
+                    //document.getElementById("unitname").innerHTML = y;
+                }
+            </script>
         </div>
         <div class="form-row">
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền nộp</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" required id="inputFee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" value="{{ student.fee }}"/>
+                    <input class="form-control" required id="inputFee" name="fee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" value="{{ student.fee }}"/>
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -105,7 +135,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền còn thiếu</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" disabled required id="inputFee" type="text" value="{{ student.fee_remain }}"/>
+                    <input class="form-control" required id="inputFee" name="fee_remain" type="text" value="{{ student.fee_remain }}"/>
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -114,17 +144,20 @@
             <div class="col-md-5">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" required id="inputNote" type="text" placeholder="Ghi chú" value="{{ student.note }}"/>
+                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú" value="{{ student.note }}"/>
                 </div>
             </div>
+            <script>
+                
+            </script>
             <div class="col-md-1">
-                <label class="small mb-1" for="inputActive">Trạng thái học</label>
+                <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
                     <!-- <input class="form-control" required id="inputNote" type="checkbox" placeholder="Ghi chú" /> -->
                     {% if student.active %}
-                        <input type="checkbox" checked data-toggle="toggle" data-on="Học" data-off="Nghỉ">
+                        <input type="checkbox" name="active" checked data-toggle="toggle" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
                     {% else %}
-                        <input type="checkbox" checked data-toggle="toggle" data-on="Học" data-off="Nghỉ">
+                        <input type="checkbox" name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
                     {% endif %}
                 </div>
             </div>

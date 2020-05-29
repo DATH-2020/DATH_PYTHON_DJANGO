@@ -28,7 +28,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" name="birthday" required id="inputbirthday" type="date" />
+                    <input class="form-control" name="birthday" required id="inputbirthday" data-date-format="DD MM YYYY" type="date" />
                 </div>
             </div>
         </div>
@@ -72,7 +72,9 @@
                     <select disabled class="form-control" id="unitname" required>
                         <option value="" selected hidden>---</option>
                         {% for i in classname %}
+                        {% if i.active == 0 %}
                         <option value="{{i.pk}}" hidden>{{i.unit}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                     <!-- <input class="form-control" required disabled id="unitname" type="text" placeholder="Tên khóa học" /> -->
@@ -97,7 +99,9 @@
                     <select disabled class="form-control" id="teacher" required>
                         <option value="" selected hidden>---</option>
                         {% for i in classname %}
+                        {% if i.active == 0 %}
                         <option value="{{i.pk}}" hidden>{{i.teacher}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                     <!-- break code -->
@@ -129,7 +133,7 @@
             </div>
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền còn thiếu</label>
-                <div class="form-group input-group mb-3">
+                <div class="form-group input-group mb-3">    
                     <input class="form-control" name="fee_remain" required id="inputfeeremain" placeholder="Nhập số tiền học viên còn thiếu vào đây" type="text" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
@@ -143,10 +147,10 @@
                 </div>
             </div>
             <div class="col-md-1">
-                <label class="small mb-1" for="inputActive">Trạng thái học</label>
+                <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
                     <!-- <input class="form-control" required id="inputNote" type="checkbox" placeholder="Ghi chú" /> -->
-                    <input type="checkbox" name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ">
+                    <input type="checkbox" name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
                 </div>
             </div>
             <script>
@@ -159,6 +163,8 @@
     </form>
 </div>
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 
     <center>
         <form action="." method="POST">
