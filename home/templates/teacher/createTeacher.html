@@ -1,2 +1,13 @@
-{% extends "pages/base.html" %} {% block title %}
-<!-- Student -->{% endblock title %} {% block content %} {% load static %} {% endblock content %}
+{% extends "pages/base.html" %} 
+{% block title %}
+<p>Thêm giáo viên</p>
+{% endblock title %}
+{% block content %} {% load static %}
+    <center>
+        <form action="." method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Thêm"/>
+        </form>
+    </center>
+{% endblock content %}

@@ -151,6 +151,17 @@ def listTeacher(request):
     context = {'listteacher': listteacher}
     return render(request, 'teacher/teacher.html', context)
 
+@login_required(login_url='login')
+def createTeacher(request):
+    form = CreateTeacher()
+    if request.method == 'POST':
+        form = CreateTeacher(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listteacher')
+    context = {'form': form}
+    return render(request, 'teacher/createTeacher.html', context)
+
 # Manager 
 @login_required(login_url='login')
 def listStaf(request):

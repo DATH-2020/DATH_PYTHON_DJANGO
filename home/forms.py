@@ -24,3 +24,8 @@ class CreateClassnameForm(ModelForm):
     class Meta:
         model = Classname
         fields = '__all__'
+
+class CreateTeacher(ModelForm):
+    class Meta:
+        model = Teacher
+        fields = '__all__'

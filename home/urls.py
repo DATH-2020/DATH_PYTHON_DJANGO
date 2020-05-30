@@ -26,7 +26,7 @@ urlpatterns = [
     path('createstudent', views.createStudent, name='createstudent'),
     path('student/<int:pk>/',views.detailStudent,name='detailstudent'),
     # # Teacher 
-    # path('createteacher/',views.CreateTeacher,name='createteacher'),
+    path('createteacher/',views.createTeacher,name='createteacher'),
     path('listteacher/',views.listTeacher,name='listteacher'),
     # path('detailteacher/',views.DetailTeacher,name='detailteacher'),
 
