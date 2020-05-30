@@ -14,3 +14,9 @@ class CreateStudentForm(ModelForm):
     class Meta:
         model = Student
         fields = '__all__'
+
+
+class UpdateStudentForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = 'email','phonenumber','adress','phonenumber_family','classname','fee','fee_remain','note','active'

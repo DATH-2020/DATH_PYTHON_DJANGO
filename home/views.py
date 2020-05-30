@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 
 from .models import *
-from .forms import CreateUserForm, CreateStudentForm
+from .forms import CreateUserForm, CreateStudentForm, UpdateStudentForm
 # Create your views here.
 def loginPage(request):
     if request.user.is_authenticated:
@@ -105,9 +105,9 @@ def detailStudent(request,pk):
     student = Student.objects.get(pk=pk)
     classname = Classname.objects.all()
     unit = Unit.objects.all()
-    form = CreateStudentForm(instance=student)
+    form = UpdateStudentForm(instance=student)
     if request.method == 'POST':
-        form = CreateStudentForm(request.POST, instance=student)
+        form = UpdateStudentForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
             # send_mail(
