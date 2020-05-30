@@ -66,33 +66,32 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputUnit">Khóa học</label>
                 <div class="form-group">
-                    <select disabled class="form-control" id="unitname" required>
+                    <select onchange="changeUnitClassname(this.value)" class="form-control" id="id_unit" required>
+                        {% for i in unit %}
+                            {% if i.active %}
+                            <option value="{{i.pk}}">{{i.fullname}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="small mb-1" for="id_classname">Lớp</label>
+                <div class="form-group">
+                    <select onchange="changeclassname()" class="form-control" id="id_classname" name="classname" required>
                         <option value="" selected hidden>---</option>
                         {% for i in classname %}
-                        {% if i.active %}
-                        <option value="{{i.pk}}" hidden>{{i.unit}}</option>
+                        {% if i.active == 0 %}
+                        <option value="{{i.pk}}" data-option="{{i.unit_id}}">{{i.fullname}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="col-md-4">
-                <label class="small mb-1" for="inputClass">Lớp</label>
+                <label class="small mb-1" for="id_teacher">Giảng viên</label>
                 <div class="form-group">
-                    <select onchange="changeclassname()" class="form-control" id="classname" name="classname" required>
-                        <option value="" selected hidden>---</option>
-                        {% for i in classname %}
-                        {% if i.active %}
-                        <option value="{{i.pk}}">{{i.fullname}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <label class="small mb-1" for="inputTeacherName">Giảng viên</label>
-                <div class="form-group">
-                    <select disabled class="form-control" id="teacher" required>
+                    <select disabled class="form-control" id="id_teacher" required>
                         <option value="" selected hidden>---</option>
                         {% for i in classname %}
                         {% if i.active == 0 %}
@@ -104,10 +103,24 @@
             </div>
             <script>
                 function changeclassname() {
-                    var x = document.getElementById("classname").value;
-                    document.getElementById("teacher").value = x;
-                    document.getElementById("unitname").value = x;
+                    var x = document.getElementById("id_classname").value;
+                    document.getElementById("id_teacher").value = x;
                 }
+                var id_unit = document.querySelector('#id_unit');
+                var id_classname = document.querySelector('#id_classname');
+                var options_unit_classname = id_classname.querySelectorAll('option');
+
+                function changeUnitClassname(selValue) {
+                    id_classname.innerHTML = '';
+                    for (var i = 0; i < options_unit_classname.length; i++) {
+                        if (options_unit_classname[i].dataset.option === selValue) {
+                            id_classname.appendChild(options_unit_classname[i]);
+                        }
+                    }
+                    var x = document.getElementById("id_classname").value;
+                    document.getElementById("id_teacher").value = x;
+                }
+                changeUnitClassname(id_unit.value);
             </script>
         </div>
         <div class="form-row">
@@ -148,6 +161,6 @@
     </form>
 </div>
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static '/js/moment.min.js' %}"></script>
+<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
 {% endblock content %}

@@ -61,7 +61,7 @@ class TimeWeek(models.Model):
 
 class Room(models.Model):
     fullname = models.CharField(max_length=100, verbose_name="Tên phòng")
-    erea = models.ForeignKey(Area, null= True, on_delete=models.SET_NULL)
+    area = models.ForeignKey(Area, null= True, on_delete=models.SET_NULL)
     active = models.BooleanField(default=True, verbose_name="Trạng thái")
 
     def __str__(self):
@@ -94,7 +94,7 @@ class Classname(models.Model):
     room = models.ForeignKey(Room, null= True, on_delete=models.SET_NULL)
     unit = models.ForeignKey(Unit, null = True, on_delete=models.SET_NULL)
     timeshift = models.ForeignKey(TimeShift, null = True, on_delete=models.SET_NULL)
-    startdate = models.DateField(auto_now_add=True, verbose_name="Ngày bắt đầu học")
+    startdate = models.DateField(verbose_name="Ngày bắt đầu học")
     timeweek = models.ForeignKey(TimeWeek, null = True, on_delete=models.SET_NULL)
     teacher = models.ForeignKey(Teacher, null = True, on_delete=models.SET_NULL)
     note = models.CharField(max_length=300, null = True, blank=True, verbose_name="Ghi chú")

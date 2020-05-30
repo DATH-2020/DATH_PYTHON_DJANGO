@@ -1,12 +1,12 @@
-{% extends "pages/base.html" %} 
+{% extends "pages/base.html" %}
 <!-- break -->
 {% block title %}
 <!-- Student -->
-{% endblock title %} 
+{% endblock title %}
 <!-- break -->
-{% block content %} 
+{% block content %}
 <!-- break -->
-{% load static %} 
+{% load static %}
 <!-- break -->
 <div class="card-header">
     <h2 class="text-center font-weight-light">Mở lớp học mới</h2>
@@ -49,7 +49,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="">Chi nhánh</label>
                 <div class="form-group">
-                    <select class="form-control" name="area"" required id="id_area">
+                    <select onchange="selectionAreaRoom(this.value)" class="form-control" name="area" required id="id_area">
                         {% for i in area %}
                         {% if i.active %}
                             <option value="{{ i.pk }}">{{ i.fullname }}</option>
@@ -88,13 +88,19 @@
                     <select class="form-control" name="room" required id="id_room">
                         {% for i in room %}
                         {% if i.active %}
-                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                            <option value="{{ i.pk }}" data-option="{{i.area_id}}">{{ i.fullname }}</option>
                         {% endif %}
                         {% endfor %}
                         </select>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-2">
+                <label class="small mb-1" for="id_startdate">Ngày bắt đầu</label>
+                <div class="form-group">
+                    <input class="form-control" required name="startdate" id="id_startdate" type="date" />
+                </div>
+            </div>
+            <div class="col-md-3">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
                     <input class="form-control" name="note" id="id_note" type="text" placeholder="Ghi chú" />
@@ -107,13 +113,28 @@
                 </div>
             </div>
         </div>
+        <script>
+            var id_area = document.querySelector('#id_area');
+            var id_room = document.querySelector('#id_room');
+            var options_area_room = id_room.querySelectorAll('option');
+
+            function selectionAreaRoom(selValue) {
+                id_room.innerHTML = '';
+                for (var i = 0; i < options_area_room.length; i++) {
+                    if (options_area_room[i].dataset.option === selValue) {
+                        id_room.appendChild(options_area_room[i]);
+                    }
+                }
+            }
+            selectionAreaRoom(id_area.value);
+        </script>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
             <input type="submit" value="Tạo lớp mới" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
         </div>
     </form>
 </div>
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static '/js/moment.min.js' %}"></script>
+<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
 <!-- break -->
 {% endblock content %}

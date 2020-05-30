@@ -16,4 +16,3 @@ admin.site.register(Room)
 admin.site.register(Teacher)
 admin.site.register(Classname)
 admin.site.register(Student)
-

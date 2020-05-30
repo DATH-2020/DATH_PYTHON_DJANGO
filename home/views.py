@@ -87,7 +87,19 @@ def createClass(request):
 @login_required(login_url='login')
 def detailClass(request,pk):
     classname = Classname.objects.get(pk=pk)
-    context={'classname':classname}
+    unit = Unit.objects.all()
+    area = Area.objects.all()
+    room = Room.objects.all()
+    timeshift = TimeShift.objects.all()
+    timeweek = TimeWeek. objects.all()
+    teacher = Teacher.objects.all()
+    form = UpdateClassForm(instance=classname)
+    if request.method == 'POST':
+        form = UpdateClassForm(request.POST, instance=classname)
+        if form.is_valid():
+            form.save()
+            return redirect('listclass')
+    context={'form':form, 'classname':classname, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
     return render(request,'class/detailClass.html',context)
 
 # Student 
@@ -109,14 +121,14 @@ def createStudent(request):
         form = CreateStudentForm(request.POST)
         if form.is_valid():
             form.save()
-            send_mail(
-                subject = 'Xác nhận đăng kí học viên', # title mail
-                message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
-                from_email= None, # tài khoản
-                auth_password= None, # mk
-                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-                fail_silently = False,
-            )
+            # send_mail(
+            #     subject = 'Xác nhận đăng kí học viên', # title mail
+            #     message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+            #     from_email= None, # tài khoản
+            #     auth_password= None, # mk
+            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+            #     fail_silently = False,
+            # )
             return redirect('liststudent')
     context = { 'gender':gender, 'unit':unit, 'classname':classname}
     return render(request, 'student/createStudent.html', context)
@@ -131,14 +143,14 @@ def detailStudent(request,pk):
         form = UpdateStudentForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
-            send_mail(
-                subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
-                message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
-                from_email= None, # tài khoản
-                auth_password= None, # mk
-                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-                fail_silently = False,
-            )
+            # send_mail(
+            #     subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
+            #     message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+            #     from_email= None, # tài khoản
+            #     auth_password= None, # mk
+            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+            #     fail_silently = False,
+            # )
             return redirect('liststudent')
     context = {'form':form, 'student':student, 'classname': classname, 'unit': unit}
     return render(request,'student/detailStudent.html',context)

@@ -1,2 +1,138 @@
-{% extends "pages/base.html" %} {% block title %}
-<!-- Student -->{% endblock title %} {% block content %} {% load static %} {% endblock content %}
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Mở lớp học mới</h2>
+</div>
+<div class="card-body">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Tên lớp</label>
+                <div class="form-group">
+                    <input class="form-control" disabled maxlength="100" name="fullname" required id="id_fullname" type="text" placeholder="Tên lớp tự hiễn thị" value="{{ classname.fullname }}" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Khóa học</label>
+                <div class="form-group">
+                    <input class="form-control" disabled id="" type="text" value="{{ classname.unit }}" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Giảng viên</label>
+                <div class="form-group">
+                    <select class="form-control" name="teacher" required id="id_teacher">
+                        <option value="{{ classname.teacher_id }}" hidden>{{ classname.teacher }}</option>
+                        {% for i in teacher %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Chi nhánh</label>
+                <div class="form-group">
+                    <select onchange="selectionAreaRoom(this.value)" class="form-control" name="area" required id="id_area">
+                        {% for i in area %}
+                        {% if i.active %}
+                            <option value="{{i.pk}}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-2">
+                <label class="small mb-1" for="">Ca học</label>
+                <div class="form-group">
+                    <select class="form-control" name="timeshift" required id="id_timeshift">
+                        {% for i in timeshift %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="small mb-1" for="">Tuần học</label>
+                <div class="form-group">
+                    <select class="form-control" name="timeweek" required id="id_timeweek">
+                        {% for i in timeweek %}
+                            <option value="{{ i.pk }}">{{ i.name }}</option>
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="small mb-1" for="">Phòng</label>
+                <div class="form-group">
+                    <select class="form-control" name="room" required id="id_room">
+                        {% for i in room %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}" data-option="{{i.area_id}}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="small mb-1" for="id_startdate">Ngày bắt đầu</label>
+                <div class="form-group">
+                    <input class="form-control" name="startdate" id="id_startdate" value="{{classname.startdate|date:"Y-m-d"}}" type="date" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="small mb-1" for="inputNote">Ghi chú</label>
+                <div class="form-group">
+                    <input class="form-control" name="note" id="id_note" type="text" placeholder="Ghi chú" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="small mb-1" for="inputActive">Trạng thái</label>
+                <div class="form-group">
+                    {% if classname.active %}
+                        <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> 
+                    {% else %}
+                        <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
+                    {% endif %}
+                </div>
+            </div>
+            <script>
+                var id_area = document.querySelector('#id_area');
+                var id_room = document.querySelector('#id_room');
+                var options_area_room = id_room.querySelectorAll('option');
+
+                function selectionAreaRoom(selValue) {
+                    id_room.innerHTML = '';
+                    for (var i = 0; i < options_area_room.length; i++) {
+                        if (options_area_room[i].dataset.option === selValue) {
+                            id_room.appendChild(options_area_room[i]);
+                        }
+                    }
+                }
+                selectionAreaRoom(id_area.value);
+            </script>
+        </div>
+        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+            <input type="submit" value="Cập nhật lớp" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+        </div>
+    </form>
+</div>
+<script src="{% static '/js/sweetalert.min.js' %}"></script>
+<script src="{% static '/js/moment.min.js' %}"></script>
+<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+<!-- break -->
+{% endblock content %}

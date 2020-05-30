@@ -5,26 +5,25 @@
 <div class="card-body">
     <form method='POST' action="">
         {% csrf_token %}
-        <!-- {{form}} -->
         <div class="form-row">
             <div class="col-md-4">
                 <label class="small mb-1" for="inputName">Họ và tên</label>
                 <div class="form-group">
-                    <input class="form-control" disabled id="inputName" type="text" placeholder="Nhập họ và tên" value="{{ student.fullname }}"/>
+                    <input class="form-control" disabled id="inputName" type="text" placeholder="Nhập họ và tên" value="{{ student.fullname }}" />
                 </div>
-          </div>
+            </div>
             <!-- ông thử link cách GET value của selectbox trong video này thử -->
             <!-- https://www.youtube.com/watch?v=Iiat5mc1Yz8 -->
             <div class="col-md-4">
                 <label class="small mb-1" for="inputGender">Giới tính</label>
                 <div class="form-group">
-                    <input class="form-control" disabled id="inputGender" type="text" value="{{ student.gender }}"/>
+                    <input class="form-control" disabled id="inputGender" type="text" value="{{ student.gender }}" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" disabled id="inputBirthDay" type="text" value="{{ student.birthday }}"/>
+                    <input class="form-control" disabled id="inputBirthDay" type="text" value="{{ student.birthday }}" />
                 </div>
             </div>
         </div>
@@ -32,32 +31,32 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputEmail">Email</label>
                 <div class="form-group">
-                    <input class="form-control" name="email" required id="id_email" type="email" value = "{{ student.email }}"/>
+                    <input class="form-control" name="email" required id="id_email" type="email" value="{{ student.email }}" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputIdentityCard">CMND/Thẻ căn cước</label>
                 <div class="form-group">
-                    <input class="form-control" disabled id="inputIdentityCard" type="text" placeholder="Nhập CMND học viên" value="{{ student.identity_card }}"/>
+                    <input class="form-control" disabled id="inputIdentityCard" type="text" placeholder="Nhập CMND học viên" value="{{ student.identity_card }}" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="id_phonenumber">Số điện thoại</label>
                 <div class="form-group">
-                    <input class="form-control" name="phonenumber" required id="id_phonenumber" type="text" placeholder="Nhập số điện thoại của học viên" value="{{ student.phonenumber }}"/></div>
+                    <input class="form-control" name="phonenumber" required id="id_phonenumber" type="text" placeholder="Nhập số điện thoại của học viên" value="{{ student.phonenumber }}" /></div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-8">
                 <label class="small mb-1" for="id_adress">Địa chỉ</label>
                 <div class="form-group">
-                    <input class="form-control" name="adress" required id="id_adress" type="text" placeholder="Nhập địa chỉ của học viên " value="{{ student.adress }}"/>
+                    <input class="form-control" name="adress" required id="id_adress" type="text" placeholder="Nhập địa chỉ của học viên " value="{{ student.adress }}" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="id_phonenumber_family">Số điện thoại phụ huynh</label>
                 <div class="form-group">
-                    <input class="form-control" name="phonenumber_family" required id="id_phonenumber_family" type="text" placeholder="Nhập số điện thoại phụ huynh"  value="{{ student.phonenumber_family }}" /></div>
+                    <input class="form-control" name="phonenumber_family" required id="id_phonenumber_family" type="text" placeholder="Nhập số điện thoại phụ huynh" value="{{ student.phonenumber_family }}" /></div>
             </div>
         </div>
         <div class="form-row">
@@ -65,15 +64,15 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputFirstName">Khóa học</label>
                 <div class="form-group">
-                    <select class="form-control" id="unitname" disabled >
+                    <select onchange="changeUnitClassname(this.value)" class="form-control" id="id_unit" >
                             {% for i in classname %}
                                 {% if i.pk == student.classname_id%}
-                                <option value="{{i.pk}}" hidden>{{i.unit}}</option>
+                                <option value="{{i.unit_id}}" hidden>{{i.unit}}</option>
                                 {% endif %}
                             {% endfor %}
-                            {% for i in classname %}
-                                {% if i.active == 0%}
-                                <option value="{{i.pk}}">{{i.unit}}</option>
+                            {% for i in unit %}
+                                {% if i.active %}
+                                <option value="{{i.pk}}">{{i.fullname}}</option>
                                 {% endif %}
                             {% endfor %}
                             <!-- <option value="1">AEngTu</option> -->
@@ -87,7 +86,7 @@
                             <option value="{{ student.classname_id }}" hidden>{{ student.classname }}</option>
                             {% for i in classname %}
                             {% if i.active == 0 %}
-                            <option value="{{i.pk}}">{{i.fullname}}</option>
+                            <option value="{{i.pk}}" data-option="{{i.unit_id}}">{{i.fullname}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -96,7 +95,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputTeacherName">Giảng viên</label>
                 <div class="form-group">
-                    <select disabled class="form-control" id="teacher" required>
+                    <select disabled class="form-control" id="id_teacher" required>
                         {% for i in classname %}
                         {% if i.pk == student.classname_id%}
                         <option value="{{i.pk}}" hidden>{{i.teacher}}</option>
@@ -113,20 +112,30 @@
             <script>
                 function changeclassname() {
                     var x = document.getElementById("id_classname").value;
-                    //swal('Good job!', 'You clicked the button!', 'success' );
-                    //alert(x);
-                    document.getElementById("teacher").value = x;
-                    document.getElementById("unitname").value = x;
-                    //alert(y+2);
-                    //document.getElementById("unitname").innerHTML = y;
+                    document.getElementById("id_teacher").value = x;
                 }
+                var id_unit = document.querySelector('#id_unit');
+                var id_classname = document.querySelector('#id_classname');
+                var options_unit_classname = id_classname.querySelectorAll('option');
+
+                function changeUnitClassname(selValue) {
+                    id_classname.innerHTML = '';
+                    for (var i = 0; i < options_unit_classname.length; i++) {
+                        if (options_unit_classname[i].dataset.option === selValue) {
+                            id_classname.appendChild(options_unit_classname[i]);
+                        }
+                    }
+                    var x = document.getElementById("id_classname").value;
+                    document.getElementById("id_teacher").value = x;
+                }
+                changeUnitClassname(id_unit.value);
             </script>
         </div>
         <div class="form-row">
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền nộp</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" required id="id_fee" name="fee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" value="{{ student.fee }}"/>
+                    <input class="form-control" required id="id_fee" name="fee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" value="{{ student.fee }}" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -135,7 +144,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền còn thiếu</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" required id="id_fee_remain" name="fee_remain" type="text" value="{{ student.fee_remain }}"/>
+                    <input class="form-control" required id="id_fee_remain" name="fee_remain" type="text" value="{{ student.fee_remain }}" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -144,21 +153,18 @@
             <div class="col-md-5">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" name="note" id="id_note" type="text" placeholder="Ghi chú" value="{{ student.note }}"/>
+                    <input class="form-control" name="note" id="id_note" type="text" placeholder="Ghi chú" value="{{ student.note }}" />
                 </div>
             </div>
             <script>
-                
             </script>
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
                     <!-- <input class="form-control" required id="inputNote" type="checkbox" placeholder="Ghi chú" /> -->
                     {% if student.active %}
-                        <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
-                    {% else %}
-                        <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
-                    {% endif %}
+                    <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> {% else %}
+                    <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> {% endif %}
                 </div>
             </div>
         </div>
@@ -168,24 +174,4 @@
         </div>
     </form>
 </div>
-<!-- 
-    <center>
-        <form action="." method="POST">
-            {% csrf_token %}
-            <div class="container-fluid" style="background: white;">
-                <div style="align-self: center;"><h2>Đăng kí thông tin</h2></div>
-                <div class="row">
-                    <p style="align-self: center;">Tên học viên: </p><p>{{ form.name }}</p>
-                </div>
-                <div class="row">
-                    <p>Số điện thoại liên lạc: </p><p>{{ form.phone_number_1 }}</p>
-                </div>
-                <div class="row">
-                    <p>Khu vực: </p><p>{{ form.learning_area }}</p>
-                </div>
-            </div>      
-            <input type="submit" value="Đăng kí"/>
-        </form>
-    </center>
--->
 {% endblock content %}
