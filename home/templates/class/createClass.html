@@ -1,2 +1,119 @@
-{% extends "pages/base.html" %} {% block title %}
-<!-- Student -->{% endblock title %} {% block content %} {% load static %} {% endblock content %}
+{% extends "pages/base.html" %} 
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %} 
+<!-- break -->
+{% block content %} 
+<!-- break -->
+{% load static %} 
+<!-- break -->
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Mở lớp học mới</h2>
+</div>
+<div class="card-body">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <!-- {{form}} -->
+        <div class="form-row">
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Tên lớp</label>
+                <div class="form-group">
+                    <input class="form-control" maxlength="100" name="fullname" required id="id_fullname" type="text" placeholder="Tên lớp tự hiễn thị" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Khóa học</label>
+                <div class="form-group">
+                    <select class="form-control" name="unit" required id="id_unit">
+                        {% for i in unit %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Giảng viên</label>
+                <div class="form-group">
+                    <select class="form-control" name="teacher" required id="id_teacher">
+                        {% for i in teacher %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="small mb-1" for="">Chi nhánh</label>
+                <div class="form-group">
+                    <select class="form-control" name="area"" required id="id_area">
+                        {% for i in area %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-2">
+                <label class="small mb-1" for="">Ca học</label>
+                <div class="form-group">
+                    <select class="form-control" name="timeshift" required id="id_timeshift">
+                        {% for i in timeshift %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="small mb-1" for="">Tuần học</label>
+                <div class="form-group">
+                    <select class="form-control" name="timeweek" required id="id_timeweek">
+                        {% for i in timeweek %}
+                            <option value="{{ i.pk }}">{{ i.name }}</option>
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="small mb-1" for="">Phòng</label>
+                <div class="form-group">
+                    <select class="form-control" name="room" required id="id_room">
+                        {% for i in room %}
+                        {% if i.active %}
+                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label class="small mb-1" for="inputNote">Ghi chú</label>
+                <div class="form-group">
+                    <input class="form-control" name="note" id="id_note" type="text" placeholder="Ghi chú" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="small mb-1" for="inputActive">Trạng thái</label>
+                <div class="form-group">
+                    <input type="checkbox" name="active" id="id_active" data-toggle="toggle" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
+                </div>
+            </div>
+        </div>
+        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+            <input type="submit" value="Tạo lớp mới" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+        </div>
+    </form>
+</div>
+<script src="{% static '/js/sweetalert.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- break -->
+{% endblock content %}

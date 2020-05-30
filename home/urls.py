@@ -11,8 +11,7 @@ urlpatterns = [
     # # Class 
     path('listclass/', views.listClass, name='listclass'),
     path('createclass/', views.createClass, name='createclass'),
-    # path('listclass/',views.ListClass,name='listclass'),
-    # path('detailclass/',views.DetailClass,name='detailclass'),
+    path('class/<int:pk>/', views.detailClass, name='detailclass'),
 
     # # Manager 
     # path('createstafaccount/',views.CreateStafAccount,name='createstafaccount'),

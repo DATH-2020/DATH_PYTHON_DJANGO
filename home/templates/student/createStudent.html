@@ -13,8 +13,6 @@
                     <input class="form-control" name="fullname" required id="inputname" type="text" placeholder="Nhập họ và tên" />
                 </div>
             </div>
-            <!-- ông thử link cách GET value của selectbox trong video này thử -->
-            <!-- https://www.youtube.com/watch?v=Iiat5mc1Yz8 -->
             <div class="col-md-4">
                 <label class="small mb-1" for="inputGender">Giới tính</label>
                 <div class="form-group">
@@ -65,19 +63,17 @@
             </div>
         </div>
         <div class="form-row">
-            <!-- đây là listBox lấy dữ liệu từ dưới cơ sở dữ liệu bảng UNIT -->
             <div class="col-md-4">
                 <label class="small mb-1" for="inputUnit">Khóa học</label>
                 <div class="form-group">
                     <select disabled class="form-control" id="unitname" required>
                         <option value="" selected hidden>---</option>
                         {% for i in classname %}
-                        {% if i.active == 0 %}
+                        {% if i.active %}
                         <option value="{{i.pk}}" hidden>{{i.unit}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
-                    <!-- <input class="form-control" required disabled id="unitname" type="text" placeholder="Tên khóa học" /> -->
                 </div>
             </div>
             <div class="col-md-4">
@@ -86,7 +82,7 @@
                     <select onchange="changeclassname()" class="form-control" id="classname" name="classname" required>
                         <option value="" selected hidden>---</option>
                         {% for i in classname %}
-                        {% if i.active == 0 %}
+                        {% if i.active %}
                         <option value="{{i.pk}}">{{i.fullname}}</option>
                         {% endif %}
                         {% endfor %}
@@ -104,20 +100,13 @@
                         {% endif %}
                         {% endfor %}
                     </select>
-                    <!-- break code -->
-                    <!-- <input class="form-control" required id="inputTeacherName" value="" type="text" placeholder="Chưa có giảng viên được xếp vào lớp này" disabled/> -->
-
                 </div>
             </div>
             <script>
                 function changeclassname() {
                     var x = document.getElementById("classname").value;
-                    //swal('Good job!', 'You clicked the button!', 'success' );
-                    //alert(x);
                     document.getElementById("teacher").value = x;
                     document.getElementById("unitname").value = x;
-                    //alert(y+2);
-                    //document.getElementById("unitname").innerHTML = y;
                 }
             </script>
         </div>
@@ -149,15 +138,11 @@
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
-                    <!-- <input class="form-control" required id="inputNote" type="checkbox" placeholder="Ghi chú" /> -->
                     <input type="checkbox" name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
                 </div>
             </div>
-            <script>
-            </script>
         </div>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-            <!-- <a class="btn btn-primary btn-block" href="login.html">Tạo tài khoản mới</a> -->
             <input type="submit" value="Thêm học viên" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
         </div>
     </form>
@@ -165,24 +150,4 @@
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<!-- 
-    <center>
-        <form action="." method="POST">
-            {% csrf_token %}
-            <div class="container-fluid" style="background: white;">
-                <div style="align-self: center;"><h2>Đăng kí thông tin</h2></div>
-                <div class="row">
-                    <p style="align-self: center;">Tên học viên: </p><p>{{ form.name }}</p>
-                </div>
-                <div class="row">
-                    <p>Số điện thoại liên lạc: </p><p>{{ form.phone_number_1 }}</p>
-                </div>
-                <div class="row">
-                    <p>Khu vực: </p><p>{{ form.learning_area }}</p>
-                </div>
-            </div>      
-            <input type="submit" value="Đăng kí"/>
-        </form>
-    </center>
--->
 {% endblock content %}

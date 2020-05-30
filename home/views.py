@@ -7,9 +7,10 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.http import Http404
 
 from .models import *
-from .forms import CreateUserForm, CreateStudentForm, UpdateStudentForm
+from .forms import *
 # Create your views here.
 def loginPage(request):
     if request.user.is_authenticated:
@@ -68,13 +69,32 @@ def listClass(request):
 
 @login_required(login_url='login')
 def createClass(request):
-    context = {}
+    form = CreateClassnameForm()
+    unit = Unit.objects.all()
+    area = Area.objects.all()
+    room = Room.objects.all()
+    timeshift = TimeShift.objects.all()
+    timeweek = TimeWeek. objects.all()
+    teacher = Teacher.objects.all()
+    if request.method == 'POST':
+        form = CreateClassnameForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listclass')
+    context = {'form':form, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
     return render(request, 'class/createClass.html', context)
+
+@login_required(login_url='login')
+def detailClass(request,pk):
+    classname = Classname.objects.get(pk=pk)
+    context={'classname':classname}
+    return render(request,'class/detailClass.html',context)
 
 # Student 
 # Dat
 @login_required(login_url='login')
 def listStudent(request):
+    form = CreateStudentForm()
     liststudent = Student.objects.all()
     context = {'liststudent': liststudent}
     return render(request, 'student/student.html', context)
@@ -101,6 +121,7 @@ def createStudent(request):
     context = { 'gender':gender, 'unit':unit, 'classname':classname}
     return render(request, 'student/createStudent.html', context)
 
+@login_required(login_url='login')
 def detailStudent(request,pk):
     student = Student.objects.get(pk=pk)
     classname = Classname.objects.all()
@@ -120,19 +141,24 @@ def detailStudent(request,pk):
             )
             return redirect('liststudent')
     context = {'form':form, 'student':student, 'classname': classname, 'unit': unit}
-    return render(request,'student\detailStudent.html',context)
+    return render(request,'student/detailStudent.html',context)
+
 # Teacher 
 # Dat
 @login_required(login_url='login')
 def listTeacher(request):
     listteacher = Teacher.objects.all()
-    context = {'listteacher': listteacher, 'classname': classname}
+    context = {'listteacher': listteacher}
     return render(request, 'teacher/teacher.html', context)
 
+# Manager 
+@login_required(login_url='login')
 def listStaf(request):
     context={}
     return render(request,'manager/staf.html',context)
 
+# Contact 
+@login_required(login_url='login')
 def contact(request):
     return render(request,'contact/contact.html')
  

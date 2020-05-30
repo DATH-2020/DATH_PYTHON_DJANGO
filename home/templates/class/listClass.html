@@ -30,7 +30,9 @@ Danh sách lớp học
         <tbody>
             {% for i in listclass %}
             <tr>
-                <td>{{ i.fullname}}</td>
+                <td>
+                    <a href="/class/{{ i.pk }}">{{ i.fullname}}</a>
+                </td>
                 <td></td>
                 <td>{{ i.startdate}}</td>
                 <td></td>

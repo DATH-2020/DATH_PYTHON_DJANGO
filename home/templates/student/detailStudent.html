@@ -67,14 +67,14 @@
                 <div class="form-group">
                     <select class="form-control" id="unitname" disabled >
                             {% for i in classname %}
-                            {% if i.pk == student.classname_id%}
-                            <option value="{{i.pk}}" hidden>{{i.unit}}</option>
-                            {% endif %}
+                                {% if i.pk == student.classname_id%}
+                                <option value="{{i.pk}}" hidden>{{i.unit}}</option>
+                                {% endif %}
                             {% endfor %}
                             {% for i in classname %}
-                            {% if i.active == 0%}
-                            <option value="{{i.pk}}">{{i.unit}}</option>
-                            {% endif %}
+                                {% if i.active == 0%}
+                                <option value="{{i.pk}}">{{i.unit}}</option>
+                                {% endif %}
                             {% endfor %}
                             <!-- <option value="1">AEngTu</option> -->
                         </select>
