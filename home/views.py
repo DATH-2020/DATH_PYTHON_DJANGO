@@ -110,14 +110,14 @@ def detailStudent(request,pk):
         form = UpdateStudentForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
-            # send_mail(
-            #     subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
-            #     message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
-            #     from_email= 'ducdat147@gmail.com', # tài khoản
-            #     auth_password= 'truongducdat123', # mk
-            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-            #     fail_silently = False,
-            # )
+            send_mail(
+                subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
+                message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+                from_email= None, # tài khoản
+                auth_password= None, # mk
+                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+                fail_silently = False,
+            )
             return redirect('liststudent')
     context = {'form':form, 'student':student, 'classname': classname, 'unit': unit}
     return render(request,'student\detailStudent.html',context)
