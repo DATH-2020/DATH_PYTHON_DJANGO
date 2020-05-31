@@ -29,3 +29,8 @@ class UpdateClassForm(ModelForm):
     class Meta:
         model = Classname
         fields = 'teacher','timeshift','timeweek','room','startdate','note','active'
+
+class CreateTeacherForm(ModelForm):
+    class Meta:
+        model = Teacher
+        fields = '__all__'

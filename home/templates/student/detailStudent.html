@@ -64,7 +64,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputFirstName">Khóa học</label>
                 <div class="form-group">
-                    <select onchange="changeUnitClassname(this.value)" class="form-control" id="id_unit" >
+                    <select onchange="changeUnitClassname(this.value)" class="form-control" id="id_unit">
                             {% for i in classname %}
                                 {% if i.pk == student.classname_id%}
                                 <option value="{{i.unit_id}}" hidden>{{i.unit}}</option>

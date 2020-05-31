@@ -162,6 +162,19 @@ def listTeacher(request):
     listteacher = Teacher.objects.all()
     context = {'listteacher': listteacher}
     return render(request, 'teacher/teacher.html', context)
+    
+@login_required(login_url='login')
+def createTeacher(request):
+    gender = Gender.objects.all()
+    listteacher = Teacher.objects.all()
+    form = CreateTeacherForm()
+    if request.method == 'POST':
+        form = CreateTeacherForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listteacher')
+    context = {'form':form, 'listteacher': listteacher, 'gender':gender}
+    return render(request, 'teacher/createTeacher.html', context)
 
 # Manager 
 @login_required(login_url='login')

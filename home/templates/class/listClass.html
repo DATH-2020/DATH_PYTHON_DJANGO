@@ -16,11 +16,12 @@ Danh sách lớp học
     <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th style="width: 15%;">Tên lớp</th>
+                <th style="width: 10%;">Tên lớp</th>
                 <th style="width: 5%;">Sĩ số</th>
                 <th style="width: 10%;">Thời gian bắt đầu</th>
                 <th style="width: 5%;">Đã học</th>
                 <th style="width: 5%;">Ca học</th>
+                <th style="width: 5%;">Tuần học</th>
                 <th style="width: 15%;">Giảng viên</th>
                 <th style="width: 10%;">Khóa học</th>
                 <th style="width: 20%;">Ghi chú</th>
@@ -37,6 +38,7 @@ Danh sách lớp học
                 <td>{{ i.startdate}}</td>
                 <td></td>
                 <td>{{ i.timeshift}}</td>
+                <td>{{ i.timeweek}}</td>
                 <td>{{ i.teacher}}</td>
                 <td>{{ i.unit}}</td>
                 <td>{{ i.note}}</td>
