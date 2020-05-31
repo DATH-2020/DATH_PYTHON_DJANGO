@@ -8,6 +8,80 @@
 <!-- break -->
 {% load static %}
 <!-- break -->
-
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Thông tin giảng viên</h2>
+</div>
+<div class="card-body">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <!-- {{form}} -->
+        <div class="form-row">
+            <div class="col-md-4">
+                <label class="small mb-1" for="id_fullname">Họ và tên</label>
+                <div class="form-group">
+                    <input class="form-control" value="{{ teacher.fullname }}" disabled name="fullname" id="id_fullname" type="text" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="small mb-1" for="id_gender">Giới tính</label>
+                <div class="form-group">
+                    <input class="form-control" value="{{ teacher.gender }}" disabled name="gender" id="id_gender" type="text" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="small mb-1" for="id_birthday">Ngày sinh</label>
+                <div class="form-group">
+                    <input class="form-control" value="{{ teacher.birthday|date:"Y-m-d" }}" disabled name="birthday" required id="id_birthday" type="date" />
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                <label class="small mb-1" for="id_email">Email</label>
+                <div class="form-group">
+                    <input class="form-control" value="{{ teacher.email }}" name="email" required id="id_email" type="email" placeholder="Nhập email giảng viên" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="small mb-1" for="id_identity_card">CMND/Thẻ căn cước</label>
+                <div class="form-group">
+                    <input class="form-control" value="{{ teacher.identity_card }}" disabled name="identity_card" required id="id_identity_card" type="text" placeholder="Nhập CMND giảng viên" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="small mb-1" for="id_phonenumber">Số điện thoại</label>
+                <div class="form-group">
+                    <input class="form-control" value="{{ teacher.phonenumber }}" name="phonenumber" required id="id_phonenumber" type="text" placeholder="Nhập số điện thoại giảng viên" /></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-5">
+                <label class="small mb-1" for="id_adress">Địa chỉ</label>
+                <div class="form-group">
+                    <input class="form-control" value="{{ teacher.adress }}" name="adress" required id="id_adress" type="text" placeholder="Nhập địa chỉ giảng viên" />
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label class="small mb-1" for="inputNote">Ghi chú</label>
+                <div class="form-group">
+                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="small mb-1" for="inputActive">Trạng thái</label>
+                <div class="form-group">
+                    {% if teacher.active %}
+                    <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1" data-on="Dạy" data-off="Ngưng dạy" data-onstyle="success" data-offstyle="danger"> {% else %}
+                    <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Dạy" data-off="Ngưng dạy" data-onstyle="success" data-offstyle="danger"> {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+        </div>
+        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+            <input type="submit" value="Lưu thông tin" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+        </div>
+    </form>
+</div>
 <!-- break -->
 {% endblock content %}

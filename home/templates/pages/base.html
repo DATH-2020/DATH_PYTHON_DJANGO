@@ -130,6 +130,8 @@
                                     </a>
                             </nav>
                         </div>
+                        <!--  -->
+                        {% if request.user.is_superuser %}
                         <!-- Manager -->
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManager" aria-expanded="false" aria-controls="collapseManager">
                             <div class="sb-nav-link-icon" style="width: 2em;">
@@ -163,7 +165,9 @@
                                 </div>
                             </nav>
                         </div>
-
+                        <!--  -->
+                        {% endif %}
+                        <!--  -->
                         <a class="nav-link" href="{% url 'contact' %}">
                             <!-- contact.html -->
                             <div class="sb-nav-link-icon" style="width: 2em;">
@@ -217,7 +221,7 @@
     <script src="{% static '/js/moment-with-locales.js' %}"></script>
     <script src="{% static '/js/moment.js' %}"></script>
     <script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
-    <script src="{% static '/js/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="{% static '/js/Chart.min.js' %}" crossorigin="anonymous"></script>
     <script src="{% static '/assets/demo/chart-area-demo.js' %}"></script>
     <script src="{% static '/assets/demo/chart-bar-demo.js' %}"></script>
     <script src="{% static '/js/jquery.dataTables.min.js' %}" crossorigin="anonymous"></script>

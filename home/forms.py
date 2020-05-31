@@ -34,3 +34,8 @@ class CreateTeacherForm(ModelForm):
     class Meta:
         model = Teacher
         fields = '__all__'
+        
+class UpdateTeacherForm(ModelForm):
+    class Meta:
+        model = Teacher
+        fields = 'email','phonenumber','adress','note','active'

@@ -23,7 +23,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" disabled id="inputBirthDay" type="text" value="{{ student.birthday }}" />
+                    <input class="form-control" disabled id="inputBirthDay" type="text" value="{{ student.birthday|date:"Y-m-d" }}" />
                 </div>
             </div>
         </div>

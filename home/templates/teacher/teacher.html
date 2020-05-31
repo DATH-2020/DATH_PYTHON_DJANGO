@@ -27,7 +27,9 @@
         <tbody>
             {% for i in listteacher %}
             <tr>
-                <td>{{ i.fullname}}</td>
+                <td>
+                    <a href="/teacher/{{ i.pk }}">{{ i.fullname}}</a>
+                </td>
                 <td>{{ i.birthday}}</td>
                 <td style="text-align: center;"></td>
                 <td>{{ i.phonenumber}}</td>
@@ -44,18 +46,6 @@
             </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <th>Tên giảng viên</th>
-                <th>Ngày sinh</th>
-                <th>Số lớp đang dạy</th>
-                <th>Số điện thoại</th>
-                <th>Email</th>
-                <th>Địa chỉ</th>
-                <th>Ghi chú</th>
-                <th>Active</th>
-            </tr>
-        </tfoot>
     </table>
 </div>
 
