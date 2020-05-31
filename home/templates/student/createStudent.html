@@ -10,7 +10,8 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputName">Họ và tên</label>
                 <div class="form-group">
-                    <input class="form-control" name="fullname" required id="inputname" type="text" placeholder="Nhập họ và tên" />
+                    <input class="form-control" name="fullname" required id="inputname" type="text"
+                        placeholder="Nhập họ và tên" />
                 </div>
             </div>
             <div class="col-md-4">
@@ -18,15 +19,16 @@
                 <div class="form-group">
                     <select class="form-control" name="gender" required id="inputgender">
                         {% for i in gender %}
-                            <option value="{{ i.pk }}">{{ i.name }}</option>
+                        <option value="{{ i.pk }}">{{ i.name }}</option>
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" name="birthday" required id="inputbirthday" data-date-format="DD MM YYYY" type="date" />
+                    <input class="form-control" name="birthday" required id="inputbirthday"
+                        data-date-format="DD MM YYYY" type="date" />
                 </div>
             </div>
         </div>
@@ -34,32 +36,37 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputEmail">Email</label>
                 <div class="form-group">
-                    <input class="form-control" name="email" required id="inputemail" type="email" placeholder="Nhập email học viên" />
+                    <input class="form-control" name="email" required id="inputemail" type="email"
+                        placeholder="Nhập email học viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputIdentityCard">CMND/Thẻ căn cước</label>
                 <div class="form-group">
-                    <input class="form-control" name="identity_card" required id="inputidentitycard" type="text" placeholder="Nhập CMND học viên" />
+                    <input class="form-control" name="identity_card" required id="inputidentitycard" type="text"
+                        placeholder="Nhập CMND học viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputPhone">Số điện thoại</label>
                 <div class="form-group">
-                    <input class="form-control" name="phonenumber" required id="inputphone" type="text" placeholder="Nhập số điện thoại học viên" /></div>
+                    <input class="form-control" name="phonenumber" required id="inputphone" type="text"
+                        placeholder="Nhập số điện thoại học viên" /></div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-8">
                 <label class="small mb-1" for="inputAddress">Địa chỉ</label>
                 <div class="form-group">
-                    <input class="form-control" name="adress" required id="inputaaddress" type="text" placeholder="Nhập địa chỉ học viên " />
+                    <input class="form-control" name="adress" required id="inputaaddress" type="text"
+                        placeholder="Nhập địa chỉ học viên " />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputPhone">Số điện thoại phụ huynh</label>
                 <div class="form-group">
-                    <input class="form-control" name="phonenumber_family" required id="inputphonefamily" type="text" placeholder="Nhập số điện thoại phụ huynh" /></div>
+                    <input class="form-control" name="phonenumber_family" required id="inputphonefamily" type="text"
+                        placeholder="Nhập số điện thoại phụ huynh" /></div>
             </div>
         </div>
         <div class="form-row">
@@ -68,9 +75,9 @@
                 <div class="form-group">
                     <select onchange="changeUnitClassname(this.value)" class="form-control" id="id_unit" required>
                         {% for i in unit %}
-                            {% if i.active %}
-                            <option value="{{i.pk}}">{{i.fullname}}</option>
-                            {% endif %}
+                        {% if i.active %}
+                        <option value="{{i.pk}}">{{i.fullname}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -78,7 +85,8 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="id_classname">Lớp</label>
                 <div class="form-group">
-                    <select onchange="changeclassname()" class="form-control" id="id_classname" name="classname" required>
+                    <select onchange="changeclassname()" class="form-control" id="id_classname" name="classname"
+                        required>
                         <option value="" selected hidden>---</option>
                         {% for i in classname %}
                         {% if i.active == 0 %}
@@ -127,7 +135,8 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền nộp</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" name="fee" required id="inputfee" type="text" placeholder="Nhập số tiền mà học viên nộp vào đây" />
+                    <input class="form-control" name="fee" required id="inputfee" type="text"
+                        placeholder="Nhập số tiền mà học viên nộp vào đây" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -135,8 +144,9 @@
             </div>
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền còn thiếu</label>
-                <div class="form-group input-group mb-3">    
-                    <input class="form-control" name="fee_remain" required id="inputfeeremain" placeholder="Nhập số tiền học viên còn thiếu vào đây" type="text" />
+                <div class="form-group input-group mb-3">
+                    <input class="form-control" name="fee_remain" required id="inputfeeremain"
+                        placeholder="Nhập số tiền học viên còn thiếu vào đây" type="text" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
@@ -151,12 +161,14 @@
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
-                    <input type="checkbox" name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
+                    <input type="checkbox" name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ"
+                        data-onstyle="success" data-offstyle="danger">
                 </div>
             </div>
         </div>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-            <input type="submit" value="Thêm học viên" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+            <input type="submit" value="Thêm học viên" class="btn btn-primary"
+                style="margin-left: auto; margin-right: auto;">
         </div>
     </form>
 </div>

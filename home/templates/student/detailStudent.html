@@ -23,7 +23,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" disabled id="inputBirthDay" type="text" value="{{ student.birthday|date:"Y-m-d" }}" />
+                    <input class="form-control" disabled id="inputBirthDay" type="date" value="{{ student.birthday|date:"Y-m-d" }}" />
                 </div>
             </div>
         </div>
@@ -174,4 +174,19 @@
         </div>
     </form>
 </div>
+<script>
+    $(document).ready(function () {
+        $("form").submit(function () {
+            Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+            );
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{% static '/js/sweetalert.min.js' %}"></script>
+<script src="{% static '/js/moment.min.js' %}"></script>
+<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
 {% endblock content %}
