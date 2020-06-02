@@ -94,10 +94,16 @@
                     <input class="form-control" name="startdate" id="id_startdate" value="{{classname.startdate|date:"Y-m-d"}}" type="date" />
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" name="note" id="id_note" type="text" placeholder="Ghi chú" />
+                    <input class="form-control" name="note" id="id_note" value="{{classname.note}}" type="text" placeholder="Ghi chú" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="small mb-1" for="id_datecount">Số buổi</label>
+                <div class="form-group">
+                    <input class="form-control" required value="10" name="datecount" id="id_datecount" value="{{classname.datecount}}" type="number" min="0" placeholder="Số buổi" />
                 </div>
             </div>
             <div class="col-md-1">

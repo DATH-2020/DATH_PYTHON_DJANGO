@@ -13,6 +13,8 @@ from django.contrib.auth.models import Group
 from .models import *
 from .forms import *
 from .decorators import *
+
+from datetime import *
 # Create your views here.
 @unauthenticated_user
 def loginPage(request):
@@ -82,6 +84,21 @@ def createClass(request):
         form = CreateClassnameForm(request.POST)
         if form.is_valid():
             form.save()
+            count = 0
+            start_date = datetime.strptime(str(request.POST.get('startdate')), '%Y-%m-%d')
+            step = timedelta(days=1)
+            time = TimeShift.objects.get(pk = request.POST.get('timeshift'))
+            if int(request.POST.get('timeweek')) == 1:
+                day = [1,3,5]
+            else:
+                day = [0,2,4]
+            while count < int(request.POST.get('datecount')):
+                for i in day:
+                    if i==start_date.date().weekday():
+                        print(start_date.date())
+                        Schedule.objects.create(classname=str(request.POST.get('fullname')), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
+                        count = count+1
+                start_date += step
             return redirect('listclass')
     context = {'form':form, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
     return render(request, 'class/createClass.html', context)
@@ -112,7 +129,12 @@ def listStudent(request):
     liststudent = Student.objects.all()
     context = {'liststudent': liststudent}
     return render(request, 'student/student.html', context)
-    
+
+@login_required(login_url='login')
+def checkinStudent(request):
+    context = {}
+    return render(request, 'student/checkinStudent.html', context)
+      
 @login_required(login_url='login')
 def createStudent(request):
     form = CreateStudentForm()
@@ -123,14 +145,22 @@ def createStudent(request):
         form = CreateStudentForm(request.POST)
         if form.is_valid():
             form.save()
-            send_mail(
-                subject = 'Xác nhận đăng kí học viên', # title mail
-                message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
-                from_email= None, # tài khoản
-                auth_password= None, # mk
-                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-                fail_silently = False,
-            )
+            classrequest = Classname.objects.get(pk=request.POST.get('classname'))
+            time = TimeShift.objects.get(pk = classrequest.timeshift_id)
+            count = 0
+            start_date = datetime.strptime(str(classrequest.startdate), '%Y-%m-%d')
+            step = timedelta(days=1)
+            if int(classrequest.timeweek) == 1:
+                day = [1,3,5]
+            else:
+                day = [0,2,4]
+            while count < int(classrequest.datecount):
+                for i in day:
+                    if i==start_date.date().weekday():
+                        print(start_date.date())
+                        CheckInClass.objects.create(student=str(request.POST.get('fullname')),classname=str(classrequest.fullname), daylearn = str(classrequest.startdate), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
+                        count = count+1
+                start_date += step
             return redirect('liststudent')
     context = { 'gender':gender, 'unit':unit, 'classname':classname}
     return render(request, 'student/createStudent.html', context)

@@ -10,7 +10,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputName">Họ và tên</label>
                 <div class="form-group">
-                    <input class="form-control" name="fullname" required id="inputname" type="text"
+                    <input class="form-control" name="fullname" required id="inputname" type="text" value="Demo"
                         placeholder="Nhập họ và tên" />
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" name="birthday" required id="inputbirthday"
+                    <input class="form-control" name="birthday" required id="inputbirthday" value="1998-01-18"
                         data-date-format="DD MM YYYY" type="date" />
                 </div>
             </div>
@@ -37,28 +37,28 @@
                 <label class="small mb-1" for="inputEmail">Email</label>
                 <div class="form-group">
                     <input class="form-control" name="email" required id="inputemail" type="email"
-                        placeholder="Nhập email học viên" />
+                        value="ducdat147@gmail.com" placeholder="Nhập email học viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputIdentityCard">CMND/Thẻ căn cước</label>
                 <div class="form-group">
                     <input class="form-control" name="identity_card" required id="inputidentitycard" type="text"
-                        placeholder="Nhập CMND học viên" />
+                        value="123456789" placeholder="Nhập CMND học viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputPhone">Số điện thoại</label>
                 <div class="form-group">
                     <input class="form-control" name="phonenumber" required id="inputphone" type="text"
-                        placeholder="Nhập số điện thoại học viên" /></div>
+                        value="0354686156" placeholder="Nhập số điện thoại học viên" /></div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-8">
                 <label class="small mb-1" for="inputAddress">Địa chỉ</label>
                 <div class="form-group">
-                    <input class="form-control" name="adress" required id="inputaaddress" type="text"
+                    <input class="form-control" name="adress" required id="inputaaddress" type="text" value="Demo"
                         placeholder="Nhập địa chỉ học viên " />
                 </div>
             </div>
@@ -66,7 +66,7 @@
                 <label class="small mb-1" for="inputPhone">Số điện thoại phụ huynh</label>
                 <div class="form-group">
                     <input class="form-control" name="phonenumber_family" required id="inputphonefamily" type="text"
-                        placeholder="Nhập số điện thoại phụ huynh" /></div>
+                        value="0354686156" placeholder="Nhập số điện thoại phụ huynh" /></div>
             </div>
         </div>
         <div class="form-row">
@@ -135,7 +135,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền nộp</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" name="fee" required id="inputfee" type="text"
+                    <input class="form-control" name="fee" required id="inputfee" type="text" value="10000000"
                         placeholder="Nhập số tiền mà học viên nộp vào đây" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
@@ -145,7 +145,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền còn thiếu</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" name="fee_remain" required id="inputfeeremain"
+                    <input class="form-control" name="fee_remain" required id="inputfeeremain" value="0"
                         placeholder="Nhập số tiền học viên còn thiếu vào đây" type="text" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
@@ -155,24 +155,38 @@
             <div class="col-md-5">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú" />
+                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú" value="Demo Note"/>
                 </div>
             </div>
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
-                    <input type="checkbox" name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ"
+                    <input type="checkbox" checked name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ"
                         data-onstyle="success" data-offstyle="danger">
                 </div>
             </div>
         </div>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
             <input type="submit" value="Thêm học viên" class="btn btn-primary"
-                style="margin-left: auto; margin-right: auto;">
+                style="margin-left: auto; margin-right: auto;" onclick="">
         </div>
     </form>
 </div>
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
 <script src="{% static '/js/moment.min.js' %}"></script>
 <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $("form").submit(function () {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 3000,
+                button: false,
+            });
+        });
+    });
+</script>
 {% endblock content %}

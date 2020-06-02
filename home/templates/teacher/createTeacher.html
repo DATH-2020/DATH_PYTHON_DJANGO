@@ -19,23 +19,25 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="id_fullname">Họ và tên</label>
                 <div class="form-group">
-                    <input class="form-control" name="fullname" required id="id_fullname" type="text" placeholder="Nhập họ và tên" />
+                    <input class="form-control" name="fullname" required id="id_fullname" type="text"
+                        placeholder="Nhập họ và tên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="id_gender">Giới tính</label>
                 <div class="form-group">
                     <select class="form-control" name="gender" required id="id_gender">
-                    {% for i in gender %}
+                        {% for i in gender %}
                         <option value="{{ i.pk }}">{{ i.name }}</option>
-                    {% endfor %}
+                        {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="id_birthday">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" name="birthday" required id="id_birthday" data-date-format="DD MM YYYY" type="date" />
+                    <input class="form-control" name="birthday" required id="id_birthday" data-date-format="DD MM YYYY"
+                        type="date" />
                 </div>
             </div>
         </div>
@@ -43,26 +45,30 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="id_email">Email</label>
                 <div class="form-group">
-                    <input class="form-control" name="email" required id="id_email" type="email" placeholder="Nhập email giảng viên" />
+                    <input class="form-control" name="email" required id="id_email" type="email"
+                        placeholder="Nhập email giảng viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="id_identity_card">CMND/Thẻ căn cước</label>
                 <div class="form-group">
-                    <input class="form-control" name="identity_card" required id="id_identity_card" type="text" placeholder="Nhập CMND giảng viên" />
+                    <input class="form-control" name="identity_card" required id="id_identity_card" type="text"
+                        placeholder="Nhập CMND giảng viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="id_phonenumber">Số điện thoại</label>
                 <div class="form-group">
-                    <input class="form-control" name="phonenumber" required id="id_phonenumber" type="text" placeholder="Nhập số điện thoại giảng viên" /></div>
+                    <input class="form-control" name="phonenumber" required id="id_phonenumber" type="text"
+                        placeholder="Nhập số điện thoại giảng viên" /></div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-5">
                 <label class="small mb-1" for="id_adress">Địa chỉ</label>
                 <div class="form-group">
-                    <input class="form-control" name="adress" required id="id_adress" type="text" placeholder="Nhập địa chỉ giảng viên" />
+                    <input class="form-control" name="adress" required id="id_adress" type="text"
+                        placeholder="Nhập địa chỉ giảng viên" />
                 </div>
             </div>
             <div class="col-md-5">
@@ -74,16 +80,40 @@
             <div class="col-md-2">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
-                    <input type="checkbox" name="active" data-toggle="toggle" data-on="Dạy" data-off="Ngưng dạy" data-onstyle="success" data-offstyle="danger">
+                    <input type="checkbox" name="active" data-toggle="toggle" data-on="Dạy" data-off="Ngưng dạy"
+                        data-onstyle="success" data-offstyle="danger">
                 </div>
             </div>
         </div>
         <div class="form-row">
         </div>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-            <input type="submit" value="Thêm giảng viên" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+            <input type="submit" value="Thêm giảng viên" class="btn btn-primary"
+                style="margin-left: auto; margin-right: auto;">
         </div>
     </form>
 </div>
+
+<script src="{% static '/js/sweetalert.min.js' %}"></script>
+<script src="{% static '/js/moment.min.js' %}"></script>
+<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $("form").submit(function () {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 3000,
+                button: false,
+            });
+            setTimeout(function () {
+                this.submit();
+            }, 3000);
+        });
+
+    });
+</script>
 <!-- break -->
 {% endblock content %}

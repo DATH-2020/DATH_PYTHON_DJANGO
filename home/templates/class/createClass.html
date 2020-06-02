@@ -26,6 +26,7 @@
                 <label class="small mb-1" for="">Khóa học</label>
                 <div class="form-group">
                     <select class="form-control" name="unit" required id="id_unit">
+                        <!-- <option value="4" hidden>D</option> -->
                         {% for i in unit %}
                         {% if i.active %}
                             <option value="{{ i.pk }}">{{ i.fullname }}</option>
@@ -38,6 +39,7 @@
                 <label class="small mb-1" for="">Giảng viên</label>
                 <div class="form-group">
                     <select class="form-control" name="teacher" required id="id_teacher">
+                        <!-- <option value="4" hidden>teacher</option> -->
                         {% for i in teacher %}
                         {% if i.active %}
                             <option value="{{ i.pk }}">{{ i.fullname }}</option>
@@ -50,6 +52,7 @@
                 <label class="small mb-1" for="">Chi nhánh</label>
                 <div class="form-group">
                     <select onchange="selectionAreaRoom(this.value)" class="form-control" name="area" required id="id_area">
+                        <!-- <option value="2" hidden>U</option> -->
                         {% for i in area %}
                         {% if i.active %}
                             <option value="{{ i.pk }}">{{ i.fullname }}</option>
@@ -76,6 +79,7 @@
                 <label class="small mb-1" for="">Tuần học</label>
                 <div class="form-group">
                     <select class="form-control" name="timeweek" required id="id_timeweek">
+                        <!-- <option value="2" hidden>3-5-7</option> -->
                         {% for i in timeweek %}
                             <option value="{{ i.pk }}">{{ i.name }}</option>
                         {% endfor %}
@@ -100,10 +104,16 @@
                     <input class="form-control" required name="startdate" id="id_startdate" type="date" />
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
                     <input class="form-control" name="note" id="id_note" type="text" placeholder="Ghi chú" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label class="small mb-1" for="id_datecount">Số buổi</label>
+                <div class="form-group">
+                    <input class="form-control" required value="10" name="datecount" id="id_datecount" type="number" min="0" placeholder="Số buổi" />
                 </div>
             </div>
             <div class="col-md-1">

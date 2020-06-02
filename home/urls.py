@@ -22,6 +22,7 @@ urlpatterns = [
     # path('listschedule/',views.ListSchedule,name='listschedule'),
     # path('detailschedule/',views.DetailSchedule,name='detailschedule'),
     # Student 
+    path('checkinstudent/', views.checkinStudent, name='checkinstudent'),
     path('liststudent/', views.listStudent, name='liststudent'),
     path('createstudent', views.createStudent, name='createstudent'),
     path('student/<int:pk>/',views.detailStudent,name='detailstudent'),

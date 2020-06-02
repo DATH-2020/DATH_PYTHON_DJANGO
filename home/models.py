@@ -97,6 +97,7 @@ class Classname(models.Model):
     startdate = models.DateField(verbose_name="Ngày bắt đầu học")
     timeweek = models.ForeignKey(TimeWeek, null = True, on_delete=models.SET_NULL)
     teacher = models.ForeignKey(Teacher, null = True, on_delete=models.SET_NULL)
+    datecount = models.IntegerField(default=0, blank=True, verbose_name="Số buổi học")
     note = models.CharField(max_length=300, null = True, blank=True, verbose_name="Ghi chú")
     active = models.BooleanField(default=True, verbose_name="Trạng thái")
 
@@ -127,3 +128,34 @@ class Student(models.Model):
     class Meta:
         ordering =["fullname"]
         verbose_name_plural = "Học sinh"
+
+class Schedule(models.Model):
+    classname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên lớp")
+    dayname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Buổi")
+    daylearn = models.DateField(verbose_name="Ngày học")
+    timelearnstart = models.TimeField(null = True, blank=True,verbose_name="Thời gian học")
+    timelearnend = models.TimeField(null = True, blank=True,verbose_name="Thời gian kết thúc")
+    note = models.CharField(max_length=300, null = True, blank=True, verbose_name="Ghi chú")
+    active = models.BooleanField(default=True, verbose_name="Trạng thái")
+    
+    def __str__(self):
+        return  self.classname
+    class Meta:
+        ordering =["classname"]
+        verbose_name_plural = "Lịch học theo lớp"
+
+class CheckInClass(models.Model):
+    student = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên học viên")
+    classname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên lớp")
+    dayname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Buổi")
+    daylearn = models.DateField(verbose_name="Ngày học")
+    timelearnstart = models.TimeField(null = True, blank=True,verbose_name="Thời gian học")
+    timelearnend = models.TimeField(null = True, blank=True,verbose_name="Thời gian kết thúc")
+    note = models.CharField(max_length=300, null = True, blank=True, verbose_name="Ghi chú")
+    active = models.BooleanField(default=True, verbose_name="Trạng thái")
+    
+    def __str__(self):
+        return  self.student
+    class Meta:
+        ordering =["student"]
+        verbose_name_plural = "Thời khóa biểu cá nhân"
