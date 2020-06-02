@@ -40,7 +40,7 @@ Student
                 <td>{{ i.phonenumber }}</td>
                 <td>{{ i.phonenumber_family }}</td>
                 <td>{{ i.adress }}</td>
-                <td>{{ i.create_date }}</td>
+                <td>{{ i.create_date|date:"d-m-Y" }}</td>
                 <td>{{ i.note }}</td>
                 <td style="text-align: center;">
                     {% if i.active %}

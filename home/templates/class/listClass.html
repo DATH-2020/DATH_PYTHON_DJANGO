@@ -37,7 +37,7 @@ Danh sách lớp học
                     <a class="btn btn-primary" href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
                 </td>
                 <td></td>
-                <td>{{ i.startdate}}</td>
+                <td>{{ i.startdate|date:"d-m-Y"}}</td>
                 <td></td>
                 <td>{{ i.timeshift}}</td>
                 <td>{{ i.timeweek}}</td>
