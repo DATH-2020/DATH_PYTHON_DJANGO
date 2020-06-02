@@ -1,0 +1,101 @@
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Danh sách học viên lớp </h2>
+</div>
+<div class="card-body">
+    <div class="form-row">
+        <div class="col-md-8">
+            <div class="card-body">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Họ và tên</th>
+                            <th style="width: 11%;">Số điện thoại</th>
+                            <th style="width: 11%;">SDT phụ huynh</th>
+                            <th style="width: 23%;">Địa chỉ</th>
+                            <th style="width: 12%;">Thời gian đăng ký</th>
+                            <th style="width: 13%;">Ghi chú</th>
+                            <th style="width: 5%;">Active</th>
+                            <th style="width: 10%;">Học phí thiếu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in liststudentinclass %}
+                        {% if pk == i.classname_id %}
+                        <tr>
+                            <td><a href="/student/{{ i.pk }}">{{ i.fullname }}</a></td>
+                            <td>{{ i.phonenumber }}</td>
+                            <td>{{ i.phonenumber_family }}</td>
+                            <td>{{ i.adress }}</td>
+                            <td>{{ i.create_date|date:"d-m-Y" }}</td>
+                            <td>{{ i.note }}</td>
+                            <td style="text-align: center;">
+                                {% if i.active %}
+                                <i style="color: green; " class="fas fa-check-circle"></i> {%endif%}
+                            </td>
+                            <td>{{ i.fee_remain }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-body" style="margin:0 auto; ">
+                <div id="calendar" style=" width: 100%; 
+    margin: 0 20px 20px 0;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var initialLocaleCode = 'VI';
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['interaction', 'dayGrid'],
+            header: {
+                //left: 'prevYear,prev,next,nextYear today',
+                //center: 'title',
+                //right: 'dayGridMonth'
+                right: 'today prev,next',
+            },
+            defaultDate: '{{ classname.startdate|date:"Y-m-d" }}',
+            locale: initialLocaleCode,
+            navLinks: true, // can click day/week names to navigate views
+            //editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {% for i in schedule %} 
+                {% if classname.fullname == i.classname %}
+                {
+                    title: '{{ i.dayname }}',
+                    start: '{{ i.daylearn|date:"Y-m-d" }}',
+                    {% if i.active == 0 %}
+                    color: '#ffff00',
+                    {% endif %}
+                },
+                {% endif %}
+                {% endfor %}
+            ],
+        });
+    calendar.render();
+    });
+</script>
+<!-- break -->
+{% endblock content %}

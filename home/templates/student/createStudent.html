@@ -109,27 +109,6 @@
                     </select>
                 </div>
             </div>
-            <script>
-                function changeclassname() {
-                    var x = document.getElementById("id_classname").value;
-                    document.getElementById("id_teacher").value = x;
-                }
-                var id_unit = document.querySelector('#id_unit');
-                var id_classname = document.querySelector('#id_classname');
-                var options_unit_classname = id_classname.querySelectorAll('option');
-
-                function changeUnitClassname(selValue) {
-                    id_classname.innerHTML = '';
-                    for (var i = 0; i < options_unit_classname.length; i++) {
-                        if (options_unit_classname[i].dataset.option === selValue) {
-                            id_classname.appendChild(options_unit_classname[i]);
-                        }
-                    }
-                    var x = document.getElementById("id_classname").value;
-                    document.getElementById("id_teacher").value = x;
-                }
-                changeUnitClassname(id_unit.value);
-            </script>
         </div>
         <div class="form-row">
             <div class="col-md-3">
@@ -155,13 +134,14 @@
             <div class="col-md-5">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú" value="Demo Note"/>
+                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú"
+                        value="Demo Note" />
                 </div>
             </div>
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
-                    <input type="checkbox" checked name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ"
+                    <input type="checkbox" disabled name="active" data-toggle="toggle" data-on="Học" data-off="Nghỉ"
                         data-onstyle="success" data-offstyle="danger">
                 </div>
             </div>
@@ -175,6 +155,28 @@
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
 <script src="{% static '/js/moment.min.js' %}"></script>
 <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+
+<script>
+    function changeclassname() {
+        var x = document.getElementById("id_classname").value;
+        document.getElementById("id_teacher").value = x;
+    }
+    var id_unit = document.querySelector('#id_unit');
+    var id_classname = document.querySelector('#id_classname');
+    var options_unit_classname = id_classname.querySelectorAll('option');
+
+    function changeUnitClassname(selValue) {
+        id_classname.innerHTML = '';
+        for (var i = 0; i < options_unit_classname.length; i++) {
+            if (options_unit_classname[i].dataset.option === selValue) {
+                id_classname.appendChild(options_unit_classname[i]);
+            }
+        }
+        var x = document.getElementById("id_classname").value;
+        document.getElementById("id_teacher").value = x;
+    }
+    changeUnitClassname(id_unit.value);
+</script>
 <script>
     $(document).ready(function () {
         $("form").submit(function () {

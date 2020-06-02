@@ -12,6 +12,7 @@ urlpatterns = [
     path('listclass/', views.listClass, name='listclass'),
     path('createclass/', views.createClass, name='createclass'),
     path('class/<int:pk>/', views.detailClass, name='detailclass'),
+    path('classstudent/<int:pk>/', views.detailClassStudent, name='detailclassstudent'),
 
     # # Manager 
     # path('createstafaccount/',views.CreateStafAccount,name='createstafaccount'),

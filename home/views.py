@@ -88,7 +88,7 @@ def createClass(request):
             start_date = datetime.strptime(str(request.POST.get('startdate')), '%Y-%m-%d')
             step = timedelta(days=1)
             time = TimeShift.objects.get(pk = request.POST.get('timeshift'))
-            if int(request.POST.get('timeweek')) == 1:
+            if int(request.POST.get('timeweek')) == 2:
                 day = [1,3,5]
             else:
                 day = [0,2,4]
@@ -99,7 +99,8 @@ def createClass(request):
                         Schedule.objects.create(classname=str(request.POST.get('fullname')), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
                         count = count+1
                 start_date += step
-            return redirect('listclass')
+            return redirect('createclass')
+            # return redirect('listclass')
     context = {'form':form, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
     return render(request, 'class/createClass.html', context)
 
@@ -120,6 +121,15 @@ def detailClass(request,pk):
             return redirect('listclass')
     context={'form':form, 'classname':classname, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
     return render(request,'class/detailClass.html',context)
+
+@login_required(login_url='login')
+def detailClassStudent(request,pk):
+    pk = pk
+    classname = Classname.objects.get(pk=pk)
+    liststudentinclass = Student.objects.all()
+    schedule = Schedule.objects.all()
+    context={'liststudentinclass':liststudentinclass,'pk':pk, 'classname':classname, 'schedule':schedule}
+    return render(request,'class/detailClassStudent.html',context)
 
 # Student 
 # Dat
@@ -150,18 +160,28 @@ def createStudent(request):
             count = 0
             start_date = datetime.strptime(str(classrequest.startdate), '%Y-%m-%d')
             step = timedelta(days=1)
-            if int(classrequest.timeweek) == 1:
-                day = [1,3,5]
-            else:
+            # print(classrequest.timeweek_id)
+            if int(classrequest.timeweek_id) == 1:
                 day = [0,2,4]
+            else:
+                day = [1,3,5]
             while count < int(classrequest.datecount):
                 for i in day:
                     if i==start_date.date().weekday():
-                        print(start_date.date())
+                        # print(start_date.date())
                         CheckInClass.objects.create(student=str(request.POST.get('fullname')),classname=str(classrequest.fullname), daylearn = str(classrequest.startdate), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
                         count = count+1
                 start_date += step
-            return redirect('liststudent')
+            # send_mail(
+            #     subject = 'Xác nhận đăng kí học viên', # title mail
+            #     message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+            #     from_email= None, # tài khoản
+            #     auth_password= None, # mk
+            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+            #     fail_silently = False,
+            # )
+            return redirect('createstudent')
+            # return redirect('liststudent')
     context = { 'gender':gender, 'unit':unit, 'classname':classname}
     return render(request, 'student/createStudent.html', context)
 
@@ -175,14 +195,14 @@ def detailStudent(request,pk):
         form = UpdateStudentForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
-            send_mail(
-                subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
-                message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
-                from_email= None, # tài khoản
-                auth_password= None, # mk
-                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-                fail_silently = False,
-            )
+            # send_mail(
+            #     subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
+            #     message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+            #     from_email= None, # tài khoản
+            #     auth_password= None, # mk
+            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+            #     fail_silently = False,
+            # )
             return redirect('liststudent')
     context = {'form':form, 'student':student, 'classname': classname, 'unit': unit}
     return render(request,'student/detailStudent.html',context)
