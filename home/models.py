@@ -120,6 +120,7 @@ class Student(models.Model):
     fee = models.IntegerField(default=0, verbose_name="Học phí")
     fee_remain = models.IntegerField(default=0, verbose_name="Học phí còn lại")
     create_date = models.DateField(auto_now_add=True, verbose_name="Ngày đăng ký học")
+    havedetailschedule = active = models.BooleanField(default=False, verbose_name="Thời khóa biểu cá nhân")
     note = models.CharField(max_length=300, null = True, blank=True, verbose_name="Ghi chú")
     active = models.BooleanField(default=True, verbose_name="Trạng thái")
 
@@ -145,6 +146,7 @@ class Schedule(models.Model):
         verbose_name_plural = "Lịch học theo lớp"
 
 class CheckInClass(models.Model):
+    id_student = models.CharField(max_length=50, blank=True, null=True, verbose_name="ID học viên")
     student = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên học viên")
     classname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên lớp")
     dayname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Buổi")

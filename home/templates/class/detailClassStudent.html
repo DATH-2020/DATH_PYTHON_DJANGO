@@ -32,7 +32,17 @@
                         {% for i in liststudentinclass %}
                         {% if pk == i.classname_id %}
                         <tr>
-                            <td><a href="/student/{{ i.pk }}">{{ i.fullname }}</a></td>
+                            <td>
+                                {% if i.havedetailschedule %}
+                                <a href="/student/{{ i.pk }}" style="width: 100%;" 
+                                    class="btn btn-success"><i class="fas fa-calendar-check" 
+                                    style="color: white;"></i> {{ i.fullname }}</a>
+                                {% else %}
+                                <a href="/student/{{ i.pk }}" style="width: 100%;"
+                                    class="btn btn-danger"><i class="fas fa-calendar-times"
+                                    style="color: white;"></i> {{ i.fullname }}</a>
+                                {%endif%}
+                            </td>
                             <td>{{ i.phonenumber }}</td>
                             <td>{{ i.phonenumber_family }}</td>
                             <td>{{ i.adress }}</td>
@@ -51,17 +61,51 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card-body" style="margin:0 auto; ">
-                <div id="calendar" style=" width: 100%; 
-    margin: 0 20px 20px 0;">
+            <div class="card-body" style="margin:0 auto; width: 100%;">
+                <div id="calendar" style=" width: 100%; margin: 0 20px 20px 0;">
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">Phòng:</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">{{ classname.room }}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">Lịch học:</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">{{ classname.timeweek }}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">Ca học:</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">{{ classname.timeshift }}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">Khóa học:</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">{{ classname.unit }}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">Bắt đầu:</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">{{ timeshift.timestart|time:"H:i" }}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">Kết thúc:</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="color: grey;">{{ timeshift.timeend|time:"H:i" }}</h5>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var initialLocaleCode = 'VI';
@@ -84,14 +128,17 @@
                 {% for i in schedule %} 
                 {% if classname.fullname == i.classname %}
                 {
-                    title: '{{ i.dayname }}',
-                    start: '{{ i.daylearn|date:"Y-m-d" }}',
-                    {% if i.active == 0 %}
-                    color: '#ffff00',
-                    {% endif %}
+            title: '{{ i.dayname }}',
+            start: '{{ i.daylearn|date:"Y-m-d" }}',
+            end: '{{ i.daylearn|date:"Y-m-d" }}',
+            {% if i.active == 1 %}
+    color: '#c5cae9',
+        {% else %}
+    color: '#bdbdbd'
+    {% endif %}
                 },
-                {% endif %}
-                {% endfor %}
+    {% endif %}
+    {% endfor %}
             ],
         });
     calendar.render();

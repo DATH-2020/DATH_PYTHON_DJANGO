@@ -183,10 +183,32 @@
         </div>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
             <!-- <a class="btn btn-primary btn-block" href="login.html">Tạo tài khoản mới</a> -->
-            <input type="submit" value="Lưu" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+            {% if student.havedetailschedule == 0 %}
+            <button onclick="submita()" on id="id_button" type="submit" value="Lưu" class="btn btn-success" style="margin-left: auto; margin-right: auto;"><i class="fas fa-save"></i>  Lưu</button>
+            {% else %}
+            <label class="btn btn-danger" onclick="alertnochange()" disabled style="margin-left: auto; margin-right: auto;">
+                    Không được thay đổi 
+            </label>
+            {% endif %}
         </div>
     </form>
 </div>
+
+<script>
+    function alertnochange(){
+        swal("Lỗi", "Học viên này đã có thời khóa biểu cá nhân", "error",{
+            buttons: false,
+            timer: 1500,
+        });
+    }
+    function submita() {
+        swal("Great!!!", "Lưu thành công", "success",{
+            buttons: false,
+            timer: 1500,
+        });
+    }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
 <script src="{% static '/js/moment.min.js' %}"></script>

@@ -1,0 +1,164 @@
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Thời khóa biểu cá nhân</h2>
+</div>
+<div class="card-body">
+    <div class="form-row">
+        <div class="col-md-7">
+            <div class="card-body" style="margin:0 auto; width: 100%;">
+                <div id="calendar" style=" width: 100%; margin: 0 20px 20px 0;">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card-body" style="margin:0 auto; width: 100%;">
+                <div>
+                    <h2 class="text-center">Thông tin học viên</h2>
+                </div>
+                <div class="card-body" style="margin:0 auto; width: 100%;">
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label>
+                                <h5>Họ và tên:</h5>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label>
+                                <h5>{{ student.fullname }}</h5>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label>
+                                <h5>Giới tính:</h5>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label>
+                                <h5>{{ student.gender }}</h5>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label>
+                                <h5>Ngày sinh:</h5>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label>
+                                <h5>{{ student.birthday|date:"d-m-Y" }}</h5>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label>
+                                <h5>Số điện thoại:</h5>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label>
+                                <h5>{{ student.phonenumber }}</h5>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label>
+                                <h5>Email:</h5>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label>
+                                <h5>{{ student.email }}</h5>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label>
+                                <h5>Địa chỉ:</h5>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label>
+                                <h5>{{ student.adress }}</h5>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label>
+                                <h5>Số điện thoại gia đình:</h5>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <label>
+                                <h5>{{ student.phonenumber_family }}</h5>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                        <!-- <label for="id_submit">Thời khóa biểu cá nhân cho {{student.fullname}} hiện chưa có</label> -->
+                        <input class="btn btn-danger" type="submit" style="margin-left: auto; margin-right: auto;"
+                            name="submit" id="id_submit" value="Xác nhận tạo thời khóa biểu cá nhân">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var initialLocaleCode = 'VI';
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['interaction', 'dayGrid'],
+            header: {
+                //left: 'prevYear,prev,next,nextYear today',
+                //center: 'title',
+                //right: 'dayGridMonth'
+                right: 'today prev,next',
+            },
+            defaultDate: '{{ classname.startdate|date:"Y-m-d" }}',
+            locale: initialLocaleCode,
+            navLinks: true, // can click day/week names to navigate views
+            //editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {% for i in checkinclass %} 
+                {% if student.fullname == i.student %}
+                {
+            title: '{{ i.dayname }}',
+            start: '{{ i.daylearn|date:"Y-m-d" }}',
+            end: '{{ i.daylearn|date:"Y-m-d" }}',
+                    {% if i.active == 1 %}
+    color: '#c5cae9',
+        {% else %}
+    color: '#bdbdbd'
+    {% endif %}
+                },
+    {% endif %}
+    {% endfor %}
+            ],
+        });
+    calendar.render();
+    });
+</script>
+<!-- break -->
+{% endblock content %}

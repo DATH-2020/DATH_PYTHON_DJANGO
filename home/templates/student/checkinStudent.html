@@ -8,13 +8,121 @@
 <!-- break -->
 {% load static %}
 <!-- break -->
-
 <div class="card-header">
     <h2 class="text-center font-weight-light">Thời khóa biểu cá nhân</h2>
 </div>
-<div class="card-body" style="width:900px; margin:0 auto;">
-    <div id="calendar" style=" width: 100%; 
-    margin: 0 20px 20px 0;"></div>
+<div class="card-body">
+    <div class="form-row">
+        <div class="col-md-7">
+            <div class="card-body" style="margin:0 auto; width: 100%;">
+                <div id="calendar" style=" width: 100%; margin: 0 20px 20px 0;">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div>
+                <h2 class="text-center">Thông tin học viên</h2>
+            </div>
+            <div class="card-body" style="margin:0 auto; width: 100%;">
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>
+                            <h4>Họ và tên:</h4>
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label>
+                            <h4>{{ student.fullname }}</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>
+                            <h4>Giới tính:</h4>
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label>
+                            <h4>{{ student.gender }}</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>
+                            <h4>Ngày sinh:</h4>
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label>
+                            <h4>{{ student.birthday|date:"d-m-Y" }}</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>
+                            <h4>Số điện thoại:</h4>
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label>
+                            <h4>{{ student.phonenumber }}</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>
+                            <h4>Email:</h4>
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label>
+                            <h4>{{ student.email }}</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>
+                            <h4>Địa chỉ:</h4>
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label>
+                            <h4>{{ student.adress }}</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <label>
+                            <h4>Số gia đình:</h4>
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <label>
+                            <h4>{{ student.phonenumber_family }}</h4>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {% if student.havedetailschedule %}
+            <label></label>
+            {% else %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                    <!-- <label for="id_submit">Thời khóa biểu cá nhân cho {{student.fullname}} hiện chưa có</label> -->
+                    <input class="btn btn-danger" type="submit" style="margin-left: auto; margin-right: auto;"
+                        name="submit" id="id_submit" value="Xác nhận tạo thời khóa biểu cá nhân">
+                </div>
+            </form>
+            {%endif%}
+        </div>
+    </div>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -24,83 +132,35 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: ['interaction', 'dayGrid'],
             header: {
-                left: 'prevYear,prev,next,nextYear today',
-                center: 'title',
-                right: 'dayGridMonth'
+                //left: 'prevYear,prev,next,nextYear today',
+                //center: 'title',
+                //right: 'dayGridMonth'
+                right: 'today prev,next',
             },
-            defaultDate: '2020-05-12',
+            defaultDate: '{{ classrequest.startdate|date:"Y-m-d" }}',
             locale: initialLocaleCode,
             navLinks: true, // can click day/week names to navigate views
-            editable: true,
+            //editable: true,
             eventLimit: true, // allow "more" link when too many events
             events: [
+                {% for i in checkinclass %} 
+                {% if student.fullname == i.student %}
                 {
-                    title: 'All Day Event',
-                    start: '2020-05-01'
+            title: '{{ i.dayname }}',
+            start: '{{ i.daylearn|date:"Y-m-d" }}',
+            end: '{{ i.daylearn|date:"Y-m-d" }}',
+                    {% if i.active == 1 %}
+    color: '#c5cae9',
+        {% else %}
+    color: '#bdbdbd'
+    {% endif %}
                 },
-                {
-                    title: 'Long Event',
-                    start: '2020-05-07',
-                    end: '2020-05-10'
-                },
-                {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2020-05-09T16:00:00'
-                },
-                {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2020-05-16T16:00:00'
-                },
-                {
-                    title: 'Conference',
-                    start: '2020-05-11',
-                    end: '2020-05-13'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2020-05-12T10:30:00',
-                    end: '2020-05-12T12:30:00'
-                },
-                {
-                    title: 'Lunch',
-                    start: '2020-05-12T12:00:00'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2020-05-12T14:30:00'
-                },
-                {
-                    title: 'Happy Hour',
-                    start: '2020-05-12T17:30:00'
-                },
-                {
-                    title: 'Dinner',
-                    start: '2020-05-12T20:00:00'
-                },
-                {
-                    title: 'Birthday Party',
-                    start: '2020-05-13T07:00:00'
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2020-05-28'
-                }
-            ]
+    {% endif %}
+    {% endfor %}
+            ],
         });
-
-        calendar.render();
+    calendar.render();
     });
 </script>
-
-<script src="{% static '/fullcalendar/core/main.js' %}"></script>
-<script src="{% static '/fullcalendar/daygrid/main.js' %}"></script>
-<script src="{% static '/fullcalendar/interaction/main.js' %}"></script>
-<script src="{% static '/fullcalendar/core/locales-all.js' %}"></script>
-
-<link href="{% static '/fullcalendar/core/main.css' %}" rel='stylesheet' />
-<link href="{% static '/fullcalendar/daygrid/main.css' %}" rel='stylesheet' />
 <!-- break -->
 {% endblock content %}

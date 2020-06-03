@@ -43,7 +43,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="">Chi nhánh</label>
                 <div class="form-group">
-                    <select onchange="selectionAreaRoom(this.value)" class="form-control" name="area" required id="id_area">
+                    <select onchange="selectionAreaRoom(this.value)" class="form-control" name="area" required id="id_area" disabled>
                         {% for i in area %}
                         {% if i.active %}
                             <option value="{{i.pk}}">{{ i.fullname }}</option>
@@ -57,7 +57,7 @@
             <div class="col-md-2">
                 <label class="small mb-1" for="">Ca học</label>
                 <div class="form-group">
-                    <select class="form-control" name="timeshift" required id="id_timeshift">
+                    <select class="form-control" name="timeshift" required id="id_timeshift" disabled>
                         {% for i in timeshift %}
                         {% if i.active %}
                             <option value="{{ i.pk }}">{{ i.fullname }}</option>
@@ -69,7 +69,7 @@
             <div class="col-md-2">
                 <label class="small mb-1" for="">Tuần học</label>
                 <div class="form-group">
-                    <select class="form-control" name="timeweek" required id="id_timeweek">
+                    <select class="form-control" name="timeweek" required id="id_timeweek" disabled>
                         {% for i in timeweek %}
                             <option value="{{ i.pk }}">{{ i.name }}</option>
                         {% endfor %}
@@ -79,7 +79,7 @@
             <div class="col-md-2">
                 <label class="small mb-1" for="">Phòng</label>
                 <div class="form-group">
-                    <select class="form-control" name="room" required id="id_room">
+                    <select class="form-control" name="room" required id="id_room" disabled>
                         {% for i in room %}
                         {% if i.active %}
                             <option value="{{ i.pk }}" data-option="{{i.area_id}}">{{ i.fullname }}</option>
@@ -91,7 +91,7 @@
             <div class="col-md-2">
                 <label class="small mb-1" for="id_startdate">Ngày bắt đầu</label>
                 <div class="form-group">
-                    <input class="form-control" name="startdate" id="id_startdate" value="{{classname.startdate|date:"Y-m-d"}}" type="date" />
+                    <input class="form-control" name="startdate" disabled id="id_startdate" value="{{classname.startdate|date:"Y-m-d"}}" type="date" />
                 </div>
             </div>
             <div class="col-md-2">
@@ -103,7 +103,7 @@
             <div class="col-md-1">
                 <label class="small mb-1" for="id_datecount">Số buổi</label>
                 <div class="form-group">
-                    <input class="form-control" required value="10" name="datecount" id="id_datecount" value="{{classname.datecount}}" type="number" min="0" placeholder="Số buổi" />
+                    <input class="form-control" required value="10" disabled name="datecount" id="id_datecount" value="{{classname.datecount}}" type="number" min="0" placeholder="Số buổi" />
                 </div>
             </div>
             <div class="col-md-1">

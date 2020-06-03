@@ -14,6 +14,7 @@
     <script src="{% static '/fullcalendar/daygrid/main.js' %}"></script>
     <script src="{% static '/fullcalendar/interaction/main.js' %}"></script>
     <script src="{% static '/fullcalendar/core/locales-all.js' %}"></script>
+    <script src="{% static '/fullcalendar/timegrid/main.js' %}"></script>
 
     <link href="{% static '/fullcalendar/core/main.css' %}" rel='stylesheet' />
     <link href="{% static '/fullcalendar/daygrid/main.css' %}" rel='stylesheet' />
@@ -76,7 +77,7 @@
                                 <a class="nav-link" href="{% url 'createstudent' %}">
                                     Thêm học viên mới
                                 </a>
-                                <!-- <a class="nav-link" href="{% url 'checkinstudent' %}">
+                                <!-- <a class="nav-link" href=#">
                                     Điểm danh
                                 </a> -->
                             </nav>
@@ -126,7 +127,7 @@
                             </nav>
                         </div>
                         <!-- Lịch học  -->
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule"
+                        <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule"
                             aria-expanded="false" aria-controls="collapseSchedule">
                             <div class="sb-nav-link-icon" style="width: 2em;">
                                 <i class="fas fa-calendar-alt"></i>
@@ -146,7 +147,7 @@
                                     Tạo lịch học mới
                                 </a>
                             </nav>
-                        </div>
+                        </div> -->
                         <!--  -->
                         {% if request.user.is_superuser %}
                         <!-- Manager -->

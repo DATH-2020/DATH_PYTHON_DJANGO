@@ -10,7 +10,7 @@ Danh sách lớp học
 <!-- break code -->
 {% load static %}
 <div class="card-header">
-    <h2 class="text-center font-weight-light">Danh sách học viên</h2>
+    <h2 class="text-center font-weight-light">Danh sách lớp</h2>
 </div>
 <div class="card-body">
     <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -50,7 +50,14 @@ Danh sách lớp học
                     <!-- break code -->
                     {%endif%}
                 </td>
-                <td><a class="btn btn-primary" href="/class/{{ i.pk }}"><i class="fas fa-edit"></i></a></td>
+                <td style="text-align: center;">
+                    {% if i.active %}
+                    <a class="btn btn-danger"><i class="fas fa-edit"></i></a>
+                    <!-- break code -->
+                    {% else %}
+                    <a class="btn btn-primary" href="/class/{{ i.pk }}"><i class="fas fa-edit"></i></a>
+                    {% endif %}
+                </td>
                 <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
             </tr>
             {% endfor %}
