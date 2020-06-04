@@ -33,7 +33,7 @@
   "deprecated": false,
   "description": "Lightweight promise polyfill. A+ compliant",
   "devDependencies": {
-    "eslint": "^2.4.0",
+    "eslint": "^7.1.0",
     "karma": "^0.13.19",
     "karma-browserify": "^4.4.2",
     "karma-chrome-launcher": "^0.2.2",
