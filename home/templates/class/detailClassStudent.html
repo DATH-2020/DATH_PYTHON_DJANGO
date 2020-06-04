@@ -25,7 +25,7 @@
                             <th style="width: 12%;">Thời gian đăng ký</th>
                             <th style="width: 13%;">Ghi chú</th>
                             <th style="width: 5%;">Active</th>
-                            <th style="width: 10%;">Học phí thiếu</th>
+                            <th style="width: 10%;">Điểm danh</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,13 +34,11 @@
                         <tr>
                             <td>
                                 {% if i.havedetailschedule %}
-                                <a href="/student/{{ i.pk }}" style="width: 100%;" 
-                                    class="btn btn-success"><i class="fas fa-calendar-check" 
-                                    style="color: white;"></i> {{ i.fullname }}</a>
+                                <a href="/student/{{ i.pk }}" style="width: 100%; color: white;" class="btn btn-success"><i
+                                        class="fas fa-calendar-check" style="color: white;"></i> {{ i.fullname }}</a>
                                 {% else %}
-                                <a href="/student/{{ i.pk }}" style="width: 100%;"
-                                    class="btn btn-danger"><i class="fas fa-calendar-times"
-                                    style="color: white;"></i> {{ i.fullname }}</a>
+                                <a onclick="warningcreateschedule()" style="width: 100%; color: white;" class="btn btn-danger"><i
+                                        class="fas fa-calendar-times" style="color: white;"></i> {{ i.fullname }}</a>
                                 {%endif%}
                             </td>
                             <td>{{ i.phonenumber }}</td>
@@ -52,7 +50,15 @@
                                 {% if i.active %}
                                 <i style="color: green; " class="fas fa-check-circle"></i> {%endif%}
                             </td>
-                            <td>{{ i.fee_remain }}</td>
+                            <td>
+                                {% if i.active %}
+                                <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle"
+                                    value="1" data-on="Học" data-off="Nghỉ" data-onstyle="success"
+                                    data-offstyle="danger"> {% else %}
+                                <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0"
+                                    data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endif %}
                         {% endfor %}
@@ -107,6 +113,12 @@
     </div>
 </div>
 <script>
+    function warningcreateschedule(){
+        swal("Cảnh báo!!!", "Phải tạo thời khóa biểu cá nhân cho học viên trước", "warning",{
+            buttons: false,
+            timer: 2500,
+        });
+    }
     document.addEventListener('DOMContentLoaded', function () {
         var initialLocaleCode = 'VI';
         var calendarEl = document.getElementById('calendar');
@@ -132,7 +144,7 @@
             start: '{{ i.daylearn|date:"Y-m-d" }}',
             end: '{{ i.daylearn|date:"Y-m-d" }}',
             {% if i.active == 1 %}
-    color: '#c5cae9',
+    color: '#28a745',
         {% else %}
     color: '#bdbdbd'
     {% endif %}

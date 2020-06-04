@@ -52,7 +52,7 @@ Danh sách lớp học
                 </td>
                 <td style="text-align: center;">
                     {% if i.active %}
-                    <a class="btn btn-danger"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-danger" onclick="warningedit()"><i class="fas fa-edit" style="color: white;"></i></a>
                     <!-- break code -->
                     {% else %}
                     <a class="btn btn-primary" href="/class/{{ i.pk }}"><i class="fas fa-edit"></i></a>
@@ -64,6 +64,30 @@ Danh sách lớp học
         </tbody>
     </table>
 </div>
+<script>
+    function warningedit(){
+        swal("Lỗi", "Lớp này đang trong quá trình học. Không được thay đổi thông tin của lớp", "error",{
+            buttons: false,
+            timer: 1500,
+        });
+    }
+</script>
 
+<div data-spy="scroll" data-target="#navId">
+    
+    <div id="navId">
+        <ul class="nav nav-tabs" role="tablist">
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<script>
+    $('div{1:div|body}').scrollspy({
+        target: '#navId'
+    });
+</script>
 <!-- break code -->
 {% endblock content %}

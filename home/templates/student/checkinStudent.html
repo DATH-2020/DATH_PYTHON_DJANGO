@@ -158,17 +158,17 @@
                 {% for i in checkinclass %} 
                 {% if student.fullname == i.student %}
                 {
-            title: '{{ i.dayname }}',
-            start: '{{ i.daylearn|date:"Y-m-d" }}',
-            end: '{{ i.daylearn|date:"Y-m-d" }}',
-                    {% if i.active == 1 %}
-    color: '#c5cae9',
-        {% else %}
-    color: '#bdbdbd'
-    {% endif %}
+                title: '{{ i.dayname }}',
+                start: '{{ i.daylearn|date:"Y-m-d" }}',
+                end: '{{ i.daylearn|date:"Y-m-d" }}',
+                {% if i.active == 1 %}
+                color: '#28a745',
+                    {% else %}
+                color: '#bdbdbd'
+                {% endif %}
                 },
-    {% endif %}
-    {% endfor %}
+                {% endif %}
+                {% endfor %}
             ],
         });
     calendar.render();

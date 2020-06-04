@@ -67,7 +67,34 @@ def home(request):
 # Dat
 @login_required(login_url='login')
 def listClass(request):
+    # auto run 
     listclass = Classname.objects.all()
+    for i1 in listclass:
+        startdate = datetime.strptime(str(i1.startdate), '%Y-%m-%d')
+        today = datetime.now()
+        student = Student.objects.all()
+        if startdate <= today:
+            # print(i1.pk) 
+            i1.active=1
+            i1.save()
+        for a in student:
+            if i1.pk==a.classname_id:
+                if startdate <= today:
+                    # print(a.classname_id) 
+                    a.active=1
+                    a.save()
+                    
+            
+                # if a.classname_id==i1.pk:
+                #     a.active = 1
+                #     a.save()
+    schedule = Schedule.objects.all()
+    for i2 in schedule:
+        daylearn = datetime.strptime(str(i2.daylearn), '%Y-%m-%d')
+        today = datetime.now()
+        if daylearn < today:
+            i2.active=1
+            i2.save()
     context = {'listclass': listclass}
     return render(request, 'class/listclass.html', context)
 
@@ -173,15 +200,19 @@ def listStudent(request):
 
 @login_required(login_url='login')
 def checkinStudent(request,pk):
-    student = Student.objects.get(pk=pk)
+    student = Student.objects.get(pk=pk) 
+    print(student.pk)
     classrequest = Classname.objects.get(pk=student.classname_id)
     time = TimeShift.objects.get(pk = classrequest.timeshift_id)
-    checkinclass = CheckInClass.objects.all()
+    checkinclass = CheckInClass.objects.filter(id_student=student.pk)
+    for i in checkinclass:
+        print(i.id_student)
     context = {'checkinclass':checkinclass, 'classrequest':classrequest,'time':time,'student':student}
     if request.method == 'POST':
         if student.havedetailschedule == 0:
             student.havedetailschedule = 1
             student.save()
+            # checkinclass = CheckInClass.objects.filter(id_student=student.pk) 
             count = 0
             start_date = datetime.strptime(str(classrequest.startdate), '%Y-%m-%d')
             step = timedelta(days=1)
@@ -197,7 +228,9 @@ def checkinStudent(request,pk):
                         CheckInClass.objects.create(id_student=pk,student=str(student.fullname),classname=str(classrequest.fullname), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
                         count = count+1
                 start_date += step
-            return render(request, 'student/checkinStudent.html', context)
+            # context = {'checkinclass':checkinclass, 'classrequest':classrequest,'time':time,'student':student}
+            # return render(request, 'student/checkinStudent.html', context)
+            return redirect('liststudent')
         else:
             student.havedetailschedule = 0
             student.save()
@@ -240,6 +273,9 @@ def detailStudent(request,pk):
     if request.method == 'POST':
         form = UpdateStudentForm(request.POST, instance=student)
         if form.is_valid():
+            print(request.POST.get('classname'))
+            student.classname_id = request.POST.get('classname')
+            student.save()
             form.save()
             # send_mail(
             #     subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail

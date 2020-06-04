@@ -19,7 +19,8 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="">Tên lớp</label>
                 <div class="form-group">
-                    <input class="form-control" maxlength="100" name="fullname" required id="id_fullname" type="text" placeholder="Tên lớp tự hiễn thị" value="A00"/>
+                    <input class="form-control" maxlength="100" name="fullname" required id="id_fullname" type="text"
+                        placeholder="Nhập tên lớp" />
                 </div>
             </div>
             <div class="col-md-3">
@@ -29,10 +30,10 @@
                         <!-- <option value="4" hidden>D</option> -->
                         {% for i in unit %}
                         {% if i.active %}
-                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        <option value="{{ i.pk }}">{{ i.fullname }}</option>
                         {% endif %}
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
             </div>
             <div class="col-md-3">
@@ -42,23 +43,24 @@
                         <!-- <option value="4" hidden>teacher</option> -->
                         {% for i in teacher %}
                         {% if i.active %}
-                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        <option value="{{ i.pk }}">{{ i.fullname }}</option>
                         {% endif %}
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
             </div>
             <div class="col-md-3">
                 <label class="small mb-1" for="">Chi nhánh</label>
                 <div class="form-group">
-                    <select onchange="selectionAreaRoom(this.value)" class="form-control" name="area" required id="id_area">
+                    <select onchange="selectionAreaRoom(this.value)" class="form-control" name="area" required
+                        id="id_area">
                         <!-- <option value="2" hidden>U</option> -->
                         {% for i in area %}
                         {% if i.active %}
-                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        <option value="{{ i.pk }}">{{ i.fullname }}</option>
                         {% endif %}
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
             </div>
         </div>
@@ -69,10 +71,10 @@
                     <select class="form-control" name="timeshift" required id="id_timeshift">
                         {% for i in timeshift %}
                         {% if i.active %}
-                            <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                        <option value="{{ i.pk }}">{{ i.fullname }}</option>
                         {% endif %}
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
             </div>
             <div class="col-md-2">
@@ -81,9 +83,9 @@
                     <select class="form-control" name="timeweek" required id="id_timeweek">
                         <!-- <option value="2" hidden>3-5-7</option> -->
                         {% for i in timeweek %}
-                            <option value="{{ i.pk }}">{{ i.name }}</option>
+                        <option value="{{ i.pk }}">{{ i.name }}</option>
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
             </div>
             <div class="col-md-2">
@@ -92,16 +94,16 @@
                     <select class="form-control" name="room" required id="id_room">
                         {% for i in room %}
                         {% if i.active %}
-                            <option value="{{ i.pk }}" data-option="{{i.area_id}}">{{ i.fullname }}</option>
+                        <option value="{{ i.pk }}" data-option="{{i.area_id}}">{{ i.fullname }}</option>
                         {% endif %}
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
             </div>
             <div class="col-md-2">
                 <label class="small mb-1" for="id_startdate">Ngày bắt đầu</label>
                 <div class="form-group">
-                    <input class="form-control" required name="startdate" id="id_startdate" type="date" value="2020-06-15" />
+                    <input class="form-control" required name="startdate" id="id_startdate" type="date"/>
                 </div>
             </div>
             <div class="col-md-2">
@@ -113,13 +115,15 @@
             <div class="col-md-1">
                 <label class="small mb-1" for="id_datecount">Số buổi</label>
                 <div class="form-group">
-                    <input class="form-control" required value="10" name="datecount" id="id_datecount" type="number" min="0" placeholder="Số buổi" />
+                    <input class="form-control" required name="datecount" id="id_datecount" type="number"
+                        min="1" placeholder="Số buổi" />
                 </div>
             </div>
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
-                    <input type="checkbox" name="active" id="id_active" data-toggle="toggle" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
+                    <input type="checkbox" disabled name="active" id="id_active" data-toggle="toggle" data-on="Học"
+                        data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
                 </div>
             </div>
         </div>
@@ -136,10 +140,13 @@
                     }
                 }
             }
+            document.getElementById('id_startdate').min = new Date(new Date().getTime() + 1000*60*60*24 ).toISOString().split("T")[0];
             selectionAreaRoom(id_area.value);
+            
         </script>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-            <input type="submit" value="Tạo lớp mới" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+            <input type="submit" value="Tạo lớp mới" class="btn btn-primary"
+                style="margin-left: auto; margin-right: auto;">
         </div>
     </form>
 </div>
