@@ -43,22 +43,22 @@ Student
                         style="color: white;"></i></a>
                     {%endif%}
                 </td>
-                <td><a href="/student/{{ i.pk }}" class="btn btn-primary">{{ i.fullname }}</a></td>
-                <td>
+                <td style="text-align: center;"><a href="/student/{{ i.pk }}" class="btn btn-primary">{{ i.fullname }}</a></td>
+                <td style="text-align: center;">
                     <!-- {{ i.classname }} -->
                     <a class="btn btn-primary" href="/classstudent/{{ i.classname_id }}">{{ i.classname}}</a>
                 </td>
-                <td>{{ i.phonenumber }}</td>
-                <td>{{ i.phonenumber_family }}</td>
-                <td>{{ i.adress }}</td>
-                <td>{{ i.create_date|date:"d-m-Y" }}</td>
-                <td>{{ i.note }}</td>
+                <td style="text-align: center;">{{ i.phonenumber }}</td>
+                <td style="text-align: center;">{{ i.phonenumber_family }}</td>
+                <td style="text-align: center;">{{ i.adress }}</td>
+                <td style="text-align: center;">{{ i.create_date|date:"d-m-Y" }}</td>
+                <td style="text-align: center;">{{ i.note }}</td>
                 <td style="text-align: center;">
                     {% if i.active %}
                     <i style="color: green; " class="fas fa-check-circle"></i>
                     {%endif%}
                 </td>
-                <td>{{ i.fee_remain }}</td>
+                <td style="text-align: center;">{{ i.fee_remain }}</td>
             </tr>
             {% endfor %}
         </tbody>

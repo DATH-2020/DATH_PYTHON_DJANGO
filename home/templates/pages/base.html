@@ -99,9 +99,11 @@
                                 <a class="nav-link" href="{% url 'listclass' %}">
                                     Danh sách
                                 </a>
+                                {% if request.user.is_superuser %}
                                 <a class="nav-link" href="{% url 'createclass' %}">
                                     Mở lớp mới
                                 </a>
+                                {% endif %}
                             </nav>
                         </div>
                         <!-- Giảng viên  -->
@@ -121,34 +123,13 @@
                                 <a class="nav-link" href="{% url 'listteacher' %}">
                                     Danh sách
                                 </a>
+                                {% if request.user.is_superuser %}
                                 <a class="nav-link" href="{% url 'createteacher' %}">
                                     Giảng viên mới
                                 </a>
+                                {% endif %}
                             </nav>
                         </div>
-                        <!-- Lịch học  -->
-                        <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule"
-                            aria-expanded="false" aria-controls="collapseSchedule">
-                            <div class="sb-nav-link-icon" style="width: 2em;">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            Lịch học
-                            <div class="sb-sidenav-collapse-arrow">
-                                <i class="fas fa-angle-down"></i>
-                            </div>
-                        </a>
-                        <div class="collapse" id="collapseSchedule" aria-labelledby="headingOne"
-                            data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">
-                                    Danh sách
-                                </a>
-                                <a class="nav-link" href="#">
-                                    Tạo lịch học mới
-                                </a>
-                            </nav>
-                        </div> -->
-                        <!--  -->
                         {% if request.user.is_superuser %}
                         <!-- Manager -->
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManager"

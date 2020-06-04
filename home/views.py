@@ -177,6 +177,7 @@ def checkinStudent(request,pk):
     classrequest = Classname.objects.get(pk=student.classname_id)
     time = TimeShift.objects.get(pk = classrequest.timeshift_id)
     checkinclass = CheckInClass.objects.all()
+    context = {'checkinclass':checkinclass, 'classrequest':classrequest,'time':time,'student':student}
     if request.method == 'POST':
         if student.havedetailschedule == 0:
             student.havedetailschedule = 1
@@ -196,8 +197,13 @@ def checkinStudent(request,pk):
                         CheckInClass.objects.create(id_student=pk,student=str(student.fullname),classname=str(classrequest.fullname), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
                         count = count+1
                 start_date += step
+            return render(request, 'student/checkinStudent.html', context)
+        else:
+            student.havedetailschedule = 0
+            student.save()
+            CheckInClass.objects.filter(id_student=student.pk).delete()
             return redirect('liststudent')
-    context = {'checkinclass':checkinclass, 'classrequest':classrequest,'time':time,'student':student}
+    # context = {'checkinclass':checkinclass, 'classrequest':classrequest,'time':time,'student':student}
     return render(request, 'student/checkinStudent.html', context)
 
 @login_required(login_url='login')

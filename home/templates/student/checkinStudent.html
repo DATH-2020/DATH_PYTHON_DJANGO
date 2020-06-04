@@ -110,12 +110,24 @@
                 </div>
             </div>
             {% if student.havedetailschedule %}
-            <label></label>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="form-row">
+                            <a class="btn btn-primary" href="{% url 'liststudent'%}" role="button" style="margin-left: auto; margin-right: auto;"
+                            name="backliststudent" id="id_backliststudent" >Danh sách sinh viên</a>
+                            <button class="btn btn-warning" type="submit" style="margin-left: auto; margin-right: auto;"
+                            name="submit" id="id_submit" value="">Xóa thời khóa biểu hiện tại</button>
+                            <!-- <input class="btn btn-warning" type="submit" style="margin-left: auto; margin-right: auto;"
+                                name="submit" id="id_submit" value="Xóa thời khóa biểu hiện tại"> -->
+                    </div>
+
+                </div>
+            </form>
             {% else %}
             <form action="" method="POST">
                 {% csrf_token %}
                 <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                    <!-- <label for="id_submit">Thời khóa biểu cá nhân cho {{student.fullname}} hiện chưa có</label> -->
                     <input class="btn btn-danger" type="submit" style="margin-left: auto; margin-right: auto;"
                         name="submit" id="id_submit" value="Xác nhận tạo thời khóa biểu cá nhân">
                 </div>
