@@ -131,6 +131,7 @@ class Student(models.Model):
         verbose_name_plural = "Học sinh"
 
 class Schedule(models.Model):
+    id_classname = models.CharField(max_length=50, blank=True, null=True, verbose_name="ID học viên")
     classname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên lớp")
     dayname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Buổi")
     daylearn = models.DateField(verbose_name="Ngày học")

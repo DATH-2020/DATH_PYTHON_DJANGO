@@ -1,10 +1,21 @@
 from django.urls import path
+
+from django.contrib.auth import views as auth_views
+
 from . import views
 
 urlpatterns = [
     path('register/', views.registerPage, name="register"),
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),
+
+    path('password_change_done/', auth_views.PasswordChangeDoneView.as_view(template_name="pages/changePassSuccess.html"), name="password_change_done"),
+    path('change_password/', auth_views.PasswordChangeView.as_view(template_name="pages/changePassword.html"), name="change_password"),
+
+    path('reset_password/', auth_views.PasswordResetView.as_view(template_name="pages/password.html"), name="reset_password"),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name="pages/sendEmailSuccess.html"), name="password_reset_done"),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="pages/newPassword.html"), name="password_reset_confirm"),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="pages/resetPassSuccess.html"), name="password_reset_complete"),
 
     path('', views.home, name="home"),
 
@@ -15,8 +26,10 @@ urlpatterns = [
     path('classstudent/<int:pk>/', views.detailClassStudent, name='detailclassstudent'),
 
     # # Manager 
-    # path('createstafaccount/',views.CreateStafAccount,name='createstafaccount'),
-    path('liststaf/',views.listStaf,name='liststaf'),
+    path('createstafaccount/',views.createStafAccount,name='createstafaccount'),
+    path('updateuser/<int:pk>',views.updateUser,name='updateuser'),
+    path('editprofile/<str:pk>',views.editProfile,name='editprofile'),
+    path('listuser/',views.listUser,name='listuser'),
     # path('roleacount/',views.RoleAcount,name='roleacount'),
     # # Schedule 
     # path('createschedule/',views.CreateSchedule,name='createschedule'),
@@ -34,4 +47,6 @@ urlpatterns = [
     path('teacher/<int:pk>/',views.detailTeacher,name='detailteacher'),
 
     path('contact/',views.contact, name='contact'),
+    path('errorrole/',views.errorRole, name='errorrole'),
+
 ]

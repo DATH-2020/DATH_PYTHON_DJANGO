@@ -16,42 +16,43 @@ from .decorators import *
 
 from datetime import *
 # Create your views here.
-@unauthenticated_user
+@unauthenticated_login
 def loginPage(request):
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
-
             user = authenticate(request, username=username, password=password)
-
+            context={'user':user}
             if user is not None:
                 login(request, user )
                 return redirect('home')
             else:
                 messages.info(request, 'Tên đăng nhập hoặc mật khẩu không đúng')
-                return render(request, 'pages/login.html')
+                return render(request, 'pages/login.html', context)
         context={}
         return render(request, 'pages/login.html', context)
 
-@unauthenticated_user
+@unauthenticated_register
 def registerPage(request):
         form = CreateUserForm()
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
             if form.is_valid():
+                # user.is_superuser = 1
+                # user.is_staff = 1
                 user = form.save()  
                 username = form.cleaned_data.get('username')
 
                 group = Group.objects.get(name='manager')
-                user.group.add(group)
+                user.groups.add(group)
 
                 messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
                 return redirect('login')
             else:
                 messages.error(request, "Lỗi tạo tài khoản")
                 return render(request, 'pages/register.html')
-        context = {}
-        return render(request, 'pages/register.html')
+        context = {'form':form}
+        return render(request, 'pages/register.html',context)
         # context = {'form':form}
         # return render(request, 'pages/register.html', context)
 
@@ -61,13 +62,6 @@ def logoutUser(request):
     
 @login_required(login_url='login')
 def home(request):
-    return render(request, 'pages/home.html')
-
-# Class 
-# Dat
-@login_required(login_url='login')
-def listClass(request):
-    # auto run 
     listclass = Classname.objects.all()
     for i1 in listclass:
         startdate = datetime.strptime(str(i1.startdate), '%Y-%m-%d')
@@ -95,10 +89,22 @@ def listClass(request):
         if daylearn < today:
             i2.active=1
             i2.save()
-    context = {'listclass': listclass}
+    context = {'schedule':schedule}
+    return render(request, 'pages/home.html',context)
+
+# Class 
+# Dat
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
+def listClass(request):
+    # auto run 
+    schedule = Schedule.objects.all()
+    listclass = Classname.objects.all() 
+    context = {'listclass': listclass,'schedule':schedule}
     return render(request, 'class/listclass.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager'])
 def createClass(request):
     form = CreateClassnameForm()
     unit = Unit.objects.all()
@@ -132,6 +138,7 @@ def createClass(request):
     return render(request, 'class/createClass.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
 def detailClass(request,pk):
     classname = Classname.objects.get(pk=pk)
     unit = Unit.objects.all()
@@ -150,6 +157,7 @@ def detailClass(request,pk):
     return render(request,'class/detailClass.html',context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
 def detailClassStudent(request,pk):
     pk = pk
     classname = Classname.objects.get(pk=pk)
@@ -163,6 +171,7 @@ def detailClassStudent(request,pk):
 # Student 
 # Dat
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
 def listStudent(request):
     form = CreateStudentForm()
     liststudent = Student.objects.all()
@@ -170,6 +179,7 @@ def listStudent(request):
     return render(request, 'student/student.html', context)
 
 # @login_required(login_url='login')
+# @allowed_users(allowed_roles=['admin','manager','staff'])
 # def createDetailSchedule(request,pk):
 #     student = Student.objects.get(pk=pk)
 #     classrequest = Classname.objects.get(pk=student.classname_id)
@@ -199,6 +209,7 @@ def listStudent(request):
 #     return render(request, 'student/createDetailSchedule.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
 def checkinStudent(request,pk):
     student = Student.objects.get(pk=pk) 
     print(student.pk)
@@ -233,6 +244,7 @@ def checkinStudent(request,pk):
             return redirect('liststudent')
         else:
             student.havedetailschedule = 0
+            student.active = 0
             student.save()
             CheckInClass.objects.filter(id_student=student.pk).delete()
             return redirect('liststudent')
@@ -240,6 +252,7 @@ def checkinStudent(request,pk):
     return render(request, 'student/checkinStudent.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
 def createStudent(request):
     form = CreateStudentForm()
     gender = Gender.objects.all()
@@ -264,6 +277,7 @@ def createStudent(request):
     return render(request, 'student/createStudent.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
 def detailStudent(request,pk):
     student = Student.objects.get(pk=pk)
     classname = Classname.objects.all()
@@ -273,7 +287,7 @@ def detailStudent(request,pk):
     if request.method == 'POST':
         form = UpdateStudentForm(request.POST, instance=student)
         if form.is_valid():
-            print(request.POST.get('classname'))
+            # print(request.POST.get('classname'))
             student.classname_id = request.POST.get('classname')
             student.save()
             form.save()
@@ -292,12 +306,14 @@ def detailStudent(request,pk):
 # Teacher 
 # Dat
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
 def listTeacher(request):
     listteacher = Teacher.objects.all()
     context = {'listteacher': listteacher}
     return render(request, 'teacher/teacher.html', context)
     
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def createTeacher(request):
     gender = Gender.objects.all()
     listteacher = Teacher.objects.all()
@@ -325,13 +341,103 @@ def detailTeacher(request,pk):
 
 # Manager 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
-def listStaf(request):
-    context={}
-    return render(request,'manager/staf.html',context)
+@allowed_users(allowed_roles=['admin','manager'])
+def listUser(request):
+    listuser = User.objects.all()
+    context={'listuser':listuser}
+    return render(request,'manager/listUser.html',context)
+
+@login_required(login_url='login')
+def editProfile(request,pk):
+    detailuser = User.objects.get(pk=pk)
+    if request.method == 'POST':
+        detailuser.last_name = request.POST.get('last_name')
+        detailuser.first_name = request.POST.get('first_name')
+        detailuser.save()
+        return redirect('listuser')
+    context={'detailuser':detailuser} 
+    return render(request,'manager/editProfile.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager'])
+def updateUser(request,pk):
+    
+    detailuser = User.objects.get(pk=pk)
+    if request.method == 'POST':
+        detailuser.last_name = request.POST.get('last_name')
+        detailuser.first_name = request.POST.get('first_name')
+        if str(request.POST.get('is_active')) == 'on':
+            is_active = 1
+        else:
+            is_active = 0
+        if str(request.POST.get('is_staff')) == 'on':
+            is_staff = 1
+        else:
+            is_staff = 0
+        if str(request.POST.get('is_superuser')) == 'on':
+            is_superuser = 1
+        else:
+            is_superuser = 0
+        print(is_active)
+        print(is_staff)
+        print(is_superuser)
+        detailuser.is_active = is_active
+        detailuser.is_staff = is_staff
+        detailuser.is_superuser = is_superuser
+        detailuser.groups.clear()
+        detailuser.save()
+        if request.POST.get('is_superuser'):
+            group = Group.objects.get(name='admin')
+            detailuser.groups.add(group)
+        elif request.POST.get('is_staff'):
+            group = Group.objects.get(name='manager')
+            detailuser.groups.add(group)
+        else:
+            group = Group.objects.get(name='staff')
+            detailuser.groups.add(group)
+        return redirect('listuser')
+    context={'detailuser':detailuser}
+    return render(request,'manager/updateUser.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager'])
+def createStafAccount(request):
+    form = CreateUserForm()
+    context = {'form':form}
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            # user.is_superuser = 1
+            # user.is_staff = 1
+            username = form.cleaned_data.get('username')
+            superuser = request.POST.get('is_staff')
+            manager = request.POST.get('is_superuser')
+            if superuser:
+                group = Group.objects.get(name='admin')
+                user.groups.add(group)
+            elif manager:
+                group = Group.objects.get(name='manager')
+                user.groups.add(group)
+            else:
+                group = Group.objects.get(name='staff')
+                user.groups.add(group)
+            user = form.save()  
+            messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
+            return redirect('listuser') 
+        else:
+            messages.error(request, "Lỗi tạo tài khoản")
+            return render(request,'manager/createStafAccount.html',context)
+    return render(request,'manager/createStafAccount.html',context)
+
+
 
 # Contact 
 @login_required(login_url='login')
 def contact(request):
     return render(request,'contact/contact.html')
  
+# RoleError 
+@login_required(login_url='login')
+def errorRole(request):
+    return render(request,'pages/errorrole.html')
+  

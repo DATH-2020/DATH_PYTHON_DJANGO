@@ -10,7 +10,8 @@
     <meta name="author" content="" />
     <title>ĐĂNG NHẬP</title>
     <link href="{% static '/css/styles.css' %}" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
+        crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-primary">
@@ -29,37 +30,41 @@
                                         {% csrf_token %}
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputEmailAddress">Tên đăng nhập</label>
-                                            <input class="form-control py-4" required id="inputEmailAddress" name="username" type="text" placeholder="Nhập tên đăng nhập" />
+                                            <input class="form-control py-4" required id="inputEmailAddress"
+                                                name="username" type="text" placeholder="Nhập tên đăng nhập" />
                                         </div>
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputPassword">Mật khẩu</label>
-                                            <input class="form-control py-4" required id="inputPassword" name="password" type="password" placeholder="Nhập mật khẩu" />
+                                            <input class="form-control py-4" required id="inputPassword" name="password"
+                                                type="password" placeholder="Nhập mật khẩu" />
                                         </div>
                                         {% if messages %}
                                         <div>
                                             {% for mess in messages %}
-                                            <!-- <script>
-                                                //Swal.fire({
-                                                //   icon: 'error',
-                                                //   title: 'Oops...',
-                                                //   text: '{{mess}}',
-                                                //});
-                                                //Swal.Fire({''});
-                                            </script> -->
                                             {% if mess.tags == 'success' %}
-                                                <div class="alert alert-success" role="alert">
-                                                    {{mess}}
-                                                </div>
-                                            {% elif mess.tags == 'error' %}    
-                                                <div class="alert alert-danger" role="alert">
-                                                    {{mess}}
-                                                </div>
+                                            <div class="alert alert-success" role="alert">
+                                                {{mess}}
+                                            </div>
+                                            {% elif mess.tags == 'error' %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {{mess}}
+                                            </div>
                                             {% endif %}
                                             {% endfor %}
+
+
+                                            {% if form.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                Mật khẩu không chính xác
+                                            </div>
+                                            {% endif %}
                                         </div>
                                         {% endif %}
-                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <input class="btn btn-primary btn-block" type="submit" name="loginuser" id="loginuser" value="Đăng nhập">
+                                        <div
+                                            class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            <a class="small" href="{% url 'reset_password' %}">Quên mật khẩu?</a>
+                                            <input class="btn btn-primary" type="submit" name="loginuser" id="loginuser"
+                                                value="Đăng nhập">
                                         </div>
                                     </form>
                                 </div>
@@ -80,7 +85,8 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
     <script src="{% static '/js/sweetalert2.js' %}"></script>
 </body>
 

@@ -1,0 +1,92 @@
+{% extends "pages/base.html" %}
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Chỉnh sửa thông tin cá nhân tài khoản</h2>
+</div>
+<div class="card-body">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xl-6 col-md-12">
+                <div class="row">
+                    <div class="col-xl-6 col-md-12">
+                        <div class="form-group">
+                            <label class="small mb-1" for="">Họ và tên lót</label>
+                            <input class="form-control" maxlength="100" name="first_name" id="id_first_name" type="text"
+                                placeholder="Không có họ và tên lót" value="{{ detailuser.first_name }}" />
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-12">
+                        <div class="form-group">
+                            <label class="small mb-1" for="">Tên chủ tài khoản</label>
+                            <input class="form-control" maxlength="100" name="last_name" id="id_last_name" type="text"
+                                placeholder="Không có tên" value="{{ detailuser.last_name }}" />
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-12">
+                        <div class="form-group">
+                            <label class="small mb-1" for="">Tên tài khoản</label>
+                            <input class="form-control" disabled maxlength="100" type="text"
+                                placeholder="{{ detailuser.username }}" />
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-12">
+                        <div class="form-group">
+                            <label class="small mb-1" for="">Email</label>
+                            <input class="form-control" disabled maxlength="100" placeholder="{{ detailuser.email }}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-xl-4 col-md-6">
+                        <label class="small mb-1" for="id_is_staff">Kích hoạt</label>
+                        <div class="form-group">
+                            {% if detailuser.is_active %}
+                            <input type="checkbox" checked name="is_active" id="id_is_active" data-toggle="toggle"
+                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                            {% else %}
+                            <input type="checkbox" name="is_active" id="id_is_active" data-toggle="toggle"
+                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6">
+                        <label class="small mb-1" for="id_is_staff">Quản lý</label>
+                        <div class="form-group">
+                            {% if detailuser.is_staff %}
+                            <input type="checkbox" checked name="is_staff" id="id_is_staff" data-toggle="toggle"
+                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                            {% else %}
+                            <input type="checkbox" name="is_staff" id="id_is_staff" data-toggle="toggle"
+                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if request.user.is_superuser %}
+                    <div class="col-xl-4 col-md-6">
+                        <label class="small mb-1" for="id_is_superuser">Tổng quản lý</label>
+                        <div class="form-group">
+                            {% if detailuser.is_superuser %}
+                            <input type="checkbox" checked name="is_superuser" id="id_is_superuser" data-toggle="toggle"
+                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                            {% else %}
+                            <input type="checkbox" name="is_superuser" id="id_is_superuser" data-toggle="toggle"
+                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                    <input type="submit" value="Lưu thông tin" class="btn btn-success"
+                        style="margin-left: auto; margin-right: auto;">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

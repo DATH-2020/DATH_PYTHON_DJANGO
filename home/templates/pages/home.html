@@ -1,11 +1,112 @@
- {% extends "pages/base.html" %}
+{% extends "pages/base.html" %}
 <!-- break code -->
 {% block title %}Home{% endblock %}
 <!-- break code -->
 {% block content %}
 <!-- break code -->
-<p>
-    
-</p>
+<div class="card-body">
+    <div class="row">
+        <div class="col-xl-4 col-md-12">
+            <div class="card bg-danger text-white mb-4" style="height: 10em;">
+                <div class="card-body" style="font-size: 2em;">Học viên</div>
+                <a href="liststudent/" class="btn btn-danger" style="font-size: 1.5em; color: white;">
+                    Danh sách học viên
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-12">
+            <div class="card bg-warning text-white mb-4" style="height: 10em;">
+                <div class="card-body" style="font-size: 2em;">Giảng viên</div>
+                <a href="listteacher/" class="btn btn-warning" style="font-size: 1.5em; color: white;">
+                    Danh sách giảng viên
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-12">
+            <div class="card bg-success text-white mb-4" style="height: 10em;">
+                <div class="card-body" style="font-size: 2em;">Lớp tại trung tâm</div>
+                <a href="listclass/" class="btn btn-success" style="font-size: 1.5em; color: white;">
+                    Danh sách lớp
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-12 col-md-12">
+            <Div class="row">
+                <div class="col-md-6">
+                    <div class="card bg-primary text-white mb-4" style="height: 10em;">
+                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="card bg-primary text-white mb-4" style="height: 10em;">
+                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="card bg-primary text-white mb-4" style="height: 10em;">
+                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="card bg-primary text-white mb-4" style="height: 10em;">
+                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="margin:0 auto; width: 100%;">
+                        <div id="calendar" style=" width: 100%; height: 50%; margin: 0 20px 20px 0;">
+                        </div>
+                    </div>
+                </div>
+            </Div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var initialLocaleCode = 'VI';
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['interaction', 'dayGrid'],
+            header: {
+                //left: 'prevYear,prev,next,nextYear today',
+                //center: 'title',
+                //right: 'dayGridMonth'
+                right: 'today prev,next',
+            },
+            //defaultDate: '{{ classrequest.startdate|date:"Y-m-d" }}',
+            locale: initialLocaleCode,
+            navLinks: true, // can click day/week names to navigate views
+            //editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {% for i in schedule %} 
+                {
+                title: '{{ i.classname }}',
+                start: '{{ i.daylearn|date:"Y-m-d" }}',
+                end: '{{ i.daylearn|date:"Y-m-d" }}',
+                {% if i.active == 1 %}
+                color: '#28a745',
+        {% else %}
+        color: '#bdbdbd'
+                {% endif %}
+                },
+        {% endfor %}
+            ],
+        });
+    calendar.render();
+    });
+</script>
 <!-- break code -->
 {% endblock %}

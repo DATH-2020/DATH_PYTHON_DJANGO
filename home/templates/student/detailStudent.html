@@ -3,7 +3,7 @@
     <h2 class="text-center font-weight-light">Thay đổi thông tin học viên</h2>
 </div>
 <div class="card-body">
-    <form method='POST' action="">
+    <form method='POST' action="" id="qrcodeRedirectForm"  name="qrcodeRedirectForm">
         {% csrf_token %}
         <div class="form-row">
             <div class="col-md-4">
@@ -174,7 +174,7 @@
                 <div class="form-group">
                     <!-- <input class="form-control" required id="inputNote" type="checkbox" placeholder="Ghi chú" /> -->
                     {% if student.active %}
-                    <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1"
+                    <input type="checkbox" id="id_active" name="active" disabled checked data-toggle="toggle" value="1"
                         data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> {% else %}
                     <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Học"
                         data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> {% endif %}
@@ -184,10 +184,12 @@
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
             <!-- <a class="btn btn-primary btn-block" href="login.html">Tạo tài khoản mới</a> -->
             {% if student.havedetailschedule == 0 %}
-            <button onclick="submita()" on id="id_button" type="submit" value="Lưu" class="btn btn-success" style="margin-left: auto; margin-right: auto;"><i class="fas fa-save"></i>  Lưu</button>
+            <a onclick="submita()" id="id_button" class="btn btn-success"
+                style="margin-left: auto; margin-right: auto; color: white;"><i class="fas fa-save"></i> Lưu</a>
             {% else %}
-            <label class="btn btn-danger" onclick="alertnochange()" disabled style="margin-left: auto; margin-right: auto;">
-                    Không được thay đổi 
+            <label class="btn btn-danger" onclick="alertnochange()" disabled
+                style="margin-left: auto; margin-right: auto;">
+                Không được thay đổi
             </label>
             {% endif %}
         </div>
@@ -195,21 +197,20 @@
 </div>
 
 <script>
-    function alertnochange(){
-        swal("Lỗi", "Học viên này đã có thời khóa biểu cá nhân", "error",{
+    function alertnochange() {
+        swal("Lỗi", "Học viên này đã có thời khóa biểu cá nhân", "error", {
             buttons: false,
             timer: 1500,
         });
     }
     function submita() {
-        swal("Great!!!", "Lưu thành công", "success",{
+        swal("Great!!!", "Lưu thành công", "success", {
             buttons: false,
             timer: 1500,
         });
-        setTimeout(function(){
-            alert("loi");
-            this.submit
-        }, 3000);
+        setTimeout(function () {
+            document.qrcodeRedirectForm.submit();
+        }, 1500);
     }
 </script>
 

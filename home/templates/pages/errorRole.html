@@ -1,0 +1,24 @@
+{% extends "pages/base.html" %} 
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %} 
+<!-- break -->
+{% block content %} 
+<!-- break -->
+{% load static %} 
+<!-- break -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="text-center mt-4">
+                <h1 class="display-1">CẢNH BÁO</h1>
+                <p class="lead">Bạn không có quyền truy cập chức năng này</p>
+                <a class="btn btn-warning" href="{{ url 'home'}}"></a>
+                <!-- <a href="index.html"><i class="fas fa-arrow-left mr-1"></i>Return to Dashboard</a> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- break -->
+{% endblock content %}
