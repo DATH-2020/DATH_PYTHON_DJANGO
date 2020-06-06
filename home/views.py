@@ -40,12 +40,34 @@ def registerPage(request):
             if form.is_valid():
                 # user.is_superuser = 1
                 # user.is_staff = 1
-                user = form.save()  
+                # user = form.save()  
                 username = form.cleaned_data.get('username')
 
-                group = Group.objects.get(name='manager')
-                user.groups.add(group)
+                # group = Group.objects.get(name='manager')
+                # user.groups.add(group)
+                user = form.save()
+                if str(request.POST.get('is_active')) == 'on':
+                    is_active = 1
+                else:
+                    is_active = 0
+                if str(request.POST.get('is_staff')) == 'on':
+                    is_staff = 1
+                else:
+                    is_staff = 0
+                if str(request.POST.get('is_superuser')) == 'on':
+                    is_superuser = 1
+                else:
+                    is_superuser = 0
 
+                if is_superuser:
+                    group = Group.objects.get(name='admin')
+                    user.groups.add(group)
+                elif is_staff:
+                    group = Group.objects.get(name='manager')
+                    user.groups.add(group)
+                else:
+                    group = Group.objects.get(name='staff')
+                    user.groups.add(group)
                 messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
                 return redirect('login')
             else:
@@ -168,6 +190,30 @@ def detailClassStudent(request,pk):
     context={'timeshift':timeshift,'liststudentinclass':liststudentinclass,'pk':pk, 'classname':classname, 'schedule':schedule}
     return render(request,'class/detailClassStudent.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff'])
+def checkinClassStudent(request,pk):
+    pk = pk
+    classname = Classname.objects.get(pk=pk)
+    liststudentinclass = Student.objects.all()
+    timeshift = TimeShift.objects.get(pk=classname.timeshift_id)
+    print(timeshift.timestart)
+    checkinclass = CheckInClass.objects.all()
+    if request.method=='POST':
+        
+        checkin = request.POST.getlist('check')
+        for id in checkin:
+            print(int(id))
+            check = CheckInClass.objects.get(pk=int(id))
+            if check.active == 0:
+                check.active = 1
+            check.save() 
+
+        return redirect('listclass')
+    schedule = Schedule.objects.all()
+    context={'checkinclass':checkinclass,'timeshift':timeshift,'liststudentinclass':liststudentinclass,'pk':pk, 'classname':classname, 'schedule':schedule}
+    return render(request,'class/checkinClassStudent.html',context)
+
 # Student 
 # Dat
 @login_required(login_url='login')
@@ -175,6 +221,21 @@ def detailClassStudent(request,pk):
 def listStudent(request):
     form = CreateStudentForm()
     liststudent = Student.objects.all()
+    listclass = Classname.objects.all()
+    for i1 in listclass:
+        startdate = datetime.strptime(str(i1.startdate), '%Y-%m-%d')
+        today = datetime.now()
+        # student = Student.objects.all()
+        if startdate <= today:
+            # print(i1.pk) 
+            i1.active=1
+            i1.save()
+        for a in liststudent:
+            if i1.pk==a.classname_id:
+                if startdate <= today:
+                    # print(a.classname_id) 
+                    a.active=1
+                    a.save()
     context = {'liststudent': liststudent}
     return render(request, 'student/student.html', context)
 
@@ -359,6 +420,30 @@ def editProfile(request,pk):
     return render(request,'manager/editProfile.html',context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def newArea(request):
+    form = CreateAreaForm()
+    listuser = User.objects.all()
+    context={'form':form,'listuser':listuser} 
+    return render(request,'manager/newArea.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def listArea(request):
+    form = CreateAreaForm()
+    listarea = Area.objects.all()
+    context={'form':form,'listarea':listarea} 
+    return render(request,'manager/listArea.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def notify(request):
+    form = CreateAreaForm()
+    listarea = Area.objects.all()
+    context={'form':form,'listarea':listarea} 
+    return render(request,'manager/notify.html',context)
+
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager'])
 def updateUser(request,pk):
     
@@ -409,19 +494,31 @@ def createStafAccount(request):
         if form.is_valid():
             # user.is_superuser = 1
             # user.is_staff = 1
+            user = form.save()  
+            if str(request.POST.get('is_active')) == 'on':
+                is_active = 1
+            else:
+                is_active = 0
+            if str(request.POST.get('is_staff')) == 'on':
+                is_staff = 1
+            else:
+                is_staff = 0
+            if str(request.POST.get('is_superuser')) == 'on':
+                is_superuser = 1
+            else:
+                is_superuser = 0
             username = form.cleaned_data.get('username')
             superuser = request.POST.get('is_staff')
             manager = request.POST.get('is_superuser')
-            if superuser:
+            if is_superuser:
                 group = Group.objects.get(name='admin')
                 user.groups.add(group)
-            elif manager:
+            elif is_staff:
                 group = Group.objects.get(name='manager')
                 user.groups.add(group)
             else:
                 group = Group.objects.get(name='staff')
                 user.groups.add(group)
-            user = form.save()  
             messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
             return redirect('listuser') 
         else:

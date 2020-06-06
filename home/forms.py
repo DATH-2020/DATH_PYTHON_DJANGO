@@ -39,3 +39,8 @@ class UpdateTeacherForm(ModelForm):
     class Meta:
         model = Teacher
         fields = 'email','phonenumber','adress','note','active'
+
+class CreateAreaForm(ModelForm):
+    class Meta:
+        model = Area
+        fields = '__all__'

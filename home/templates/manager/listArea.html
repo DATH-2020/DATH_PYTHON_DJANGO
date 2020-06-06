@@ -1,0 +1,35 @@
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="card-body"  style="height: 52em;">
+    <div class="row">
+        <div class="col-xl-4 col-md-12">
+            <a href="{% url 'newarea' %}" class="btn btn-secondary text-white mb-4" style=" width: 100%; height: 10em;">
+                <div class="card-body" style="font-size: 4em; text-align: center;"><i class="fas fa-plus-circle"></i></div>
+                <!-- <a href="newarea" class="btn btn-success" style="font-size: 1.5em; color: white;">
+                    Mở chi nhánh mới
+                </a> -->
+            </a>
+        </div>
+        {% for i in listarea %}
+        <div class="col-xl-4 col-md-12">
+            <div class="card bg-dark text-white mb-4" style="height: 10em;">
+                <div class="card-body" style="font-size: 2em; text-align: center;">{{i.fullname}}</div>
+                <a href="" class="btn btn-dark" style="font-size: 1.5em; color: white;">
+                    Chỉnh sửa thông tin
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- break -->
+{% endblock content %}

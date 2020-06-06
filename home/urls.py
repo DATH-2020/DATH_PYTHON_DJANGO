@@ -24,12 +24,16 @@ urlpatterns = [
     path('createclass/', views.createClass, name='createclass'),
     path('class/<int:pk>/', views.detailClass, name='detailclass'),
     path('classstudent/<int:pk>/', views.detailClassStudent, name='detailclassstudent'),
+    path('checkinclassstudent/<int:pk>/', views.checkinClassStudent, name='checkinclassstudent'),
 
     # # Manager 
     path('createstafaccount/',views.createStafAccount,name='createstafaccount'),
     path('updateuser/<int:pk>',views.updateUser,name='updateuser'),
     path('editprofile/<str:pk>',views.editProfile,name='editprofile'),
     path('listuser/',views.listUser,name='listuser'),
+    path('newarea/',views.newArea,name='newarea'),
+    path('listarea/',views.listArea,name='listarea'),
+    path('notify/',views.notify,name='notify'), 
     # path('roleacount/',views.RoleAcount,name='roleacount'),
     # # Schedule 
     # path('createschedule/',views.CreateSchedule,name='createschedule'),

@@ -8,102 +8,107 @@
 <!-- break -->
 {% load static %}
 <!-- break -->
-<div class="card-header">
-    <h3 class="text-center font-weight-light my-4">Tạo tài khoản mới</h3>
-</div>
-<div class="row">
-    <div class="col-xl-6">
-        <div class="card-body">
-            <form method="POST" action="">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-xl-6 col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1" for="id_first_name">Họ và tên lót</label>
-                            <input class="form-control py-4" id="id_first_name" name="first_name" maxlength="150"
-                                required type="text" placeholder="Họ và tên lót" />
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1" for="id_last_name">Tên </label>
-                            <input class="form-control py-4" id="id_last_name" name="last_name" maxlength="150" required
-                                type="text" placeholder="Tên đầy đủ" />
-                        </div>
-                    </div>
+<div class="container" style="height: 52em;">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Tạo tài khoản mới</h3>
                 </div>
-                <div class="form-group">
-                    <label class="small mb-1" for="id_username">Tên đăng nhập</label>
-                    <input class="form-control py-4" id="id_username" name="username" required type="text"
-                        aria-describedby="emailHelp" placeholder="Nhập tên đăng nhập" />
-                </div>
-                <div class="form-group">
-                    <label class="small mb-1" for="id_email">Email</label>
-                    <input class="form-control py-4" id="id_email" name="email" type="email"
-                        aria-describedby="emailHelp" placeholder="Nhập Email" />
-                </div>
-                <div class="form-row">
-                    <div class="col-xl-6 col-md-12">
-                        <div class="form-group">
-                            <label class="small mb-1" for="id_password1">Mật khẩu</label>
-                            <input class="form-control py-4" id="id_password1" name="password1" required type="password"
-                                placeholder="Nhập mật khẩu" />
+                <div class="card-body">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_first_name">Họ và tên lót</label>
+                                    <input class="form-control py-4" id="id_first_name" name="first_name"
+                                        maxlength="150" required type="text" placeholder="Họ và tên lót" />
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_last_name">Tên </label>
+                                    <input class="form-control py-4" id="id_last_name" name="last_name" maxlength="150"
+                                        required type="text" placeholder="Tên đầy đủ" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6 col-md-12">
                         <div class="form-group">
-                            <label class="small mb-1" for="password2">Xác nhận mật
-                                khẩu</label>
-                            <input class="form-control py-4" id="id_password2" name="password2" required type="password"
-                                placeholder="Xác nhận mật khẩu" />
+                            <label class="small mb-1" for="id_username">Tên đăng nhập</label>
+                            <input class="form-control py-4" id="id_username" name="username" required type="text"
+                                aria-describedby="emailHelp" placeholder="Nhập tên đăng nhập" />
                         </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-xl-4 col-md-6">
-                        <label class="small mb-1" for="id_is_staff">Kích hoạt</label>
                         <div class="form-group">
-                            <input type="checkbox" checked name="is_active" id="id_is_active" data-toggle="toggle"
-                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                            <label class="small mb-1" for="id_email">Email</label>
+                            <input class="form-control py-4" id="id_email" name="email" type="email"
+                                aria-describedby="emailHelp" placeholder="Nhập Email" />
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6">
-                        <label class="small mb-1" for="id_is_staff">Quản lý</label>
-                        <div class="form-group">
-                            <input type="checkbox" name="is_staff" id="id_is_staff" data-toggle="toggle" data-on="Mở"
-                                data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                        <div class="form-row">
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_password1">Mật khẩu</label>
+                                    <input class="form-control py-4" id="id_password1" name="password1" required
+                                        type="password" placeholder="Nhập mật khẩu" />
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="password2">Xác nhận mật
+                                        khẩu</label>
+                                    <input class="form-control py-4" id="id_password2" name="password2" required
+                                        type="password" placeholder="Xác nhận mật khẩu" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    {% if request.user.is_superuser %}
-                    <div class="col-xl-4 col-md-6">
-                        <label class="small mb-1" for="id_is_superuser">Tổng quản lý</label>
-                        <div class="form-group">
-                            <input type="checkbox" name="is_superuser" id="id_is_superuser" data-toggle="toggle"
-                                data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                        <div class="form-row">
+                            <div class="col-xl-4 col-md-6">
+                                <label class="small mb-1" for="id_is_staff">Kích hoạt</label>
+                                <div class="form-group">
+                                    <input type="checkbox" checked name="is_active" id="id_is_active"
+                                        data-toggle="toggle" data-on="Mở" data-off="Khóa" data-onstyle="success"
+                                        data-offstyle="danger" />
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <label class="small mb-1" for="id_is_staff">Quản lý</label>
+                                <div class="form-group">
+                                    <input type="checkbox" name="is_staff" id="id_is_staff" data-toggle="toggle"
+                                        data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                                </div>
+                            </div>
+                            {% if request.user.is_superuser %}
+                            <div class="col-xl-4 col-md-6">
+                                <label class="small mb-1" for="id_is_superuser">Tổng quản lý</label>
+                                <div class="form-group">
+                                    <input type="checkbox" name="is_superuser" id="id_is_superuser" data-toggle="toggle"
+                                        data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger" />
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
-                    </div>
-                    {% endif %}
+                        {% if messages %}
+                        <div>
+                            {% for mess in messages %}
+                            {% if mess.tags == 'success' %}
+                            <div class="alert alert-success" role="alert">
+                                {{mess}}
+                            </div>
+                            {% elif mess.tags == 'error' %}
+                            <div class="alert alert-danger" role="alert">
+                                {{mess}}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="form-group mt-4 mb-0">
+                            <input class="btn btn-primary btn-block" type="submit" name="createnewuser"
+                                id="createnewuser" value="Tạo tài khoản mới">
+                        </div>
+                    </form>
                 </div>
-                {% if messages %}
-                <div>
-                    {% for mess in messages %}
-                    {% if mess.tags == 'success' %}
-                    <div class="alert alert-success" role="alert">
-                        {{mess}}
-                    </div>
-                    {% elif mess.tags == 'error' %}
-                    <div class="alert alert-danger" role="alert">
-                        {{mess}}
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-                {% endif %}
-                <div class="form-group mt-4 mb-0">
-                    <input class="btn btn-primary btn-block" type="submit" name="createnewuser" id="createnewuser"
-                        value="Tạo tài khoản mới">
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

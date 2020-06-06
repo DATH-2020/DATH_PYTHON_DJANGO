@@ -147,7 +147,7 @@ class Schedule(models.Model):
         verbose_name_plural = "Lịch học theo lớp"
 
 class CheckInClass(models.Model):
-    id_student = models.CharField(max_length=50, blank=True, null=True, verbose_name="ID học viên")
+    id_student = models.IntegerField(default=0, blank=True, null=True, verbose_name="ID học viên")
     student = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên học viên")
     classname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Tên lớp")
     dayname = models.CharField(max_length=50, blank=True, null=True, verbose_name="Buổi")

@@ -1,0 +1,70 @@
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="card-header">
+    <h2 class="text-center font-weight-light">Danh sách lớp</h2>
+</div>
+<div class="card-body">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Tên học viên</th>
+                    {% for i in schedule %}
+                    {% if classname.fullname == i.classname %}
+                    <th>{{ i.dayname }}</th>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in liststudentinclass %}
+                {% if i.classname_id == classname.pk %}
+                {% if i.havedetailschedule%}
+                <tr>
+                    <td>{{ i.fullname}}</td>
+                    {% for z in checkinclass %}
+                    {% if i.pk == z.id_student %}
+                    {% if z.active %}
+                    <th>
+                        <input type="checkbox" checked name="check" value="{{ z.pk }}">
+                    </th>
+                    {% else %}
+                    <th>
+                        <input type="checkbox" name="check" value="{{ z.pk }}">
+                    </th>
+                    {% endif %}
+
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    {% for i in schedule %}
+                    {% if classname.fullname == i.classname %}
+                    <th>{{ i.daylearn|date:"d-m" }}</th>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            </tfoot>
+        </table>
+        <button class="btn btn-success" type="submit">
+            điểm danh
+        </button>
+    </form>
+</div>
+<!-- break -->
+{% endblock content %}
