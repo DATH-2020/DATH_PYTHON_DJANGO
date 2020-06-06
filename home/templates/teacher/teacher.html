@@ -31,7 +31,13 @@
                     <a href="/teacher/{{ i.pk }}">{{ i.fullname}}</a>
                 </td>
                 <td>{{ i.birthday}}</td>
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    {% for item in SL %}
+                    {% if item.teachername == i.pk %}
+                    {{item.number}}
+                    {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ i.phonenumber}}</td>
                 <td>{{ i.email}}</td>
                 <td>{{ i.adress}}</td>

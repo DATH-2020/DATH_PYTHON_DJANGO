@@ -103,16 +103,16 @@
             <div class="col-md-1">
                 <label class="small mb-1" for="id_datecount">Số buổi</label>
                 <div class="form-group">
-                    <input class="form-control" required value="10" disabled name="datecount" id="id_datecount" value="{{classname.datecount}}" type="number" min="0" placeholder="Số buổi" />
+                    <input class="form-control" required disabled name="datecount" id="id_datecount" value="{{classname.datecount}}" type="number" min="0" placeholder="Số buổi" />
                 </div>
             </div>
             <div class="col-md-1">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
                     {% if classname.active %}
-                        <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> 
+                        <input type="checkbox" disabled id="id_active" name="active" checked data-toggle="toggle" value="1" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> 
                     {% else %}
-                        <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
+                        <input type="checkbox" disabled id="id_active" name="active" data-toggle="toggle" value="0" data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger">
                     {% endif %}
                 </div>
             </div>

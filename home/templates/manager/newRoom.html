@@ -1,0 +1,61 @@
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="container" style="height: 52em;">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Tạo phòng mới</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <!-- {{ form }} -->
+                        <div class="row">
+                            <div class="col-xl-5 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_fullname">Tên phòng:</label>
+                                    <input class="form-control" type="text" name="fullname" maxlength="100"
+                                        required="" id="id_fullname" placeholder="Nhập tên chi nhánh mới">
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-md-10">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_area">Chi nhánh</label>
+                                    <select class="form-control" name="area" required id="id_area">
+                                        <!-- <option value="2" hidden>U</option> -->
+                                        {% for i in area %}
+                                        {% if i.active %}
+                                        <option value="{{ i.pk }}">{{ i.fullname }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-2">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="inputEmailAddress">Trạng thái:</label>
+                                    <input type="checkbox" name="active" id="id_active" checked data-toggle="toggle"
+                                        data-on="Mở" data-off="Đóng" data-onstyle="success" data-offstyle="danger" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <input class="btn btn-primary" type="submit" value="Tạo chi nhánh"
+                                style="margin-left: auto; margin-right: auto;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,77 @@
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="container" style="height: 52em;">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Sửa ca học</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <!-- {{form}} -->
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_fullname">Ca học</label>
+                                    <input class="form-control" type="text" name="fullname" maxlength="100" required
+                                        id="id_fullname" placeholder="Nhập tên ca học" value="{{timeshift.fullname}}" />
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_infomation">Thông tin chi tiết</label>
+                                    <textarea class="form-control" name="infomation" maxlength="1000" id="id_infomation"
+                                        rows="2" placeholder="Nội dung">{{timeshift.infomation}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_timestart">Thời gian bắt đầu</label>
+                                    <input class="form-control" type="time" name="timestart" id="id_timestart"
+                                        value="{{timeshift.timestart|date:"H:i"}}" />
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_timeend">Thời gian kết thúc</label>
+                                    <input class="form-control" type="time" name="timeend" id="id_timeend"
+                                        value="{{timeshift.timeend|date:"H:i"}}" />
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-md-12">
+                                <label class="small mb-1" for="id_active">Trạng thái</label>
+                                <div class="form-group">
+                                    {% if timeshift.active %}
+                                    <input type="checkbox" name="active" id="id_active" checked data-toggle="toggle"
+                                        data-on="Hiễn thị" data-off="Ẩn" data-onstyle="success"
+                                        data-offstyle="danger" />
+                                    {% else %}
+                                    <input type="checkbox" name="active" id="id_active" data-toggle="toggle"
+                                        data-on="Hiễn thị" data-off="Ẩn" data-onstyle="success"
+                                        data-offstyle="danger" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <input class="btn btn-primary" type="submit" value="Cập nhật"
+                                style="margin-left: auto; margin-right: auto;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- break -->
+{% endblock content %}

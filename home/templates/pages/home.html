@@ -35,34 +35,16 @@
         <div class="col-md-12">
             <Div class="row">
                 <div class="col-xl-6 col-md-12">
-                    <div class="card bg-secondary text-white mb-4" style="height: 10em;">
-                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
+                    {% for i in notify %}
+                    {% if i.active %}
+                    <div class="card bg-secondary text-white mb-4" style="height: 8em;">
+                        <div class="card-body" style="font-size: 2em;">{{i.title}}</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            {{i.content}}
                         </div>
                     </div>
-                    <div class="card bg-secondary text-white mb-4" style="height: 10em;">
-                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                    <div class="card bg-secondary text-white mb-4" style="height: 10em;">
-                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                    <div class="card bg-secondary text-white mb-4" style="height: 10em;">
-                        <div class="card-body" style="font-size: 2em;">Thông báo</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            Phòng 606 tạm bảo trì. Lớp A012 sẽ di chuyển qua phòng học khác.
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="col-xl-6 col-md-12">
                     <div class="card-body" style="margin:0 auto; width: 100%;">

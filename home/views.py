@@ -84,6 +84,7 @@ def logoutUser(request):
     
 @login_required(login_url='login')
 def home(request):
+    notify = Notify.objects.all()
     listclass = Classname.objects.all()
     for i1 in listclass:
         startdate = datetime.strptime(str(i1.startdate), '%Y-%m-%d')
@@ -111,7 +112,7 @@ def home(request):
         if daylearn < today:
             i2.active=1
             i2.save()
-    context = {'schedule':schedule}
+    context = {'schedule':schedule,'notify':notify}
     return render(request, 'pages/home.html',context)
 
 # Class 
@@ -122,7 +123,19 @@ def listClass(request):
     # auto run 
     schedule = Schedule.objects.all()
     listclass = Classname.objects.all() 
-    context = {'listclass': listclass,'schedule':schedule}
+    arraya = []
+    for itema in listclass:
+        SLa = {}
+        SLa['idclass'] = itema.pk
+        SLa['number'] = Student.objects.filter(classname_id=itema).count()
+        arraya.append(SLa)
+    arrayb = []
+    for itemb in listclass:
+        SLb = {}
+        SLb['class'] = itemb.fullname
+        SLb['number'] = Schedule.objects.filter(classname=itemb,active=1).count()
+        arrayb.append(SLb)
+    context = {'listclass': listclass,'schedule':schedule,'SLa':arraya,'SLb':arrayb}
     return render(request, 'class/listclass.html', context)
 
 @login_required(login_url='login')
@@ -236,7 +249,7 @@ def listStudent(request):
                     # print(a.classname_id) 
                     a.active=1
                     a.save()
-    context = {'liststudent': liststudent}
+    context = {'listclass': listclass,'liststudent': liststudent}
     return render(request, 'student/student.html', context)
 
 # @login_required(login_url='login')
@@ -323,15 +336,14 @@ def createStudent(request):
         form = CreateStudentForm(request.POST)
         if form.is_valid(): 
             form.save()
-            
-            # send_mail(
-            #     subject = 'Xác nhận đăng kí học viên', # title mail
-            #     message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
-            #     from_email= None, # tài khoản
-            #     auth_password= None, # mk
-            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-            #     fail_silently = False,
-            # )
+            send_mail(
+                subject = 'Xác nhận đăng kí học viên', # title mail
+                message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+                from_email= None, # tài khoản
+                auth_password= None, # mk
+                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+                fail_silently = False,
+            )
             return redirect('createstudent')
             # return redirect('liststudent')
     context = { 'gender':gender, 'unit':unit, 'classname':classname}
@@ -352,14 +364,14 @@ def detailStudent(request,pk):
             student.classname_id = request.POST.get('classname')
             student.save()
             form.save()
-            # send_mail(
-            #     subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
-            #     message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
-            #     from_email= None, # tài khoản
-            #     auth_password= None, # mk
-            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-            #     fail_silently = False,
-            # )
+            send_mail(
+                subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
+                message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+                from_email= None, # tài khoản
+                auth_password= None, # mk
+                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+                fail_silently = False,
+            )
             return redirect('liststudent')
     context = {'form':form, 'schedule':schedule, 'student':student, 'classname': classname, 'unit': unit}
     return render(request,'student/detailStudent.html',context)
@@ -370,7 +382,14 @@ def detailStudent(request,pk):
 @allowed_users(allowed_roles=['admin','manager','staff'])
 def listTeacher(request):
     listteacher = Teacher.objects.all()
-    context = {'listteacher': listteacher}
+    array = []
+    for item in listteacher:
+        SL = {}
+        SL['teachername'] = item.pk
+        SL['number'] = Classname.objects.filter(teacher_id=item).count()
+        array.append(SL)
+        # print(array)
+    context = {'listteacher': listteacher,'SL':array}
     return render(request, 'teacher/teacher.html', context)
     
 @login_required(login_url='login')
@@ -421,11 +440,65 @@ def editProfile(request,pk):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
+def newRoom(request):
+    form = CreateRoomForm()
+    area = Area.objects.all()
+    context={'form':form,'area':area} 
+    if request.method == 'POST':
+        form = CreateRoomForm(request.POST)
+        if form.is_valid(): 
+            form.save()
+            return render(request,'manager/newRoom.html',context)
+    return render(request,'manager/newRoom.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def editRoom(request,pk):
+    room = Room.objects.get(pk=pk)
+    area = Area.objects.all()
+    context={'area':area,'room':room} 
+    if request.method == 'POST':
+        room.fullname = request.POST.get('fullname')
+        room.area_id = request.POST.get('area')
+        if request.POST.get('active') == 'on':
+            room.active = 1
+        else:
+            room.active = 0
+        room.save()
+        return redirect('/listarea/')
+    return render(request,'manager/editRoom.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def newArea(request):
     form = CreateAreaForm()
-    listuser = User.objects.all()
-    context={'form':form,'listuser':listuser} 
+    context={'form':form} 
+    if request.method == 'POST':
+        form = CreateAreaForm(request.POST)
+        if form.is_valid(): 
+            form.save()
+            return redirect('newroom')
     return render(request,'manager/newArea.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def editArea(request,pk):
+    area = Area.objects.get(pk=pk)
+    room = Room.objects.all()
+    if request.method == 'POST':
+        area.fullname = str(request.POST.get('fullname'))
+        area.phonenumber = str(request.POST.get('phonenumber'))
+        area.email = str(request.POST.get('email'))
+        area.adress = str(request.POST.get('adress'))
+        area.note = str(request.POST.get('note'))
+        if request.POST.get('active') == 'on':
+            area.active = 1
+        else:
+            area.active = 0
+        area.save()
+        return redirect('listarea')
+    context={'area':area,'room':room}         
+    return render(request,'manager/editArea.html',context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -438,10 +511,44 @@ def listArea(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def notify(request):
-    form = CreateAreaForm()
-    listarea = Area.objects.all()
-    context={'form':form,'listarea':listarea} 
+    form = CreateNotifyForm()
+    if request.method == 'POST':
+        form = CreateNotifyForm(request.POST)
+        if form.is_valid(): 
+            form.save()
+    context={'form':form} 
     return render(request,'manager/notify.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def createTimeShift(request):
+    form = CreateTimeShiftForm()
+    timeshift = TimeShift.objects.all()
+    if request.method == 'POST':
+        form = CreateTimeShiftForm(request.POST)
+        if form.is_valid(): 
+            form.save()
+    context={'form':form,'timeshift':timeshift} 
+    return render(request,'manager/createTimeShift.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def editTimeShift(request,pk):
+    timeshift = TimeShift.objects.get(pk=pk)
+    if request.method == 'POST':
+        timeshift.fullname = request.POST.get('fullname')
+        timeshift.infomation = request.POST.get('infomation')
+        timeshift.timestart = request.POST.get('timestart')
+        timeshift.timeend = request.POST.get('timeend')
+        if request.POST.get('active') == 'on':
+            timeshift.active = 1
+        else:
+            timeshift.active = 0
+        print(timeshift)
+        timeshift.save()
+        return redirect('createtimeshift')
+    context={'timeshift':timeshift} 
+    return render(request,'manager/editTimeShift.html',context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager'])

@@ -1,0 +1,124 @@
+{% extends "pages/base.html" %}
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="container" style="padding-bottom: 3em;">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Chỉnh sửa thông tin chi nhánh</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <!-- {{ form }} -->
+                        <div class="row">
+                            <div class="col-xl-6 col-md-12">
+                                <div class="row">
+                                    <div class="col-xl-6 col-md-12">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="id_fullname">Tên chi nhánh:</label>
+                                            <input class="form-control" type="text" name="fullname" maxlength="100"
+                                                value="{{ area.fullname }}" required="" id="id_fullname"
+                                                placeholder="Nhập tên chi nhánh">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-12">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="id_phonenumber">Số điện thoại chi
+                                                nhánh:</label>
+                                            <input class="form-control" type="text" name="phonenumber" maxlength="100"
+                                                value="{{ area.phonenumber }}" id="id_phonenumber"
+                                                placeholder="Nhập số điện thoại chi nhánh" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-md-12">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputEmailAddress">Email:</label>
+                                            <input class="form-control" type="text" name="email" maxlength="100"
+                                                value="{{ area.email }}" id="id_email"
+                                                placeholder="Nhập email chi nhánh" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-md-12">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputEmailAddress">Địa chỉ:</label>
+                                            <input class="form-control" type="text" name="adress" maxlength="300"
+                                                value="{{ area.adress }}" id="id_adress"
+                                                placeholder="Nhập địa chỉ chi nhánh" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-10 col-md-10">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputEmailAddress">Ghi chú:</label>
+                                            <input class="form-control" type="text" name="note" maxlength="300"
+                                                value="{{ area.note }}" id="id_note" placeholder="Nhập ghi chú" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-md-2">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputEmailAddress">Trạng thái:</label>
+                                            {% if area.active %}
+                                            <input type="checkbox" name="active" id="id_active" checked
+                                                data-toggle="toggle" data-on="Mở" data-off="Đóng" data-onstyle="success"
+                                                data-offstyle="danger" />
+                                            {% else %}
+                                            <input type="checkbox" name="active" id="id_active" data-toggle="toggle"
+                                                data-on="Mở" data-off="Đóng" data-onstyle="success"
+                                                data-offstyle="danger" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <div class="col-xl-12 col-md-12">
+                                    <table id="example" class="table" style="width:100%">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="width: 30%;">ID phòng</th>
+                                                <th style="width: 40%;">Tên phòng</th>
+                                                <th style="width: 30%;">Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in room %}
+                                            {% if i.area_id == area.pk %}
+                                            <tr>
+                                                <td>
+                                                    <a class="btn btn-warning" style="width: 100%;" href="/editroom/{{i.pk}}">{{i.pk}}</a>
+                                                </td>
+                                                <td>{{i.fullname}}</td>
+                                                {% if i.active %}
+                                                <td style="text-align: center;"><i style="color: green;"
+                                                        class="fas fa-check-circle"></i></td>
+                                                {% else %}
+                                                <td style="text-align: center;"><i style="color: red;"
+                                                        class="fas fa-times-circle"></i></td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <input class="btn btn-success" type="submit" value="Cập nhật"
+                                style="margin-left: auto; margin-right: auto;">
+                                <a href="/newroom/" class="btn btn-success"
+                                style="margin-left: auto; margin-right: auto;">Thêm phòng</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

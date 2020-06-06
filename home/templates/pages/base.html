@@ -176,9 +176,24 @@
                                     </nav>
                                 </div>
                                 {% if request.user.is_superuser %}
-                                <a class="nav-link" href="{% url 'listarea' %}">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesArea"
+                                    aria-expanded="false" aria-controls="pagesArea">
                                     Trung tâm
+                                    <div class="sb-sidenav-collapse-arrow">
+                                        <i class="fas fa-angle-down"></i>
+                                    </div>
                                 </a>
+                                <div class="collapse" id="pagesArea" aria-labelledby="headingOne"
+                                    data-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="{% url 'listarea' %}">
+                                            Thông tin
+                                        </a>
+                                        <a class="nav-link" href="{% url 'createtimeshift' %}">
+                                            Cài đặt
+                                        </a>
+                                    </nav>
+                                </div>
                                 <a class="nav-link" href="{% url 'notify' %}">
                                     Thông báo
                                 </a>

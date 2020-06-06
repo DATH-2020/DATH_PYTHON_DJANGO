@@ -40,7 +40,22 @@ class UpdateTeacherForm(ModelForm):
         model = Teacher
         fields = 'email','phonenumber','adress','note','active'
 
+class CreateRoomForm(ModelForm):
+    class Meta:
+        model = Room
+        fields = '__all__'
+
 class CreateAreaForm(ModelForm):
     class Meta:
         model = Area
+        fields = '__all__'
+        
+class CreateNotifyForm(ModelForm):
+    class Meta:
+        model = Notify
+        fields = '__all__'     
+
+class CreateTimeShiftForm(ModelForm):
+    class Meta:
+        model = TimeShift
         fields = '__all__'

@@ -36,9 +36,21 @@ Danh sách lớp học
                     <!-- <a href="/class/{{ i.pk }}">{{ i.fullname}}</a> -->
                     <a class="btn btn-primary" href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
                 </td>
-                <td></td>
+                <td style="text-align: center;">
+                    {% for itema in SLa %}
+                    {% if itema.idclass == i.pk %}
+                    {{itema.number}}
+                    {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ i.startdate|date:"d-m-Y"}}</td>
-                <td></td>
+                <td style="text-align: center;">
+                    {% for itemb in SLb %}
+                    {% if itemb.class == i.fullname %}
+                    {{itemb.number}}
+                    {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ i.timeshift}}</td>
                 <td>{{ i.timeweek}}</td>
                 <td>{{ i.teacher}}</td>
@@ -52,7 +64,8 @@ Danh sách lớp học
                 </td>
                 <td style="text-align: center;">
                     {% if i.active %}
-                    <a class="btn btn-danger" onclick="warningedit()"><i class="fas fa-edit" style="color: white;"></i></a>
+                    <a class="btn btn-danger" onclick="warningedit()"><i class="fas fa-edit"
+                            style="color: white;"></i></a>
                     <!-- break code -->
                     {% else %}
                     <a class="btn btn-primary" href="/class/{{ i.pk }}"><i class="fas fa-edit"></i></a>
@@ -65,8 +78,8 @@ Danh sách lớp học
     </table>
 </div>
 <script>
-    function warningedit(){
-        swal("Lỗi", "Lớp này đang trong quá trình học. Không được thay đổi thông tin của lớp", "error",{
+    function warningedit() {
+        swal("Lỗi", "Lớp này đang trong quá trình học. Không được thay đổi thông tin của lớp", "error", {
             buttons: false,
             timer: 1500,
         });

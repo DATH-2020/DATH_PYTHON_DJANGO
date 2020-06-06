@@ -18,18 +18,53 @@
                 <div class="card-body">
                     <form action="" method="POST">
                         {% csrf_token %}
-                        {{ form }}
-                        <div class="form-group">
-                            <label class="small mb-1" for="inputEmailAddress">Tiêu đề</label>
-                            <input class="form-control py-4" id="inputEmailAddress" type="text"
-                                placeholder="Nhập địa tiêu đề của thông báo" /></div>
-                        <div class="form-group">
-                            <label class="small mb-1" for="inputPassword">Mật khẩu</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                placeholder="Nội dung "></textarea>
+                        <!-- {{ form }} -->
+                        <div class="row">
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_fullname">Tên chi nhánh:</label>
+                                    <input class="form-control py-4" type="text" name="fullname" maxlength="100"
+                                        required="" id="id_fullname" placeholder="Nhập tên chi nhánh mới">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="id_phonenumber">Số điện thoại chi nhánh:</label>
+                                    <input class="form-control py-4" type="text" name="phonenumber" maxlength="100"
+                                        id="id_phonenumber" placeholder="Nhập số điện thoại chi nhánh" />
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="inputEmailAddress">Email:</label>
+                                    <input class="form-control py-4" type="text" name="email" maxlength="100"
+                                        id="id_email" placeholder="Nhập email chi nhánh" />
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-md-12">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="inputEmailAddress">Địa chỉ:</label>
+                                    <input class="form-control py-4" type="text" name="adress" maxlength="300"
+                                        id="id_adress" placeholder="Nhập địa chỉ chi nhánh" />
+                                </div>
+                            </div>
+                            <div class="col-xl-10 col-md-10">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="inputEmailAddress">Ghi chú:</label>
+                                    <input class="form-control py-4" type="text" name="note" maxlength="300"
+                                        id="id_note" placeholder="Nhập ghi chú" />
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-2">
+                                <div class="form-group">
+                                    <label class="small mb-1" for="inputEmailAddress">Trạng thái:</label>
+                                    <input type="checkbox" name="active" id="id_active" checked data-toggle="toggle"
+                                        data-on="Mở" data-off="Đóng" data-onstyle="success" data-offstyle="danger" />
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <input class="btn btn-primary" type="submit" value="Tạo chi nhánh"
+                            <input class="btn btn-primary" type="submit" value="Tạo phòng"
                                 style="margin-left: auto; margin-right: auto;">
                         </div>
                     </form>
@@ -38,9 +73,4 @@
         </div>
     </div>
 </div>
-<form action="" method="POST">
-    {{ form }}
-    <input type="submit" value="Submite">
-</form>
-<!-- break -->
 {% endblock content %}
