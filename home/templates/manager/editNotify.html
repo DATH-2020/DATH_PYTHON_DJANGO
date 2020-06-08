@@ -13,7 +13,7 @@
         <div class="col-lg-12">
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header">
-                    <h3 class="text-center font-weight-light my-4">Tạo thông báo</h3>
+                    <h3 class="text-center font-weight-light my-4">Sửa thông báo</h3>
                 </div>
                 <div class="card-body">
                     <form action="" method="POST">
@@ -23,62 +23,40 @@
                             <div class="col-xl-6 col-md-12">
                                 <div class="form-group">
                                     <label class="small mb-1" for="title">Tiêu đề</label>
-                                    <input class="form-control" required type="text" name="title" maxlength="100"
-                                        id="id_title" placeholder="Nhập địa tiêu đề của thông báo" />
+                                    <input class="form-control" disabled required type="text" name="title"
+                                        maxlength="100" id="id_title" placeholder="Nhập địa tiêu đề của thông báo" value="{{noti.title}}"/>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-md-12">
                                 <label class="small mb-1" for="id_active">Trạng thái</label>
                                 <div class="form-group">
+                                    {% if noti.active %}
+                                    <input type="checkbox" name="active" id="id_active" data-toggle="toggle"
+                                        data-on="Hiễn thị" data-off="Ẩn" data-onstyle="success"
+                                        data-offstyle="danger" />
+                                    {% else %}
                                     <input type="checkbox" checked name="active" id="id_active" data-toggle="toggle"
                                         data-on="Hiễn thị" data-off="Ẩn" data-onstyle="success"
                                         data-offstyle="danger" />
+                                    {% endif %}
+                                    <!-- <input type="checkbox" checked name="active" id="id_active" data-toggle="toggle"
+                                        data-on="Hiễn thị" data-off="Ẩn" data-onstyle="danger"
+                                        data-offstyle="success" /> -->
                                 </div>
                             </div>
                             <div class="col-xl-12 col-md-12">
                                 <div class="form-group">
                                     <label class="small mb-1" for="id_content">Nội dung</label>
                                     <textarea class="form-control" required name="content" maxlength="1000"
-                                        id="id_content" rows="3" placeholder="Nội dung "></textarea>
+                                        id="id_content" rows="3" placeholder="Nội dung ">{{noti.content}}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <input class="btn btn-primary" type="submit" value="Tạo thông báo"
+                            <input class="btn btn-primary" type="submit" value="Cập nhật thông báo"
                                 style="margin-left: auto; margin-right: auto;">
                         </div>
                     </form>
-                </div>
-                <div class="card-body">
-                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th style="width: 10%;">Trạng thái</th>
-                                <th style="width: 20%;">Tiêu đề</th>
-                                <th style="width: 45%;">Nội dung</th>
-                                <th style="width: 15%;">Ngày tạo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in notify %}
-                            <tr>
-                                <td>
-                                    {% if i.active %}
-                                    <a class="btn btn-danger" href="/editnotify/{{i.pk}}" style="width: 100%;">
-                                        <i class="fas fa-bell-slash" style="color: white;"></i></a>
-                                    <!-- break code -->
-                                    {% else %}
-                                    <a class="btn btn-success" href="/editnotify/{{i.pk}}" style="width: 100%;">
-                                        <i class="fas fa-bell" style="color: white;"></i></a>
-                                    {% endif %}
-                                </td>
-                                <td>{{i.title}}</td>
-                                <td>{{i.content}}</td>
-                                <td>{{i.create_date|date:"d-m-Y"}}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

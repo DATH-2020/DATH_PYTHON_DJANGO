@@ -18,13 +18,14 @@
                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th style="width: 15%;">Họ và tên</th>
-                            <th style="width: 11%;">Số điện thoại</th>
-                            <th style="width: 11%;">SDT phụ huynh</th>
+                            <th style="width: 20%;">Họ và tên</th>
+                            <th style="width: 10%;">Số điện thoại</th>
+                            <th style="width: 10%;">SDT phụ huynh</th>
                             <th style="width: 23%;">Địa chỉ</th>
                             <th style="width: 12%;">Thời gian đăng ký</th>
                             <th style="width: 13%;">Ghi chú</th>
                             <th style="width: 5%;">Active</th>
+                            <th>TKB</th>
                             <!-- <th style="width: 10%;">Điểm danh</th> -->
                         </tr>
                     </thead>
@@ -34,11 +35,13 @@
                         <tr>
                             <td>
                                 {% if i.havedetailschedule %}
-                                <a href="/student/{{ i.pk }}" style="width: 100%; color: white;" class="btn btn-success"><i
-                                        class="fas fa-calendar-check" style="color: white;"></i> {{ i.fullname }}</a>
+                                <a href="/student/{{ i.pk }}" style="width: 100%; color: white;"
+                                    class="btn btn-success"><i class="fas fa-calendar-check" style="color: white;"></i>
+                                    {{ i.fullname }}</a>
                                 {% else %}
-                                <a onclick="warningcreateschedule()" style="width: 100%; color: white;" class="btn btn-danger"><i
-                                        class="fas fa-calendar-times" style="color: white;"></i> {{ i.fullname }}</a>
+                                <a onclick="warningcreateschedule()" style="width: 100%; color: white;"
+                                    class="btn btn-danger"><i class="fas fa-calendar-times" style="color: white;"></i>
+                                    {{ i.fullname }}</a>
                                 {%endif%}
                             </td>
                             <td>{{ i.phonenumber }}</td>
@@ -49,6 +52,13 @@
                             <td style="text-align: center;">
                                 {% if i.active %}
                                 <i style="color: green; " class="fas fa-check-circle"></i> {%endif%}
+                            </td>
+                            <td>
+                                {% if i.havedetailschedule == 0 %}
+                                <a href="/checkinstudent/{{ i.pk }}" style="width: 100%; color: white;"
+                                    class="btn btn-warning"><i class="fas fa-calendar-check" style="color: white;"></i></a>
+                                {%endif%}
+                                
                             </td>
                             <!-- <td>
                                 {% if i.active %}
@@ -108,7 +118,8 @@
                         <h5 style="color: grey;">{{ timeshift.timeend|time:"H:i" }}</h5>
                     </div>
                     <div class="col-xl-12 col-md-12">
-                        <a class="btn btn-success" style="width: 100%;" href="/checkinclassstudent/{{classname.pk}}">Điểm danh</a>
+                        <a class="btn btn-success" style="width: 100%;"
+                            href="/checkinclassstudent/{{classname.pk}}">Điểm danh</a>
                     </div>
                 </div>
             </div>
@@ -116,8 +127,8 @@
     </div>
 </div>
 <script>
-    function warningcreateschedule(){
-        swal("Cảnh báo!!!", "Phải tạo thời khóa biểu cá nhân cho học viên trước", "warning",{
+    function warningcreateschedule() {
+        swal("Cảnh báo!!!", "Phải tạo thời khóa biểu cá nhân cho học viên trước", "warning", {
             buttons: false,
             timer: 2500,
         });

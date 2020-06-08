@@ -114,11 +114,12 @@
                 {% csrf_token %}
                 <div class="card-body">
                     <div class="form-row">
-                            <a class="btn btn-primary" href="{% url 'liststudent'%}" role="button" style="margin-left: auto; margin-right: auto;"
-                            name="backliststudent" id="id_backliststudent" >Danh sách sinh viên</a>
-                            <button class="btn btn-warning" type="submit" style="margin-left: auto; margin-right: auto;"
+                        <a class="btn btn-primary" href="{% url 'liststudent'%}" role="button"
+                            style="margin-left: auto; margin-right: auto;" name="backliststudent"
+                            id="id_backliststudent">Danh sách sinh viên</a>
+                        <button class="btn btn-warning" type="submit" style="margin-left: auto; margin-right: auto;"
                             name="submit" id="id_submit" value="">Xóa thời khóa biểu hiện tại</button>
-                            <!-- <input class="btn btn-warning" type="submit" style="margin-left: auto; margin-right: auto;"
+                        <!-- <input class="btn btn-warning" type="submit" style="margin-left: auto; margin-right: auto;"
                                 name="submit" id="id_submit" value="Xóa thời khóa biểu hiện tại"> -->
                     </div>
 
@@ -158,17 +159,17 @@
                 {% for i in checkinclass %} 
                 {% if student.fullname == i.student %}
                 {
-                title: '{{ i.dayname }}',
-                start: '{{ i.daylearn|date:"Y-m-d" }}',
-                end: '{{ i.daylearn|date:"Y-m-d" }}',
+            title: '{{ i.dayname }}',
+            start: '{{ i.daylearn|date:"Y-m-d" }}',
+            end: '{{ i.daylearn|date:"Y-m-d" }}',
                 {% if i.active == 1 %}
-                color: '#28a745',
-                    {% else %}
-                color: '#bdbdbd'
-                {% endif %}
+    color: '#28a745',
+        {% else %}
+    color: '#bdbdbd'
+    {% endif %}
                 },
-                {% endif %}
-                {% endfor %}
+    {% endif %}
+    {% endfor %}
             ],
         });
     calendar.render();

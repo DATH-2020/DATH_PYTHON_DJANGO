@@ -13,69 +13,82 @@ Danh sách lớp học
     <h2 class="text-center font-weight-light">Danh sách lớp</h2>
 </div>
 <div class="card-body">
-    <table id="example" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-            <tr>
-                <th style="width: 10%;">Tên lớp</th>
-                <th style="width: 5%;">Sĩ số</th>
-                <th style="width: 10%;">Thời gian bắt đầu</th>
-                <th style="width: 5%;">Đã học</th>
-                <th style="width: 5%;">Ca học</th>
-                <th style="width: 5%;">Tuần học</th>
-                <th style="width: 15%;">Giảng viên</th>
-                <th style="width: 10%;">Khóa học</th>
-                <th style="width: 15%;">Ghi chú</th>
-                <th style="width: 5%;">Active</th>
-                <th style="width: 5%;"><i class="fas fa-edit"></i></a></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in listclass %}
-            <tr>
-                <td>
-                    <!-- <a href="/class/{{ i.pk }}">{{ i.fullname}}</a> -->
-                    <a class="btn btn-primary" href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
-                </td>
-                <td style="text-align: center;">
-                    {% for itema in SLa %}
-                    {% if itema.idclass == i.pk %}
-                    {{itema.number}}
-                    {% endif %}
-                    {% endfor %}
-                </td>
-                <td>{{ i.startdate|date:"d-m-Y"}}</td>
-                <td style="text-align: center;">
-                    {% for itemb in SLb %}
-                    {% if itemb.class == i.fullname %}
-                    {{itemb.number}}
-                    {% endif %}
-                    {% endfor %}
-                </td>
-                <td>{{ i.timeshift}}</td>
-                <td>{{ i.timeweek}}</td>
-                <td>{{ i.teacher}}</td>
-                <td>{{ i.unit}}</td>
-                <td>{{ i.note}}</td>
-                <td style="text-align: center;">
-                    {% if i.active %}
-                    <i style="color: green; " class="fas fa-check-circle"></i>
-                    <!-- break code -->
-                    {%endif%}
-                </td>
-                <td style="text-align: center;">
-                    {% if i.active %}
-                    <a class="btn btn-danger" onclick="warningedit()"><i class="fas fa-edit"
-                            style="color: white;"></i></a>
-                    <!-- break code -->
-                    {% else %}
-                    <a class="btn btn-primary" href="/class/{{ i.pk }}"><i class="fas fa-edit"></i></a>
-                    {% endif %}
-                </td>
-                <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div style="margin-left: auto;">
+            <div>
+                <input name="print" style="width: 8em;" type="button" class="btn btn-primary" value="In">
+                <input name="print" style="margin-left: auto; width: 8em;" type="button" class="btn btn-primary"
+                    value="Xuất Excel">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Tên lớp</th>
+                    <th style="width: 5%;">Sĩ số</th>
+                    <th style="width: 10%;">Thời gian bắt đầu</th>
+                    <th style="width: 5%;">Đã học</th>
+                    <th style="width: 5%;">Ca học</th>
+                    <th style="width: 5%;">Tuần học</th>
+                    <th style="width: 15%;">Giảng viên</th>
+                    <th style="width: 10%;">Khóa học</th>
+                    <th style="width: 15%;">Ghi chú</th>
+                    <th style="width: 5%;">Active</th>
+                    <th style="width: 5%;"><i class="fas fa-edit"></i></a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in listclass %}
+                <tr>
+                    <td>
+                        <!-- <a href="/class/{{ i.pk }}">{{ i.fullname}}</a> -->
+                        <a class="btn btn-primary" href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
+                    </td>
+                    <td style="text-align: center;">
+                        {% for itema in SLa %}
+                        {% if itema.idclass == i.pk %}
+                        {{itema.number}}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ i.startdate|date:"d-m-Y"}}</td>
+                    <td style="text-align: center;">
+                        {% for itemb in SLb %}
+                        {% if itemb.class == i.fullname %}
+                        {{itemb.number}}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ i.timeshift}}</td>
+                    <td>{{ i.timeweek}}</td>
+                    <td>{{ i.teacher}}</td>
+                    <td>{{ i.unit}}</td>
+                    <td>{{ i.note}}</td>
+                    <td style="text-align: center;">
+                        {% if i.active %}
+                        <i style="color: green; " class="fas fa-check-circle"></i>
+                        <!-- break code -->
+                        {%endif%}
+                    </td>
+                    <td style="text-align: center;">
+                        {% if i.active %}
+                        <a class="btn btn-danger" onclick="warningedit()"><i class="fas fa-edit"
+                                style="color: white;"></i></a>
+                        <!-- break code -->
+                        {% else %}
+                        <a class="btn btn-primary" href="/class/{{ i.pk }}"><i class="fas fa-edit"></i></a>
+                        {% endif %}
+                    </td>
+                    <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
 </div>
 <script>
     function warningedit() {

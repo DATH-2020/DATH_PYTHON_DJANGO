@@ -37,6 +37,7 @@ urlpatterns = [
     path('editarea/<int:pk>',views.editArea,name='editarea'),
     path('listarea/',views.listArea,name='listarea'),
     path('notify/',views.notify,name='notify'), 
+    path('editnotify/<int:pk>',views.editNotify,name='editnotify'), 
     path('createtimeshift/',views.createTimeShift,name='createtimeshift'), 
     path('edittimeshift/<int:pk>',views.editTimeShift,name='edittimeshift'),
     # path('roleacount/',views.RoleAcount,name='roleacount'),

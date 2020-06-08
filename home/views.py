@@ -167,8 +167,8 @@ def createClass(request):
                         Schedule.objects.create(classname=str(request.POST.get('fullname')), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
                         count = count+1
                 start_date += step
-            return redirect('createclass')
-            # return redirect('listclass')
+            # return redirect('createclass')
+            return redirect('listclass')
     context = {'form':form, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
     return render(request, 'class/createClass.html', context)
 
@@ -286,12 +286,9 @@ def listStudent(request):
 @allowed_users(allowed_roles=['admin','manager','staff'])
 def checkinStudent(request,pk):
     student = Student.objects.get(pk=pk) 
-    print(student.pk)
     classrequest = Classname.objects.get(pk=student.classname_id)
     time = TimeShift.objects.get(pk = classrequest.timeshift_id)
     checkinclass = CheckInClass.objects.filter(id_student=student.pk)
-    for i in checkinclass:
-        print(i.id_student)
     context = {'checkinclass':checkinclass, 'classrequest':classrequest,'time':time,'student':student}
     if request.method == 'POST':
         if student.havedetailschedule == 0:
@@ -337,15 +334,15 @@ def createStudent(request):
         if form.is_valid(): 
             form.save()
             send_mail(
-                subject = 'Xác nhận đăng kí học viên', # title mail
-                message = 'Bạn vừa hoàn thành đăng kí học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+                subject = 'XÁC NHẬN ĐĂNG KÝ HỌC VIÊN', # title mail
+                message = 'Chào '+str(request.POST.get('fullname')) + ',\nBạn vừa hoàn thành đăng kí học viên tại HITECH. Trung tâm sẽ gửi thời khóa biểu cho bạn sớm nhất.', # nội dung mail
                 from_email= None, # tài khoản
                 auth_password= None, # mk
                 recipient_list = [form.cleaned_data.get('email')],# mail người nhận
                 fail_silently = False,
             )
-            return redirect('createstudent')
-            # return redirect('liststudent')
+            # return redirect('createstudent')
+            return redirect('liststudent')
     context = { 'gender':gender, 'unit':unit, 'classname':classname}
     return render(request, 'student/createStudent.html', context)
 
@@ -365,8 +362,8 @@ def detailStudent(request,pk):
             student.save()
             form.save()
             send_mail(
-                subject = 'Xác nhận đã cập nhật lại thông tin học viên', # title mail
-                message = 'Bạn vừa hoàn thành cập nhật thông tin học viên tại HITECH, vui lòng kiểm tra nếu nội dung không chính xác. Xin cảm ơn !', # nội dung mail
+                subject = 'XÁC NHẬN ĐÃ THAY ĐỔI THÔNG TIN HỌC VIÊN', # title mail
+                message = 'Chào '+ str(request.POST.get('fullname')) + ',\nThông tin học viên HITECH của bạn vừa được cập nhật. \nVui lòng trả lời tin mail này để xác nhận.', # nội dung mail
                 from_email= None, # tài khoản
                 auth_password= None, # mk
                 recipient_list = [form.cleaned_data.get('email')],# mail người nhận
@@ -512,12 +509,29 @@ def listArea(request):
 @allowed_users(allowed_roles=['admin'])
 def notify(request):
     form = CreateNotifyForm()
+    notify = Notify.objects.all()
     if request.method == 'POST':
         form = CreateNotifyForm(request.POST)
         if form.is_valid(): 
             form.save()
-    context={'form':form} 
+    context={'form':form,'notify':notify} 
     return render(request,'manager/notify.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def editNotify(request,pk):
+    noti = Notify.objects.get(pk=pk)
+    if request.method == 'POST':
+        if request.POST.get('active') == 'on':
+            noti.active = 0
+        else:
+            noti.active = 1
+        noti.content = request.POST.get('content')
+        noti.save()
+        print(noti.content)
+        return redirect('notify')
+    context={'noti':noti} 
+    return render(request,'manager/editnotify.html',context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])

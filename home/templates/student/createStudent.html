@@ -147,7 +147,7 @@
             </div>
         </div>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-            <input type="submit" value="Thêm học viên" class="btn btn-primary"
+            <input onclick="submita()" type="submit" value="Thêm học viên" class="btn btn-primary"
                 style="margin-left: auto; margin-right: auto;" onclick="">
         </div>
     </form>
@@ -177,18 +177,16 @@
     }
     changeUnitClassname(id_unit.value);
 </script>
+
 <script>
-    $(document).ready(function () {
-        $("form").submit(function () {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Your work has been saved',
-                showConfirmButton: false,
-                timer: 3000,
-                button: false,
-            });
+    function submita() {
+        swal("Great!!!", "Đăng ký thành công", "success", {
+            buttons: false,
+            timer: 1500,
         });
-    });
+        setTimeout(function () {
+            document.qrcodeRedirectForm.submit();
+        }, 1500);
+    }
 </script>
 {% endblock content %}
