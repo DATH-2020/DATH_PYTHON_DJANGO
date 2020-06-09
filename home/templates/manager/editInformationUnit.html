@@ -1,0 +1,75 @@
+{% extends "pages/base.html" %}
+<!-- break -->
+{% block title %}
+<!-- Student -->
+{% endblock title %}
+<!-- break -->
+{% block content %}
+<!-- break -->
+{% load static %}
+<!-- break -->
+<div class="container" style="padding-bottom: 3em;">
+    <div class="row justify-content-center">
+        <div class="col-xl-7 col-lg-9 col-md-12">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Tạo thông tin khóa học mới</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <!-- {{ form }} -->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <label class="small mb-1" for="id_fullname">Tên khóa học:</label>
+                                <div class="form-group">
+                                    <input class="form-control" disabled type="text" name="fullname" maxlength="100"
+                                        required="" id="id_fullname" placeholder="Nhập tên khóa học mới"
+                                        value="{{unit.fullname}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <label class="small mb-1" for="id_infomation">Thông tin khóa học:</label>
+                                <div class="form-group">
+                                    <textarea class="form-control" required name="infomation" maxlength="1000"
+                                        id="id_infomation" rows="3"
+                                        placeholder="Nội dung thông tin khóa học">{{unit.infomation}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 col-md-12">
+                                <label class="small mb-1" for="id_fee">Học phí khóa học:</label>
+                                <div class="form-group input-group">
+                                    <input class="form-control" type="text" name="fee" maxlength="100" required=""
+                                        id="id_fee" placeholder="Nhập học phí khóa học" value="{{unit.fee}}">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">VND</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12">
+                                <label class="small mb-1" for="id_active">Trạng thái:</label>
+                                <div class="form-group">
+                                    {% if unit.active %}
+                                    <input type="checkbox" style="width: 100%;" checked name="active" id="id_active"
+                                        data-toggle="toggle" data-on="Mở" data-off="Đóng" data-onstyle="success"
+                                        data-offstyle="danger" />
+                                    {% else %}
+                                    <input type="checkbox" style="width: 100%;" name="active" id="id_active"
+                                        data-toggle="toggle" data-on="Mở" data-off="Đóng" data-onstyle="success"
+                                        data-offstyle="danger" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <input class="btn btn-primary" type="submit" value="Lưu thay đổi"
+                                style="margin-left: auto; margin-right: auto;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- break -->
+{% endblock content %}

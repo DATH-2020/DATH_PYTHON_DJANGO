@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group, User
 
+from .models import *
+
 def unauthenticated_register(view_func):
     def wrapper_func(request, *args, **kwargs):
         a = User.objects.all().count()

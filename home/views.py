@@ -15,6 +15,13 @@ from .forms import *
 from .decorators import *
 
 from datetime import *
+
+def error404(request, *args, **kwargs):
+    return render(request,'pages/404.html')
+
+def error500(request, *args, **kwargs):
+    return render(request,'pages/500.html')
+
 # Create your views here.
 @unauthenticated_login
 def loginPage(request):
@@ -558,11 +565,38 @@ def editTimeShift(request,pk):
             timeshift.active = 1
         else:
             timeshift.active = 0
-        print(timeshift)
         timeshift.save()
         return redirect('createtimeshift')
     context={'timeshift':timeshift} 
     return render(request,'manager/editTimeShift.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def createUnit(request):
+    form = CreateUnitForm()
+    unit = Unit.objects.all()
+    if request.method == 'POST':
+        form = CreateUnitForm(request.POST)
+        if form.is_valid(): 
+            form.save()
+    context={'form':form,'unit':unit} 
+    return render(request,'manager/createUnit.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
+def editInformationUnit(request,pk):
+    unit = Unit.objects.get(pk=pk)
+    if request.method == 'POST':
+        unit.infomation = request.POST.get('infomation')
+        unit.fee = request.POST.get('fee')
+        if request.POST.get('active') == 'on':
+            unit.active = 1
+        else:
+            unit.active = 0
+        unit.save()
+        return redirect('createunit')
+    context={'unit':unit} 
+    return render(request,'manager/editInformationUnit.html',context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager'])
@@ -646,8 +680,6 @@ def createStafAccount(request):
             messages.error(request, "Lỗi tạo tài khoản")
             return render(request,'manager/createStafAccount.html',context)
     return render(request,'manager/createStafAccount.html',context)
-
-
 
 # Contact 
 @login_required(login_url='login')

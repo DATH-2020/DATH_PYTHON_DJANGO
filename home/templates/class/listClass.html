@@ -13,12 +13,16 @@ Danh sách lớp học
     <h2 class="text-center font-weight-light">Danh sách lớp</h2>
 </div>
 <div class="card-body">
-    <div class="row">
-        <div style="margin-left: auto;">
+    <div class="col-md-12 row">
+        <div style="margin-left: auto; padding-bottom: 1em;">
             <div>
-                <input name="print" style="width: 8em;" type="button" class="btn btn-primary" value="In">
-                <input name="print" style="margin-left: auto; width: 8em;" type="button" class="btn btn-primary"
-                    value="Xuất Excel">
+                <button name="print" onclick="printfail()" style="width: 8em;" type="button" class="btn btn-primary"><i
+                        class="fas fa-print"></i> In</button>
+                <button name="exportExcel" onclick="printfail()" style="width: 8em;" type="button"
+                    class="btn btn-success"><i class="fas fa-file-excel"></i> Xuất Excel</button>
+                <!-- <input name="print" style="width: 8em;" type="button" class="btn btn-primary" value="In"> -->
+                <!-- <input name="print" style="margin-left: auto; width: 8em;" type="button" class="btn btn-primary"
+                    value="Xuất Excel"> -->
             </div>
         </div>
     </div>
@@ -91,6 +95,16 @@ Danh sách lớp học
 </div>
 </div>
 <script>
+
+    function printfail() {
+        setTimeout(function () {
+            swal("Lỗi kết nối máy in", "Không có máy in kết nối", "error", {
+                buttons: false,
+                timer: 1500,
+            });
+        }, 3000);
+
+    }
     function warningedit() {
         swal("Lỗi", "Lớp này đang trong quá trình học. Không được thay đổi thông tin của lớp", "error", {
             buttons: false,

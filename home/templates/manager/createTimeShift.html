@@ -13,7 +13,7 @@
         <div class="col-lg-12">
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header">
-                    <h3 class="text-center font-weight-light my-4">Cài đặt</h3>
+                    <h3 class="text-center font-weight-light my-4">Ca học</h3>
                 </div>
                 <div class="card-body">
 
@@ -81,7 +81,11 @@
                                         {% for i in timeshift %}
                                         <tr>
                                             <td>
+                                            {% if i.active %}
+                                                <a class="btn btn-success" style="width: 100%;" href="/edittimeshift/{{i.pk}}">{{i.fullname}}</a>
+                                            {% else %}
                                                 <a class="btn btn-danger" style="width: 100%;" href="/edittimeshift/{{i.pk}}">{{i.fullname}}</a>
+                                            {% endif %}
                                             </td>
                                             <td>{{i.infomation}}</td>
                                             <td>{{i.timestart|date:"H:i"}}</td>

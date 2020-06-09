@@ -40,6 +40,8 @@ urlpatterns = [
     path('editnotify/<int:pk>',views.editNotify,name='editnotify'), 
     path('createtimeshift/',views.createTimeShift,name='createtimeshift'), 
     path('edittimeshift/<int:pk>',views.editTimeShift,name='edittimeshift'),
+    path('createunit/',views.createUnit,name='createunit'), 
+    path('editinformationunit/<int:pk>',views.editInformationUnit,name='editinformationunit'),
     # path('roleacount/',views.RoleAcount,name='roleacount'),
     # # Schedule 
     # path('createschedule/',views.CreateSchedule,name='createschedule'),

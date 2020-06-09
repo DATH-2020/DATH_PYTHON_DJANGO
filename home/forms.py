@@ -59,3 +59,8 @@ class CreateTimeShiftForm(ModelForm):
     class Meta:
         model = TimeShift
         fields = '__all__'
+
+class CreateUnitForm(ModelForm):
+    class Meta:
+        model = Unit
+        fields = '__all__'
