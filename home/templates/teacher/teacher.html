@@ -28,13 +28,13 @@
             {% for i in listteacher %}
             <tr>
                 <td>
-                    <a href="/teacher/{{ i.pk }}">{{ i.fullname}}</a>
+                    <a class="btn btn-dark" style="color: white; width: 100%;" href="/teacher/{{ i.pk }}">{{ i.fullname}}</a>
                 </td>
                 <td>{{ i.birthday}}</td>
                 <td style="text-align: center;">
                     {% for item in SL %}
                     {% if item.teachername == i.pk %}
-                    {{item.number}}
+                    {{item.number}} lớp
                     {% endif %}
                     {% endfor %}
                 </td>

@@ -1,14 +1,24 @@
 {% extends "pages/base.html" %}
- {% block title %}Trung tâm giáo dục ngoại ngữ, tin học HITECH {% endblock title %}
+{% block title %}Trung tâm giáo dục ngoại ngữ, tin học HITECH {% endblock title %}
 {% block content %}
-    {% load static %}
-    <div style="width: 100%; min-height: calc(100vh - 140px); background-color: white; align-items:center;">
-        
-        <h2>TRUNG TÂM GIÁO DỤC NGOẠI NGỮ, TIN HỌC HITECH</H2>
-        
-        <p>Địa chỉ: 475A Điện Biên Phủ, phường 25, quận Bình Thạnh, TP.HCM</p>
-        <p>Email: HLminhdinh@gmail.com</p>
-        <p>Số điện thoại: 000000000</p>
+{% load static %}
+<div class="container" style="height: 52em;">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4"><img src="/static/images/Logo-col-Dark.png" style="width: 8em;" alt=""></h3>
+                </div>
+                <div class="card-body">
+                    <p style="font-size: 2em; text-align: center;"><b>Website trung tâm đào tạo anh ngữ HITECH</b></p>
+                    <br>
+                    <p style="text-align: center;"><b>Trụ sở chính</b> đặt tại <b style="color: red;">{{area.adress}}</b></p>
+                    <p style="text-align: center;"><b>Email:</b> {{area.email}}</p>
+                    <p style="text-align: center;"><b>Số điện thoại:</b> {{area.phonenumber}}</p>
+                    
+                </div>
+            </div>
+        </div>
     </div>
-
+</div>
 {% endblock content %}

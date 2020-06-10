@@ -27,6 +27,7 @@
                 <label class="small mb-1" for="id_gender">Giới tính</label>
                 <div class="form-group">
                     <select class="form-control" name="gender" required id="id_gender">
+                        <option value="1" hidden>Nam</option>
                         {% for i in gender %}
                         <option value="{{ i.pk }}">{{ i.name }}</option>
                         {% endfor %}

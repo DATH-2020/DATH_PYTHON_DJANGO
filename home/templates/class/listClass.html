@@ -18,11 +18,8 @@ Danh sách lớp học
             <div>
                 <button name="print" onclick="printfail()" style="width: 8em;" type="button" class="btn btn-primary"><i
                         class="fas fa-print"></i> In</button>
-                <button name="exportExcel" onclick="printfail()" style="width: 8em;" type="button"
+                <button name="exportExcel" style="width: 8em;" type="button"
                     class="btn btn-success"><i class="fas fa-file-excel"></i> Xuất Excel</button>
-                <!-- <input name="print" style="width: 8em;" type="button" class="btn btn-primary" value="In"> -->
-                <!-- <input name="print" style="margin-left: auto; width: 8em;" type="button" class="btn btn-primary"
-                    value="Xuất Excel"> -->
             </div>
         </div>
     </div>
@@ -48,7 +45,7 @@ Danh sách lớp học
                 <tr>
                     <td>
                         <!-- <a href="/class/{{ i.pk }}">{{ i.fullname}}</a> -->
-                        <a class="btn btn-primary" href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
+                        <a class="btn btn-dark" style="color: white; width: 100%;" href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
                     </td>
                     <td style="text-align: center;">
                         {% for itema in SLa %}

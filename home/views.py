@@ -386,6 +386,7 @@ def detailStudent(request,pk):
 @allowed_users(allowed_roles=['admin','manager','staff'])
 def listTeacher(request):
     listteacher = Teacher.objects.all()
+    classname = Classname.objects.all()
     array = []
     for item in listteacher:
         SL = {}
@@ -393,7 +394,7 @@ def listTeacher(request):
         SL['number'] = Classname.objects.filter(teacher_id=item).count()
         array.append(SL)
         # print(array)
-    context = {'listteacher': listteacher,'SL':array}
+    context = {'classname': classname,'listteacher': listteacher,'SL':array}
     return render(request, 'teacher/teacher.html', context)
     
 @login_required(login_url='login')
@@ -684,7 +685,9 @@ def createStafAccount(request):
 # Contact 
 @login_required(login_url='login')
 def contact(request):
-    return render(request,'contact/contact.html')
+    area = Area.objects.first()
+    context = {'area':area}
+    return render(request,'contact/contact.html',context)
  
 # RoleError 
 @login_required(login_url='login')
