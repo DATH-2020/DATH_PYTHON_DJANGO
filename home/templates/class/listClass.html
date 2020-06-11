@@ -18,8 +18,8 @@ Danh sách lớp học
             <div>
                 <button name="print" onclick="printfail()" style="width: 8em;" type="button" class="btn btn-primary"><i
                         class="fas fa-print"></i> In</button>
-                <button name="exportExcel" style="width: 8em;" type="button"
-                    class="btn btn-success"><i class="fas fa-file-excel"></i> Xuất Excel</button>
+                <button name="exportExcel" style="width: 8em;" type="button" class="btn btn-success"><i
+                        class="fas fa-file-excel"></i> Xuất Excel</button>
             </div>
         </div>
     </div>
@@ -45,7 +45,8 @@ Danh sách lớp học
                 <tr>
                     <td>
                         <!-- <a href="/class/{{ i.pk }}">{{ i.fullname}}</a> -->
-                        <a class="btn btn-dark" style="color: white; width: 100%;" href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
+                        <a class="btn btn-dark" style="color: white; width: 100%;"
+                            href="/classstudent/{{ i.pk }}">{{ i.fullname}}</a>
                     </td>
                     <td style="text-align: center;">
                         {% for itema in SLa %}
@@ -88,8 +89,6 @@ Danh sách lớp học
             </tbody>
         </table>
     </div>
-</div>
-</div>
 </div>
 <script>
 
