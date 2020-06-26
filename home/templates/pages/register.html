@@ -9,6 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>TẠO TÀI KHOẢN MỚI</title>
+    <link rel="shortcut icon" href="/static/images/Logo-Dark-16x16.png" />
     <link href="{% static '/css/styles.css' %}" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
         crossorigin="anonymous"></script>
@@ -23,7 +24,7 @@
                         <div class="col-lg-7">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Tạo tài khoản mới</h3>
+                                    <h3 class="text-center font-weight-light my-4">Tạo tài khoản tổng quản lý</h3>
                                 </div>
                                 <div class="card-body">
                                     <form method="POST" action="">
@@ -69,26 +70,6 @@
                                                         khẩu</label>
                                                     <input class="form-control py-4" id="id_password2" name="password2"
                                                         required type="password" placeholder="Xác nhận mật khẩu" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="id_is_staff">Kích hoạt</label>
-                                                    <input type="checkbox" checked name="is_active" id="id_is_active" data-toggle="toggle" data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="id_is_staff">Quản lý</label>
-                                                    <input type="checkbox" name="is_staff" id="id_is_staff" data-toggle="toggle" data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="id_is_superuser">Tổng quản lý</label>
-                                                    <input type="checkbox" name="is_superuser" id="id_is_superuser" data-toggle="toggle" data-on="Mở" data-off="Khóa" data-onstyle="success" data-offstyle="danger"/>
                                                 </div>
                                             </div>
                                         </div>

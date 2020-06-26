@@ -39,7 +39,11 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="id_email">Email</label>
                 <div class="form-group">
-                    <input class="form-control" value="{{ teacher.email }}" name="email" required id="id_email" type="email" placeholder="Nhập email giảng viên" />
+                    <input class="form-control" value="{{ teacher.email }}" name="email"
+                    {% if request.user.is_staff == 0 %}
+                    disabled
+                    {% endif %}
+                    required id="id_email" type="email" placeholder="Nhập email giảng viên" />
                 </div>
             </div>
             <div class="col-md-4">
@@ -51,35 +55,57 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="id_phonenumber">Số điện thoại</label>
                 <div class="form-group">
-                    <input class="form-control" value="{{ teacher.phonenumber }}" name="phonenumber" required id="id_phonenumber" type="text" placeholder="Nhập số điện thoại giảng viên" /></div>
+                    <input class="form-control" value="{{ teacher.phonenumber }}" name="phonenumber" 
+                    {% if request.user.is_staff == 0 %}
+                    disabled
+                    {% endif %}
+                    required id="id_phonenumber" type="text" placeholder="Nhập số điện thoại giảng viên" /></div>
             </div>
         </div>
         <div class="form-row">
             <div class="col-md-5">
                 <label class="small mb-1" for="id_adress">Địa chỉ</label>
                 <div class="form-group">
-                    <input class="form-control" value="{{ teacher.adress }}" name="adress" required id="id_adress" type="text" placeholder="Nhập địa chỉ giảng viên" />
+                    <input class="form-control" value="{{ teacher.adress }}" name="adress"
+                    {% if request.user.is_staff == 0 %}
+                    disabled
+                    {% endif %}
+                    required id="id_adress" type="text" placeholder="Nhập địa chỉ giảng viên" />
                 </div>
             </div>
             <div class="col-md-5">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú" />
+                    <input class="form-control" name="note" id="inputNote"
+                    {% if request.user.is_staff == 0 %}
+                    disabled
+                    {% endif %}
+                    type="text" placeholder="Ghi chú" />
                 </div>
             </div>
             <div class="col-md-2">
                 <label class="small mb-1" for="inputActive">Trạng thái</label>
                 <div class="form-group">
                     {% if teacher.active %}
-                    <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1" data-on="Dạy" data-off="Ngưng dạy" data-onstyle="success" data-offstyle="danger"> {% else %}
-                    <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Dạy" data-off="Ngưng dạy" data-onstyle="success" data-offstyle="danger"> {% endif %}
+                    <input type="checkbox" id="id_active" name="active"
+                    {% if request.user.is_staff == 0 %}
+                    disabled
+                    {% endif %}
+                    checked data-toggle="toggle" value="1" data-on="Dạy" data-off="Ngưng dạy" data-onstyle="success" data-offstyle="danger"> {% else %}
+                    <input type="checkbox" id="id_active" name="active"
+                    {% if request.user.is_staff == 0 %}
+                    disabled
+                    {% endif %}
+                    data-toggle="toggle" value="0" data-on="Dạy" data-off="Ngưng dạy" data-onstyle="success" data-offstyle="danger"> {% endif %}
                 </div>
             </div>
         </div>
         <div class="form-row">
         </div>
         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+            {% if request.user.is_staff %}
             <input type="submit" value="Lưu thông tin" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">
+            {% endif %}
         </div>
     </form>
 </div>

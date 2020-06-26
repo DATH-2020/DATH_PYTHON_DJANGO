@@ -45,36 +45,16 @@ def registerPage(request):
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
             if form.is_valid():
-                # user.is_superuser = 1
-                # user.is_staff = 1
-                # user = form.save()  
+                user = form.save()  
                 username = form.cleaned_data.get('username')
 
+                is_superuser = 1
+                is_staff = 1
+                is_active = 1
                 # group = Group.objects.get(name='manager')
                 # user.groups.add(group)
-                user = form.save()
-                if str(request.POST.get('is_active')) == 'on':
-                    is_active = 1
-                else:
-                    is_active = 0
-                if str(request.POST.get('is_staff')) == 'on':
-                    is_staff = 1
-                else:
-                    is_staff = 0
-                if str(request.POST.get('is_superuser')) == 'on':
-                    is_superuser = 1
-                else:
-                    is_superuser = 0
-
-                if is_superuser:
-                    group = Group.objects.get(name='admin')
-                    user.groups.add(group)
-                elif is_staff:
-                    group = Group.objects.get(name='manager')
-                    user.groups.add(group)
-                else:
-                    group = Group.objects.get(name='staff')
-                    user.groups.add(group)
+                group = Group.objects.get(name='admin')
+                # user = form.save()
                 messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
                 return redirect('login')
             else:
@@ -93,22 +73,25 @@ def logoutUser(request):
 def home(request):
     notify = Notify.objects.all()
     listclass = Classname.objects.all()
+    countstudent = Student.objects.filter(active=1).count()
+    countteacher = Teacher.objects.filter(active=1).count()
+    countclass = Classname.objects.filter(active=1).count()
     for i1 in listclass:
         startdate = datetime.strptime(str(i1.startdate), '%Y-%m-%d')
         today = datetime.now()
         student = Student.objects.all()
         if startdate <= today:
-            # print(i1.pk) 
-            i1.active=1
-            i1.save()
+            if i1.active==0:
+                # print(i1.pk) 
+                i1.active=1
+                i1.save()
+        
         for a in student:
             if i1.pk==a.classname_id:
                 if startdate <= today:
                     # print(a.classname_id) 
                     a.active=1
                     a.save()
-                    
-            
                 # if a.classname_id==i1.pk:
                 #     a.active = 1
                 #     a.save()
@@ -117,9 +100,27 @@ def home(request):
         daylearn = datetime.strptime(str(i2.daylearn), '%Y-%m-%d')
         today = datetime.now()
         if daylearn < today:
-            i2.active=1
-            i2.save()
-    context = {'schedule':schedule,'notify':notify}
+            if i2.active==0:
+                i2.active=1
+                i2.save()
+    for i3 in listclass:
+        detailschedule = Schedule.objects.filter(id_classname = i3.pk).order_by('-daylearn')[0]
+        print(detailschedule.active)
+        daylearn = datetime.strptime(str(detailschedule.daylearn), '%Y-%m-%d')
+        print(daylearn)
+        studentinclass = Student.objects.filter(classname_id=i3.pk)
+        today = datetime.now()
+        if daylearn < today:
+            i3.active=0
+            i3.save()
+            for i4 in studentinclass:
+                print(i4.fullname)
+                i4.active=0
+            
+        # for i4 in detailschedule:
+
+        #     print(i4.daylearn)
+    context = {'schedule':schedule,'notify':notify,'countstudent':countstudent,'countteacher':countteacher,'countclass':countclass}
     return render(request, 'pages/home.html',context)
 
 # Class 
@@ -139,8 +140,8 @@ def listClass(request):
     arrayb = []
     for itemb in listclass:
         SLb = {}
-        SLb['class'] = itemb.fullname
-        SLb['number'] = Schedule.objects.filter(classname=itemb,active=1).count()
+        SLb['id'] = itemb.pk
+        SLb['number'] = Schedule.objects.filter(id_classname=itemb.pk,active=1).count()
         arrayb.append(SLb)
     context = {'listclass': listclass,'schedule':schedule,'SLa':arraya,'SLb':arrayb}
     return render(request, 'class/listclass.html', context)
@@ -155,9 +156,18 @@ def createClass(request):
     timeshift = TimeShift.objects.all()
     timeweek = TimeWeek. objects.all()
     teacher = Teacher.objects.all()
+    context = {'form':form, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
     if request.method == 'POST':
         form = CreateClassnameForm(request.POST)
         if form.is_valid():
+            idtimeshift = request.POST.get('timeshift')
+            idtimeweek = request.POST.get('timeweek')
+            idroom = request.POST.get('room')
+            nameclass = request.POST.get('fullname')
+            print(idtimeshift)
+            print(idtimeweek)
+            print(idroom)
+            # if()
             form.save()
             count = 0
             start_date = datetime.strptime(str(request.POST.get('startdate')), '%Y-%m-%d')
@@ -165,18 +175,48 @@ def createClass(request):
             time = TimeShift.objects.get(pk = request.POST.get('timeshift'))
             if int(request.POST.get('timeweek')) == 2:
                 day = [1,3,5]
-            else:
+            elif int(request.POST.get('timeweek')) == 1:
                 day = [0,2,4]
             while count < int(request.POST.get('datecount')):
                 for i in day:
                     if i==start_date.date().weekday():
+                        # kiem tra 
+                        idclass = Classname.objects.get(timeshift = int(idtimeshift), timeweek = int(idtimeweek), room = int(idroom), fullname = str(nameclass))
                         print(start_date.date())
-                        Schedule.objects.create(classname=str(request.POST.get('fullname')), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
+                        if idclass:
+                            Schedule.objects.create(id_classname=int(idclass.pk), classname=str(request.POST.get('fullname')), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
                         count = count+1
                 start_date += step
             # return redirect('createclass')
             return redirect('listclass')
-    context = {'form':form, 'unit':unit, 'area':area, 'room':room, 'timeshift':timeshift, 'timeweek':timeweek, 'teacher':teacher}
+            # check = Classname.objects.filter(timeweek = int(idtimeweek), room = int(idroom))
+            # time = Timeshift.objects.filter()
+            # check1 = Schedule.objects.filter()
+            # print(check)
+            # if check:
+            #     print("ERROR")
+            # else:
+            #     form.save()
+            #     count = 0
+            #     start_date = datetime.strptime(str(request.POST.get('startdate')), '%Y-%m-%d')
+            #     step = timedelta(days=1)
+            #     time = TimeShift.objects.get(pk = request.POST.get('timeshift'))
+            #     if int(request.POST.get('timeweek')) == 2:
+            #         day = [1,3,5]
+            #     else:
+            #         day = [0,2,4]
+            #     while count < int(request.POST.get('datecount')):
+            #         for i in day:
+            #             if i==start_date.date().weekday():
+            #                 # kiem tra 
+            #                 idclass = Classname.objects.get(timeshift = int(idtimeshift), timeweek = int(idtimeweek), room = int(idroom), fullname = str(nameclass))
+            #                 print(start_date.date())
+            #                 if idclass:
+            #                     Schedule.objects.create(id_classname=int(idclass.pk), classname=str(request.POST.get('fullname')), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
+            #                 count = count+1
+            #         start_date += step
+            #     # return redirect('createclass')
+            #     return redirect('listclass') 
     return render(request, 'class/createClass.html', context)
 
 @login_required(login_url='login')
@@ -335,11 +375,21 @@ def createStudent(request):
     form = CreateStudentForm()
     gender = Gender.objects.all()
     unit = Unit.objects.all()
+    today = date.today()
     classname = Classname.objects.all()
     if request.method == 'POST':
         form = CreateStudentForm(request.POST)
+        # print('Print Form: ', form.is_valid())
         if form.is_valid(): 
             form.save()
+            idstudent = Student.objects.filter().order_by("-pk")[0].pk
+            print(idstudent)
+            refee = Student.objects.get(pk=idstudent)
+            fee = int(request.POST.get('fee'))
+            idunit = int(request.POST.get('unit'))
+            feeunit = int(Unit.objects.get(pk=idunit).fee)
+            refee.fee_remain = feeunit-fee
+            refee.save()
             send_mail(
                 subject = 'XÁC NHẬN ĐĂNG KÝ HỌC VIÊN', # title mail
                 message = 'Chào '+str(request.POST.get('fullname')) + ',\nBạn vừa hoàn thành đăng kí học viên tại HITECH. Trung tâm sẽ gửi thời khóa biểu cho bạn sớm nhất.', # nội dung mail
@@ -350,9 +400,9 @@ def createStudent(request):
             )
             # return redirect('createstudent')
             return redirect('liststudent')
-    context = { 'gender':gender, 'unit':unit, 'classname':classname}
+    context = { 'gender':gender, 'today':today, 'unit':unit, 'classname':classname,'form':form}
     return render(request, 'student/createStudent.html', context)
-
+# cái này chưa xong
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager','staff'])
 def detailStudent(request,pk):
@@ -363,19 +413,21 @@ def detailStudent(request,pk):
     form = UpdateStudentForm(instance=student)
     if request.method == 'POST':
         form = UpdateStudentForm(request.POST, instance=student)
+        print('Print Form: ', form.is_valid())
+
         if form.is_valid():
             # print(request.POST.get('classname'))
             student.classname_id = request.POST.get('classname')
             student.save()
             form.save()
-            send_mail(
-                subject = 'XÁC NHẬN ĐÃ THAY ĐỔI THÔNG TIN HỌC VIÊN', # title mail
-                message = 'Chào '+ str(request.POST.get('fullname')) + ',\nThông tin học viên HITECH của bạn vừa được cập nhật. \nVui lòng trả lời tin mail này để xác nhận.', # nội dung mail
-                from_email= None, # tài khoản
-                auth_password= None, # mk
-                recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-                fail_silently = False,
-            )
+            # send_mail(
+            #     subject = 'XÁC NHẬN ĐÃ THAY ĐỔI THÔNG TIN HỌC VIÊN', # title mail
+            #     message = 'Chào '+ str(request.POST.get('fullname')) + ',\nThông tin học viên HITECH của bạn vừa được cập nhật. \nVui lòng trả lời tin mail này để xác nhận.', # nội dung mail
+            #     from_email= None, # tài khoản
+            #     auth_password= None, # mk
+            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
+            #     fail_silently = False,
+            # )
             return redirect('liststudent')
     context = {'form':form, 'schedule':schedule, 'student':student, 'classname': classname, 'unit': unit}
     return render(request,'student/detailStudent.html',context)
@@ -425,13 +477,6 @@ def detailTeacher(request,pk):
     return render(request,'teacher/detailTeacher.html',context)
 
 # Manager 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager'])
-def listUser(request):
-    listuser = User.objects.all()
-    context={'listuser':listuser}
-    return render(request,'manager/listUser.html',context)
-
 @login_required(login_url='login')
 def editProfile(request,pk):
     detailuser = User.objects.get(pk=pk)
@@ -601,44 +646,16 @@ def editInformationUnit(request,pk):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager'])
-def updateUser(request,pk):
-    
-    detailuser = User.objects.get(pk=pk)
-    if request.method == 'POST':
-        detailuser.last_name = request.POST.get('last_name')
-        detailuser.first_name = request.POST.get('first_name')
-        if str(request.POST.get('is_active')) == 'on':
-            is_active = 1
-        else:
-            is_active = 0
-        if str(request.POST.get('is_staff')) == 'on':
-            is_staff = 1
-        else:
-            is_staff = 0
-        if str(request.POST.get('is_superuser')) == 'on':
-            is_superuser = 1
-        else:
-            is_superuser = 0
-        print(is_active)
-        print(is_staff)
-        print(is_superuser)
-        detailuser.is_active = is_active
-        detailuser.is_staff = is_staff
-        detailuser.is_superuser = is_superuser
-        detailuser.groups.clear()
-        detailuser.save()
-        if request.POST.get('is_superuser'):
-            group = Group.objects.get(name='admin')
-            detailuser.groups.add(group)
-        elif request.POST.get('is_staff'):
-            group = Group.objects.get(name='manager')
-            detailuser.groups.add(group)
-        else:
-            group = Group.objects.get(name='staff')
-            detailuser.groups.add(group)
-        return redirect('listuser')
-    context={'detailuser':detailuser}
-    return render(request,'manager/updateUser.html',context)
+def listUser(request):
+    listuser = User.objects.all()
+    array = []
+    for item in listuser:
+        USERGROUP = {}
+        USERGROUP['iduser'] = item.pk
+        USERGROUP['groupuser'] = str(item.groups.all()[0].name)
+        array.append(USERGROUP)
+    context={'listuser':listuser,'USERGROUP':array}
+    return render(request,'manager/listUser.html',context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager'])
@@ -651,29 +668,30 @@ def createStafAccount(request):
             # user.is_superuser = 1
             # user.is_staff = 1
             user = form.save()  
-            if str(request.POST.get('is_active')) == 'on':
-                is_active = 1
-            else:
-                is_active = 0
-            if str(request.POST.get('is_staff')) == 'on':
-                is_staff = 1
-            else:
-                is_staff = 0
-            if str(request.POST.get('is_superuser')) == 'on':
-                is_superuser = 1
-            else:
-                is_superuser = 0
+            # print(request.POST.get('role'))
             username = form.cleaned_data.get('username')
-            superuser = request.POST.get('is_staff')
-            manager = request.POST.get('is_superuser')
-            if is_superuser:
+            if int(request.POST.get('role')) == 1:
+                is_superuser = 1
+                is_staff = 1
+                is_active = 1
                 group = Group.objects.get(name='admin')
                 user.groups.add(group)
-            elif is_staff:
+            elif int(request.POST.get('role')) == 2:
+                is_staff = 1
+                is_active = 1
                 group = Group.objects.get(name='manager')
                 user.groups.add(group)
-            else:
+            elif int(request.POST.get('role')) == 3:
+                is_active = 1
                 group = Group.objects.get(name='staff')
+                user.groups.add(group)
+            elif int(request.POST.get('role')) == 4:
+                is_active = 1
+                group = Group.objects.get(name='teacher')
+                user.groups.add(group)
+            elif int(request.POST.get('role')) == 5:
+                is_active = 1
+                group = Group.objects.get(name='student')
                 user.groups.add(group)
             messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
             return redirect('listuser') 
@@ -681,6 +699,66 @@ def createStafAccount(request):
             messages.error(request, "Lỗi tạo tài khoản")
             return render(request,'manager/createStafAccount.html',context)
     return render(request,'manager/createStafAccount.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager'])
+def updateUser(request,pk):
+    detailuser = User.objects.get(pk=pk)
+    group = detailuser.groups.all()[0].name 
+    # for i in group: 
+    print(group) 
+    rolename = str(group)
+    if request.method == 'POST':
+        detailuser.groups.clear()
+        if str(request.POST.get('role')) == 'admin':
+            is_superuser = 1
+            is_staff = 1
+            is_active = 1
+            group = Group.objects.get(name='admin')
+            detailuser.groups.add(group)
+        elif str(request.POST.get('role')) == 'manager':
+            is_superuser = 0
+            is_staff = 1
+            is_active = 1
+            group = Group.objects.get(name='manager')
+            detailuser.groups.add(group)
+        elif str(request.POST.get('role')) == 'staff':
+            is_superuser = 0
+            is_staff = 0
+            is_active = 1
+            group = Group.objects.get(name='staff')
+            detailuser.groups.add(group)
+        elif str(request.POST.get('role')) == 'teacher':
+            is_superuser = 0
+            is_staff = 0
+            is_active = 1
+            group = Group.objects.get(name='teacher')
+            detailuser.groups.add(group)
+        elif str(request.POST.get('role')) == 'student':
+            is_superuser = 0
+            is_staff = 0
+            is_active = 1
+            group = Group.objects.get(name='student')
+            detailuser.groups.add(group)
+        # print(is_active)
+        # print(is_staff)
+        # print(is_superuser)
+        detailuser.is_active = is_active
+        detailuser.is_staff = is_staff
+        detailuser.is_superuser = is_superuser
+        detailuser.save()
+        # if request.POST.get('is_superuser'):
+        #     group = Group.objects.get(name='admin')
+        #     detailuser.groups.add(group)
+        # elif request.POST.get('is_staff'):
+        #     group = Group.objects.get(name='manager')
+        #     detailuser.groups.add(group)
+        # else:
+        #     group = Group.objects.get(name='staff')
+        #     detailuser.groups.add(group)
+        return redirect('listuser')
+    context={'detailuser':detailuser,'rolename':rolename}
+    return render(request,'manager/updateUser.html',context)
 
 # Contact 
 @login_required(login_url='login')

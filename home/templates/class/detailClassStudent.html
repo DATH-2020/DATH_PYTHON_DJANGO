@@ -9,7 +9,7 @@
 {% load static %}
 <!-- break -->
 <div class="card-header">
-    <h2 class="text-center font-weight-light">Danh sách học viên lớp </h2>
+    <h2 class="text-center font-weight-light">Danh sách học viên lớp {{classname.fullname}}</h2>
 </div>
 <div class="card-body">
     <div class="form-row">
@@ -22,9 +22,9 @@
                             <th style="width: 10%;">Số điện thoại</th>
                             <th style="width: 10%;">SDT phụ huynh</th>
                             <th style="width: 23%;">Địa chỉ</th>
-                            <th style="width: 12%;">Thời gian đăng ký</th>
+                            <th style="width: 15%;">Thời gian đăng ký</th>
                             <th style="width: 13%;">Ghi chú</th>
-                            <th style="width: 5%;">Active</th>
+                            <th>Active</th>
                             <th>TKB</th>
                             <!-- <th style="width: 10%;">Điểm danh</th> -->
                         </tr>
@@ -56,9 +56,10 @@
                             <td>
                                 {% if i.havedetailschedule == 0 %}
                                 <a href="/checkinstudent/{{ i.pk }}" style="width: 100%; color: white;"
-                                    class="btn btn-warning"><i class="fas fa-calendar-check" style="color: white;"></i></a>
+                                    class="btn btn-warning"><i class="fas fa-calendar-check"
+                                        style="color: white;"></i></a>
                                 {%endif%}
-                                
+
                             </td>
                             <!-- <td>
                                 {% if i.active %}
@@ -152,19 +153,19 @@
             eventLimit: true, // allow "more" link when too many events
             events: [
                 {% for i in schedule %} 
-                {% if classname.fullname == i.classname %}
+                {% if classname.pk == i.id_classname %}
                 {
             title: '{{ i.dayname }}',
             start: '{{ i.daylearn|date:"Y-m-d" }}',
             end: '{{ i.daylearn|date:"Y-m-d" }}',
-            {% if i.active == 1 %}
-    color: '#28a745',
-        {% else %}
-    color: '#bdbdbd'
-    {% endif %}
-                },
-    {% endif %}
-    {% endfor %}
+                {% if i.active == 1 %}
+                color: '#28a745',
+                {% else %}
+                color: '#bdbdbd'
+                {% endif %}
+                            },
+                {% endif %}
+                {% endfor %}
             ],
         });
     calendar.render();

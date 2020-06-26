@@ -13,12 +13,12 @@ class CreateUserForm(UserCreationForm):
 class CreateStudentForm(ModelForm):
     class Meta:
         model = Student
-        fields = '__all__'
+        fields = ['fullname','gender','birthday','identity_card','phonenumber','phonenumber_family','email','adress','classname','fee','note','active']
 
 class UpdateStudentForm(ModelForm):
     class Meta:
         model = Student 
-        fields = 'email','phonenumber','adress','phonenumber_family','fee','fee_remain','note','active'
+        fields = 'email','phonenumber','adress','phonenumber_family','fee','note','active'
 
 class CreateClassnameForm(ModelForm):
     class Meta:

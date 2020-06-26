@@ -58,7 +58,7 @@ Danh sách lớp học
                     <td>{{ i.startdate|date:"d-m-Y"}}</td>
                     <td style="text-align: center;">
                         {% for itemb in SLb %}
-                        {% if itemb.class == i.fullname %}
+                        {% if itemb.id == i.id %}
                         {{itemb.number}}
                         {% endif %}
                         {% endfor %}
