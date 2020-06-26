@@ -1,0 +1,1 @@
+web: gunicorn AreaEnglish.wsgi --log-file -
