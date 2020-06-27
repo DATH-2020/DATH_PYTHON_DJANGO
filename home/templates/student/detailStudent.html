@@ -72,7 +72,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputFirstName">Khóa học</label>
                 <div class="form-group">
-                    <select onchange="changeUnitClassname(this.value)" class="form-control" id="id_unit">
+                    <select onchange="changeUnitClassname(this.value)" class="form-control" id="id_unit" name="unit">
                         {% for i in classname %}
                         {% if i.pk == student.classname_id%}
                         <option value="{{i.unit_id}}" hidden>{{i.unit}}</option>
@@ -90,7 +90,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputClass">Lớp</label>
                 <div class="form-group">
-                    <select onchange="changeclassname()" class="form-control" id="id_classname" name="classname">
+                    <select onchange="changeclassname()" required class="form-control" id="id_classname" name="classname">
                         <option value="{{ student.classname_id }}" hidden>{{ student.classname }}</option>
                         {% for i in classname %}
                         {% if i.active == 0 %}
@@ -117,43 +117,26 @@
                     </select>
                 </div>
             </div>
-            <script>
-                function changeclassname() {
-                    var x = document.getElementById("id_classname").value;
-                    document.getElementById("id_teacher").value = x;
-                }
-                var id_unit = document.querySelector('#id_unit');
-                var id_classname = document.querySelector('#id_classname');
-                var options_unit_classname = id_classname.querySelectorAll('option');
-
-                function changeUnitClassname(selValue) {
-                    id_classname.innerHTML = '';
-                    for (var i = 0; i < options_unit_classname.length; i++) {
-                        if (options_unit_classname[i].dataset.option === selValue) {
-                            id_classname.appendChild(options_unit_classname[i]);
-                        }
-                    }
-                    var x = document.getElementById("id_classname").value;
-                    document.getElementById("id_teacher").value = x;
-                }
-                changeUnitClassname(id_unit.value);
-            </script>
         </div>
         <div class="form-row">
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền nộp</label>
                 <div class="form-group input-group mb-3">
+                    {% if feeremain > 0 %}
                     <input class="form-control" required id="id_fee" name="fee" type="text"
-                        placeholder="Đã đóng được {{ student.fee }} VND" />
+                        placeholder="Đã đóng được {{ feeremain }} VND" />
+                    {% else %}
+                    <input class="form-control" required id="id_fee" name="fee" type="text"
+                        placeholder="Đã đóng đủ" />
+                    {% endif %}
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <label class="small mb-1" for="inputFee">Số tiền phải đóng</label>
+                <label class="small mb-1" for="inputFee">Học phí khóa học</label>
                 <div class="form-group input-group mb-3">
-                    
                     <select class="form-control" disabled id="id_feeremain" required>
                         {% for i in unit %}
                         {% if i.active %}
@@ -180,7 +163,7 @@
                 <div class="form-group">
                     <!-- <input class="form-control" required id="inputNote" type="checkbox" placeholder="Ghi chú" /> -->
                     {% if student.active %}
-                    <input type="checkbox" id="id_active" name="active" disabled checked data-toggle="toggle" value="1"
+                    <input type="checkbox" id="id_active" name="active" checked data-toggle="toggle" value="1"
                         data-on="Học" data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> {% else %}
                     <input type="checkbox" id="id_active" name="active" data-toggle="toggle" value="0" data-on="Học"
                         data-off="Nghỉ" data-onstyle="success" data-offstyle="danger"> {% endif %}
@@ -210,18 +193,48 @@
         });
     }
     function submita() {
-        swal("Great!!!", "Lưu thành công", "success", {
+        setTimeout(function () {
+            document.qrcodeRedirectForm.submit();
+        }, 500);
+    }
+</script>
+{% if error %}
+<script type="text/javascript">
+    window.onload = function(){ 
+        swal("Lỗi", "Không có lớp được chọn", "error", {
             buttons: false,
             timer: 1500,
         });
-        setTimeout(function () {
-            document.qrcodeRedirectForm.submit();
-        }, 1500);
     }
 </script>
+{% endif %}
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
 <script src="{% static '/js/moment.min.js' %}"></script>
+<script>
+    function changeclassname() {
+        var x = document.getElementById("id_classname").value;
+        document.getElementById("id_teacher").value = x;
+    }
+    var id_unit = document.querySelector('#id_unit');
+    var id_classname = document.querySelector('#id_classname');
+    var options_unit_classname = id_classname.querySelectorAll('option');
+
+    function changeUnitClassname(selValue) {
+        id_classname.innerHTML = '';
+        for (var i = 0; i < options_unit_classname.length; i++) {
+            if (options_unit_classname[i].dataset.option === selValue) {
+                id_classname.appendChild(options_unit_classname[i]);
+            }
+        }
+        var x = document.getElementById("id_unit").value;
+        document.getElementById("id_feeremain").value = x;
+
+        var x = document.getElementById("id_classname").value;
+        document.getElementById("id_teacher").value = x;
+    }
+    changeUnitClassname(id_unit.value);
+</script>
 <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
 {% endblock content %}

@@ -48,12 +48,13 @@ def registerPage(request):
                 user = form.save()  
                 username = form.cleaned_data.get('username')
 
-                is_superuser = 1
-                is_staff = 1
-                is_active = 1
+                user.is_superuser = 1
+                user.is_staff = 1
+                user.is_active = 1
+                user.save()
                 # group = Group.objects.get(name='manager')
                 # user.groups.add(group)
-                group = Group.objects.get(name='admin')
+                # group = Group.objects.get(name='admin')
                 # user = form.save()
                 messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
                 return redirect('login')
@@ -144,7 +145,7 @@ def listClass(request):
         SLb['number'] = Schedule.objects.filter(id_classname=itemb.pk,active=1).count()
         arrayb.append(SLb)
     context = {'listclass': listclass,'schedule':schedule,'SLa':arraya,'SLb':arrayb}
-    return render(request, 'class/listclass.html', context)
+    return render(request, 'class/listClass.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager'])
@@ -376,6 +377,7 @@ def createStudent(request):
     gender = Gender.objects.all()
     unit = Unit.objects.all()
     today = date.today()
+    error=0
     classname = Classname.objects.all()
     if request.method == 'POST':
         form = CreateStudentForm(request.POST)
@@ -383,7 +385,7 @@ def createStudent(request):
         if form.is_valid(): 
             form.save()
             idstudent = Student.objects.filter().order_by("-pk")[0].pk
-            print(idstudent)
+            # print(idstudent)
             refee = Student.objects.get(pk=idstudent)
             fee = int(request.POST.get('fee'))
             idunit = int(request.POST.get('unit'))
@@ -400,8 +402,11 @@ def createStudent(request):
             )
             # return redirect('createstudent')
             return redirect('liststudent')
-    context = { 'gender':gender, 'today':today, 'unit':unit, 'classname':classname,'form':form}
+        else:
+            error=1
+    context = {'error':error, 'gender':gender, 'today':today, 'unit':unit, 'classname':classname,'form':form}
     return render(request, 'student/createStudent.html', context)
+
 # cái này chưa xong
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','manager','staff'])
@@ -410,26 +415,59 @@ def detailStudent(request,pk):
     classname = Classname.objects.all()
     unit = Unit.objects.all()
     schedule = Schedule.objects.all()
-    form = UpdateStudentForm(instance=student)
+    feeremain = student.fee_remain
+    error=0
     if request.method == 'POST':
-        form = UpdateStudentForm(request.POST, instance=student)
-        print('Print Form: ', form.is_valid())
-
-        if form.is_valid():
-            # print(request.POST.get('classname'))
+        # print(request.POST.get('classname'))
+        if request.POST.get('classname') is not None:
             student.classname_id = request.POST.get('classname')
+            print(request.POST.get('classname'))
+            student.email = request.POST.get('email')
+            student.phonenumber = request.POST.get('phonenumber')
+            student.adress = request.POST.get('adress')
+            student.phonenumber_family = request.POST.get('phonenumber_family')
+            # chua xong
+            # tong hoc phi nhap vao va hoc phi da dong
+            if request.POST.get('fee') == '':
+                feein = 0
+            else:
+                feein = int(request.POST.get('fee'))
+            sumfee = feein + student.fee
+            # -------------------------------------
+            # id va hoc phi khoa hoc
+            idunit = int(request.POST.get('unit'))
+            # print('id unit: ',idunit)
+            feeunit = int(Unit.objects.get(pk=idunit).fee)
+            # print('fee unit: ',feeunit)
+            # -------------------------------------
+            if sumfee > feeunit:
+                student.fee = feeunit
+                student.fee_remain = 0
+            else:
+                student.fee = sumfee
+                student.fee_remain = feeunit - sumfee
+            # print('tien con thieu: ',student.fee_remain)
+            # print('tien da dong: ',student.fee)
+            # -------------------------------------
+            student.note = request.POST.get('note')
+            if request.POST.get('active') is not None:
+                student.active = 1
+            else:
+                student.active = 0
             student.save()
-            form.save()
-            # send_mail(
-            #     subject = 'XÁC NHẬN ĐÃ THAY ĐỔI THÔNG TIN HỌC VIÊN', # title mail
-            #     message = 'Chào '+ str(request.POST.get('fullname')) + ',\nThông tin học viên HITECH của bạn vừa được cập nhật. \nVui lòng trả lời tin mail này để xác nhận.', # nội dung mail
-            #     from_email= None, # tài khoản
-            #     auth_password= None, # mk
-            #     recipient_list = [form.cleaned_data.get('email')],# mail người nhận
-            #     fail_silently = False,
-            # )
+            send_mail(
+                subject = 'XÁC NHẬN ĐÃ THAY ĐỔI THÔNG TIN HỌC VIÊN', # title mail
+                message = 'Chào '+ str(request.POST.get('fullname')) + 
+                            ',\nThông tin học viên HITECH của bạn vừa được cập nhật. \nVui lòng trả lời tin mail này để xác nhận.', # nội dung mail
+                from_email= None, # tài khoản
+                auth_password= None, # mk
+                recipient_list = [request.POST.get('email')],# mail người nhận
+                fail_silently = False,
+            )
             return redirect('liststudent')
-    context = {'form':form, 'schedule':schedule, 'student':student, 'classname': classname, 'unit': unit}
+        else:
+            error=1
+    context = {'error':error, 'feeremain':feeremain, 'schedule':schedule, 'student':student, 'classname': classname, 'unit': unit}
     return render(request,'student/detailStudent.html',context)
 
 # Teacher 
@@ -671,28 +709,29 @@ def createStafAccount(request):
             # print(request.POST.get('role'))
             username = form.cleaned_data.get('username')
             if int(request.POST.get('role')) == 1:
-                is_superuser = 1
-                is_staff = 1
-                is_active = 1
+                user.is_superuser = 1
+                user.is_staff = 1
+                user.is_active = 1
                 group = Group.objects.get(name='admin')
                 user.groups.add(group)
             elif int(request.POST.get('role')) == 2:
-                is_staff = 1
-                is_active = 1
+                user.is_staff = 1
+                user.is_active = 1
                 group = Group.objects.get(name='manager')
                 user.groups.add(group)
             elif int(request.POST.get('role')) == 3:
-                is_active = 1
+                user.is_active = 1
                 group = Group.objects.get(name='staff')
                 user.groups.add(group)
             elif int(request.POST.get('role')) == 4:
-                is_active = 1
+                user.is_active = 1
                 group = Group.objects.get(name='teacher')
                 user.groups.add(group)
             elif int(request.POST.get('role')) == 5:
-                is_active = 1
+                user.is_active = 1
                 group = Group.objects.get(name='student')
                 user.groups.add(group)
+            user.save()
             messages.success(request, 'Tài khoản ' + username + ' tạo thành công')
             return redirect('listuser') 
         else:

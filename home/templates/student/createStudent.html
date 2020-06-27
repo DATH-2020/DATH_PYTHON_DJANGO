@@ -127,7 +127,6 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền phải đóng</label>
                 <div class="form-group input-group mb-3">
-
                     <select class="form-control" disabled id="id_feeremain" required>
                         {% for i in unit %}
                         {% if i.active %}
@@ -166,7 +165,6 @@
 <script src="{% static '/js/sweetalert.min.js' %}"></script>
 <script src="{% static '/js/moment.min.js' %}"></script>
 <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
-
 <script>
     function changeclassname() {
         var x = document.getElementById("id_classname").value;
@@ -191,16 +189,21 @@
     }
     changeUnitClassname(id_unit.value);
 </script>
-
-<script>
-    function submita() {
-        swal("Great!!!", "Đăng ký thành công", "success", {
+{% if error %}
+<script type="text/javascript">
+    window.onload = function(){ 
+        swal("Lỗi", "Đăng ký không thành công", "error", {
             buttons: false,
             timer: 1500,
         });
+    }
+</script>
+{% endif %}
+<script>
+    function submita() {
         setTimeout(function () {
             document.qrcodeRedirectForm.submit();
-        }, 1500);
+        }, 500);
     }
 </script>
 {% endblock content %}
