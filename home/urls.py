@@ -48,6 +48,7 @@ urlpatterns = [
     # path('listschedule/',views.ListSchedule,name='listschedule'),
     # path('detailschedule/',views.DetailSchedule,name='detailschedule'),
     # Student 
+    path('liststudent/export/',views.export_movies_to_xlsx,name='export'),
     path('checkinstudent/<int:pk>/', views.checkinStudent, name='checkinstudent'),
     path('liststudent/', views.listStudent, name='liststudent'),
     path('createstudent', views.createStudent, name='createstudent'),
