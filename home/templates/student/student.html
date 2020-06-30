@@ -21,8 +21,8 @@ Student
             <div>
                 <button name="print" onclick="printfail()" style="width: 8em;" type="button" class="btn btn-primary"><i
                         class="fas fa-print"></i> In</button>
-                <button name="exportExcel" style="width: 8em;" type="button"
-                    class="btn btn-success"><i class="fas fa-file-excel"></i> Xuất Excel</button>
+                
+                <a href="{% url 'export' %}" class="btn btn-primary">Xuất excel</a>
             </div>
         </div>
     </div>

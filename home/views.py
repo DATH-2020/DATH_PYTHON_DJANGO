@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
+from openpyxl import Workbook
 from django.http import Http404
 from django.contrib.auth.models import Group
 from django.views.defaults import page_not_found
@@ -22,7 +23,59 @@ def error404(request, *args, **kwargs):
 
 def error500(request, *args, **kwargs):
     return render(request,'pages/500.html')
+def export_movies_to_xlsx(request):
+    """
+    Downloads all movies as Excel file with a single worksheet
+    """
+    student_queryset = Student.objects.all()
+    
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename={date}-students.xlsx'.format(
+        date=datetime.now().strftime('%Y-%m-%d'),
+    )
+    workbook = Workbook()
+    
+    # Get active worksheet/tab
+    worksheet = workbook.active
+    worksheet.title = 'Students'
 
+    # Define the titles for columns
+    columns = [
+        'PK',
+        'Name',
+        'Phone number',
+        'Email',
+        'Active',
+    ]
+    row_num = 1
+
+    # Assign the titles for each cell of the header
+    for col_num, column_title in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+
+    # Iterate through all movies
+    for student in student_queryset:
+        row_num += 1
+        
+        # Define the data for each cell in the row 
+        row = [
+            student.pk,
+            student.fullname,
+            student.phonenumber,
+            student.email,
+            student.active,
+        ]
+        
+        # Assign the data for each cell of the row 
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = cell_value
+
+    workbook.save(response)
+    return response
 # Create your views here.
 @unauthenticated_login
 def loginPage(request):
