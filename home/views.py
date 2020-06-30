@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.http import Http404
 from django.contrib.auth.models import Group
+from django.views.defaults import page_not_found
 
 from .models import *
 from .forms import *
@@ -17,7 +18,7 @@ from .decorators import *
 from datetime import *
 
 def error404(request, *args, **kwargs):
-    return render(request,'pages/404.html')
+    return render(request,'pages/404.html') 
 
 def error500(request, *args, **kwargs):
     return render(request,'pages/500.html')
@@ -25,6 +26,7 @@ def error500(request, *args, **kwargs):
 # Create your views here.
 @unauthenticated_login
 def loginPage(request):
+        errorlogin = False
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -35,8 +37,10 @@ def loginPage(request):
                 return redirect('home')
             else:
                 messages.info(request, 'Tên đăng nhập hoặc mật khẩu không đúng')
+                errorlogin = True
+                context={'user':user,'errorlogin':errorlogin}
                 return render(request, 'pages/login.html', context)
-        context={}
+        context={'errorlogin':errorlogin}
         return render(request, 'pages/login.html', context)
 
 @unauthenticated_register
@@ -127,7 +131,7 @@ def home(request):
 # Class 
 # Dat
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def listClass(request):
     # auto run 
     schedule = Schedule.objects.all()
@@ -221,7 +225,7 @@ def createClass(request):
     return render(request, 'class/createClass.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def detailClass(request,pk):
     classname = Classname.objects.get(pk=pk)
     unit = Unit.objects.all()
@@ -240,7 +244,7 @@ def detailClass(request,pk):
     return render(request,'class/detailClass.html',context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def detailClassStudent(request,pk):
     pk = pk
     classname = Classname.objects.get(pk=pk)
@@ -252,14 +256,14 @@ def detailClassStudent(request,pk):
     return render(request,'class/detailClassStudent.html',context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def checkinClassStudent(request,pk):
     pk = pk
     classname = Classname.objects.get(pk=pk)
     liststudentinclass = Student.objects.all()
     timeshift = TimeShift.objects.get(pk=classname.timeshift_id)
     print(timeshift.timestart)
-    checkinclass = CheckInClass.objects.all()
+    checkinclass = CheckInClass.objects.all().order_by("daylearn")
     if request.method=='POST':
         
         checkin = request.POST.getlist('check')
@@ -271,14 +275,18 @@ def checkinClassStudent(request,pk):
             check.save() 
 
         return redirect('listclass')
-    schedule = Schedule.objects.all()
-    context={'checkinclass':checkinclass,'timeshift':timeshift,'liststudentinclass':liststudentinclass,'pk':pk, 'classname':classname, 'schedule':schedule}
+    schedule = Schedule.objects.all().order_by("daylearn")
+    today = datetime.now().date()
+    print('hom nay ',today)
+    # schedule1 = Schedule.objects.fillter(id_classname=pk).count()
+    # print(schedule1)
+    context={'checkinclass':checkinclass,'today':today,'timeshift':timeshift,'liststudentinclass':liststudentinclass,'pk':pk, 'classname':classname, 'schedule':schedule}
     return render(request,'class/checkinClassStudent.html',context)
 
 # Student 
 # Dat
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','student','teacher'])
 def listStudent(request):
     form = CreateStudentForm()
     liststudent = Student.objects.all()
@@ -300,38 +308,8 @@ def listStudent(request):
     context = {'listclass': listclass,'liststudent': liststudent}
     return render(request, 'student/student.html', context)
 
-# @login_required(login_url='login')
-# @allowed_users(allowed_roles=['admin','manager','staff'])
-# def createDetailSchedule(request,pk):
-#     student = Student.objects.get(pk=pk)
-#     classrequest = Classname.objects.get(pk=student.classname_id)
-#     time = TimeShift.objects.get(pk = classrequest.timeshift_id)
-#     checkinclass = CheckInClass.objects.all()
-#     if request.method == 'POST':
-#         if student.havedetailschedule == 0:
-#             student.havedetailschedule = 1
-#             student.save()
-#             count = 0
-#             start_date = datetime.strptime(str(classrequest.startdate), '%Y-%m-%d')
-#             step = timedelta(days=1)
-#             # print(classrequest.timeweek_id)
-#             if int(classrequest.timeweek_id) == 1:
-#                 day = [0,2,4]
-#             else:
-#                 day = [1,3,5]
-#             while count < int(classrequest.datecount):
-#                 for i in day:
-#                     if i==start_date.date().weekday():
-#                         # print(start_date.date())
-#                         CheckInClass.objects.create(id_student=pk,student=str(student.fullname),classname=str(classrequest.fullname), daylearn = str(start_date.date()), timelearnstart = time.timestart, timelearnend = time.timeend, dayname="Buổi " + str(count+1),active=0)
-#                         count = count+1
-#                 start_date += step
-#             return redirect('liststudent')
-#     context = {'checkinclass':checkinclass, 'classrequest':classrequest,'time':time,'student':student}
-#     return render(request, 'student/createDetailSchedule.html', context)
-
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def checkinStudent(request,pk):
     student = Student.objects.get(pk=pk) 
     classrequest = Classname.objects.get(pk=student.classname_id)
@@ -349,7 +327,7 @@ def checkinStudent(request,pk):
             # print(classrequest.timeweek_id)
             if int(classrequest.timeweek_id) == 1:
                 day = [0,2,4]
-            else:
+            elif int(classrequest.timeweek_id) == 2:
                 day = [1,3,5]
             while count < int(classrequest.datecount):
                 for i in day:
@@ -371,7 +349,7 @@ def checkinStudent(request,pk):
     return render(request, 'student/checkinStudent.html', context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','student'])
 def createStudent(request):
     form = CreateStudentForm()
     gender = Gender.objects.all()
@@ -390,11 +368,14 @@ def createStudent(request):
             fee = int(request.POST.get('fee'))
             idunit = int(request.POST.get('unit'))
             feeunit = int(Unit.objects.get(pk=idunit).fee)
-            refee.fee_remain = feeunit-fee
+            if feeunit>=fee:
+                refee.fee_remain = feeunit-fee
+            else:
+                refee.fee_remain = 0
             refee.save()
             send_mail(
                 subject = 'XÁC NHẬN ĐĂNG KÝ HỌC VIÊN', # title mail
-                message = 'Chào '+str(request.POST.get('fullname')) + ',\nBạn vừa hoàn thành đăng kí học viên tại HITECH. Trung tâm sẽ gửi thời khóa biểu cho bạn sớm nhất.', # nội dung mail
+                message = 'Chào '+str(request.POST.get('fullname')) + ',\nBạn vừa hoàn thành đăng kí học viên tại HITECH.\nLớp '+str(refee.classname)+' hiện tại chưa bắt đầu học.\nTrung tâm sẽ gửi thời khóa biểu cho bạn sớm nhất.', # nội dung mail
                 from_email= None, # tài khoản
                 auth_password= None, # mk
                 recipient_list = [form.cleaned_data.get('email')],# mail người nhận
@@ -409,7 +390,7 @@ def createStudent(request):
 
 # cái này chưa xong
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def detailStudent(request,pk):
     student = Student.objects.get(pk=pk)
     classname = Classname.objects.all()
@@ -473,7 +454,7 @@ def detailStudent(request,pk):
 # Teacher 
 # Dat
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin','manager','staff'])
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def listTeacher(request):
     listteacher = Teacher.objects.all()
     classname = Classname.objects.all()
@@ -502,6 +483,7 @@ def createTeacher(request):
     return render(request, 'teacher/createTeacher.html', context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def detailTeacher(request,pk):
     teacher = Teacher.objects.get(pk=pk)
     gender = Gender.objects.all()
@@ -516,6 +498,7 @@ def detailTeacher(request,pk):
 
 # Manager 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin','manager','staff','teacher'])
 def editProfile(request,pk):
     detailuser = User.objects.get(pk=pk)
     if request.method == 'POST':
@@ -599,13 +582,21 @@ def listArea(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def notify(request):
-    form = CreateNotifyForm()
+    error = 0
     notify = Notify.objects.all()
     if request.method == 'POST':
-        form = CreateNotifyForm(request.POST)
-        if form.is_valid(): 
-            form.save()
-    context={'form':form,'notify':notify} 
+        if request.POST.get('title') != '':
+            title = request.POST.get('title')
+            content = request.POST.get('content')
+            if request.POST.get('active') is None:
+                active = 1
+            else:
+                active = 0
+            Notify.objects.create(title=title,content=content,active=active)
+            error = 0
+        else:
+            error = 1
+    context={'notify':notify,'error':error} 
     return render(request,'manager/notify.html',context)
 
 @login_required(login_url='login')
@@ -622,7 +613,7 @@ def editNotify(request,pk):
         print(noti.content)
         return redirect('notify')
     context={'noti':noti} 
-    return render(request,'manager/editnotify.html',context)
+    return render(request,'manager/editNotify.html',context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
@@ -809,5 +800,5 @@ def contact(request):
 # RoleError 
 @login_required(login_url='login')
 def errorRole(request):
-    return render(request,'pages/errorrole.html')
+    return render(request,'pages/errorRole.html')
   

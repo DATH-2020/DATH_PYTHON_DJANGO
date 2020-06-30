@@ -28,9 +28,10 @@
             {% for i in listteacher %}
             <tr>
                 <td>
-                    <a class="btn btn-dark" style="color: white; width: 100%;" href="/teacher/{{ i.pk }}">{{ i.fullname}}</a>
+                    <a class="btn btn-dark" style="color: white; width: 100%;"
+                        href="/teacher/{{ i.pk }}">{{ i.fullname}}</a>
                 </td>
-                <td>{{ i.birthday}}</td>
+                <td>{{ i.birthday|date:"d-m-Y" }}</td>
                 <td style="text-align: center;">
                     {% for item in SL %}
                     {% if item.teachername == i.pk %}
@@ -42,12 +43,16 @@
                 <td>{{ i.email}}</td>
                 <td>{{ i.adress}}</td>
                 <td>{{ i.note}}</td>
-                <td style="text-align: center;">
-                    {% if i.active %}
-                    <i style="color: green; " class="fas fa-check-circle"></i>
+                {% if i.active %}
+                <td style="background-color: green; text-align: center;">
+                    <i style="color: white; " class="fas fa-check-circle"></i>
                     <!-- break code -->
-                    {%endif%}
                 </td>
+                {% else %}
+                <td>
+                    <!-- break code -->
+                </td>
+                {% endif %}
                 <!-- <td><i style="color: green;" class="fas fa-check-circle"></i></td> -->
             </tr>
             {% endfor %}

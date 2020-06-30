@@ -19,8 +19,12 @@
                 <tr>
                     <th style="width: 15%;">Tên học viên</th>
                     {% for i in schedule %}
-                    {% if classname.fullname == i.classname %}
+                    {% if classname.pk == i.id_classname %}
+                    {% if i.daylearn <= today %}
+                    <th style="background-color: gray;">{{ i.dayname }}</th>
+                    {% else %}
                     <th>{{ i.dayname }}</th>
+                    {% endif %}
                     {% endif %}
                     {% endfor %}
                 </tr>
@@ -34,15 +38,34 @@
                     {% for z in checkinclass %}
                     {% if i.pk == z.id_student %}
                     {% if z.active %}
-                    <th>
-                        <input type="checkbox" checked name="check" value="{{ z.pk }}">
-                    </th>
+                        {% if z.daylearn < today %}
+                        <th style="background-color: gray; text-align: center;">
+                            <input type="checkbox" disabled checked name="check" value="{{ z.pk }}">
+                        </th>
+                        {% elif z.daylearn == today %}
+                        <th style="background-color: gray; text-align: center;">
+                            <input type="checkbox" checked name="check" value="{{ z.pk }}">
+                        </th>
+                        {% else %}
+                        <th style="text-align: center;">
+                            <input type="checkbox" checked name="check" value="{{ z.pk }}">
+                        </th>
+                        {% endif %}
                     {% else %}
-                    <th>
-                        <input type="checkbox" name="check" value="{{ z.pk }}">
-                    </th>
+                        {% if z.daylearn < today %}
+                        <th style="background-color: gray; text-align: center;">
+                            <input type="checkbox" disabled name="check" value="{{ z.pk }}">
+                        </th>
+                        {% elif z.daylearn == today %}
+                        <th style="background-color: gray; text-align: center;">
+                            <input type="checkbox" name="check" value="{{ z.pk }}">
+                        </th>
+                        {% else %}
+                        <th style="text-align: center;">
+                            <input type="checkbox" name="check" value="{{ z.pk }}">
+                        </th>
+                        {% endif %}
                     {% endif %}
-
                     {% endif %}
                     {% endfor %}
                 </tr>
@@ -54,8 +77,13 @@
                 <tr>
                     <th>Name</th>
                     {% for i in schedule %}
-                    {% if classname.fullname == i.classname %}
+                    {% if classname.pk == i.id_classname %}
+                    {% if i.daylearn <= today %}
+                    <th style="background-color: gray;">{{ i.daylearn|date:"d-m" }}</th>
+                    {% else %}
                     <th>{{ i.daylearn|date:"d-m" }}</th>
+                    {% endif %}
+                    <!-- <th>{{ i.daylearn|date:"d-m" }}</th> -->
                     {% endif %}
                     {% endfor %}
                 </tr>

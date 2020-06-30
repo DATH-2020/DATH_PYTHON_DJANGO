@@ -11,7 +11,7 @@
                 <label class="small mb-1" for="inputName">Họ và tên</label>
                 <div class="form-group">
                     <input class="form-control" name="fullname" required id="inputname" type="text"
-                        value="Trương Đức Đạt" placeholder="Nhập họ và tên" />
+                        placeholder="Nhập họ và tên" />
                 </div>
             </div>
             <div class="col-md-4">
@@ -28,8 +28,7 @@
             <div class="col-md-4">
                 <label class="small mb-1" for="inputBirthDay">Ngày sinh</label>
                 <div class="form-group">
-                    <input class="form-control" name="birthday" required id="inputbirthday" value="1998-01-18"
-                        type="date" />
+                    <input class="form-control" name="birthday" required id="inputbirthday" type="date" />
                 </div>
             </div>
         </div>
@@ -38,21 +37,21 @@
                 <label class="small mb-1" for="inputEmail">Email</label>
                 <div class="form-group">
                     <input class="form-control" name="email" required id="inputemail" type="email"
-                        value="ducdat147@gmail.com" placeholder="Nhập email học viên" />
+                        placeholder="Nhập email học viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputIdentityCard">CMND/Thẻ căn cước</label>
                 <div class="form-group">
                     <input class="form-control" name="identity_card" required id="inputidentitycard" type="text"
-                        value="123456789" placeholder="Nhập CMND học viên" />
+                        placeholder="Nhập CMND học viên" />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputPhone">Số điện thoại</label>
                 <div class="form-group">
                     <input class="form-control" name="phonenumber" required id="inputphone" type="text"
-                        value="0358456611" placeholder="Nhập số điện thoại học viên" /></div>
+                        placeholder="Nhập số điện thoại học viên" /></div>
             </div>
         </div>
         <div class="form-row">
@@ -60,14 +59,14 @@
                 <label class="small mb-1" for="inputAddress">Địa chỉ</label>
                 <div class="form-group">
                     <input class="form-control" name="adress" required id="inputaaddress" type="text"
-                        value="tp.Ho Chi Minh" placeholder="Nhập địa chỉ học viên " />
+                        placeholder="Nhập địa chỉ học viên " />
                 </div>
             </div>
             <div class="col-md-4">
                 <label class="small mb-1" for="inputPhone">Số điện thoại phụ huynh</label>
                 <div class="form-group">
                     <input class="form-control" name="phonenumber_family" required id="inputphonefamily" type="text"
-                        value="0358456611" placeholder="Nhập số điện thoại phụ huynh" /></div>
+                        placeholder="Nhập số điện thoại phụ huynh" /></div>
             </div>
         </div>
         <div class="form-row">
@@ -117,7 +116,7 @@
             <div class="col-md-3">
                 <label class="small mb-1" for="inputFee">Số tiền nộp</label>
                 <div class="form-group input-group mb-3">
-                    <input class="form-control" name="fee" required id="inputfee" type="text" value="1000000"
+                    <input class="form-control" name="fee" required id="inputfee" type="number" min="0"
                         placeholder="Nhập số tiền mà học viên nộp vào đây" />
                     <div class="input-group-prepend">
                         <span class="input-group-text">VND</span>
@@ -142,8 +141,7 @@
             <div class="col-md-5">
                 <label class="small mb-1" for="inputNote">Ghi chú</label>
                 <div class="form-group">
-                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú"
-                        value="cba" />
+                    <input class="form-control" name="note" id="inputNote" type="text" placeholder="Ghi chú" />
 
                 </div>
             </div>
@@ -191,7 +189,7 @@
 </script>
 {% if error %}
 <script type="text/javascript">
-    window.onload = function(){ 
+    window.onload = function () {
         swal("Lỗi", "Đăng ký không thành công", "error", {
             buttons: false,
             timer: 1500,

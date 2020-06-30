@@ -68,6 +68,16 @@
                                                 value="Đăng nhập">
                                         </div>
                                     </form>
+                                    {% if errorlogin %}
+                                    <script type="text/javascript">
+                                        window.onload = function () {
+                                            swal("Lỗi", "Đăng nhập không thành công", "error", {
+                                                buttons: false,
+                                                timer: 1500,
+                                            });
+                                        }
+                                    </script>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -88,7 +98,8 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-    <script src="{% static '/js/sweetalert2.js' %}"></script>
+
+    <script src="{% static '/js/sweetalert.min.js' %}"></script>
 </body>
 
 </html>
